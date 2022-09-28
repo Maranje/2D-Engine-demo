@@ -12,6 +12,7 @@ public:
 	enum scene_type {
 		Pretitle,
 		Title,
+		Intro,
 		RedHerring,
 		Test_Area
 	};
@@ -29,6 +30,8 @@ public:
 	void load();
 
 	/////////////////////////////////////// adders/removers ///////////////////////////////////////
+	void addElement(class element* element);
+	void removeElement(class element* element);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 	void setScene(scene_type Scene) { scene = Scene; }
@@ -58,6 +61,8 @@ private:
 	//SDL event for user input
 	SDL_Event* event;
 
+	const Uint8* keyState;
+
 	//values for storing screen proportions
 	int screenWidth;
 	int screenHeight;
@@ -66,6 +71,9 @@ private:
 	//float for storing delta time
 	float deltaTime;
 	int ticks;
+
+	//stores all active elements in current scene
+	std::vector<class element*> elements;
 };
 
 

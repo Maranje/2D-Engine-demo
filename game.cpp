@@ -7,6 +7,7 @@ game::game() {
 	run = true;
 
 	event = nullptr;
+	keyState = nullptr;
 
 	scale = 2;
 	screenWidth = 480 * scale;
@@ -73,11 +74,38 @@ void game::runLoop() {
 }
 
 void game::load() {
+	switch (scene) {
+	case Pretitle:
 
+		break;
+
+	case Title:
+		
+		break;
+
+	case Intro:
+
+		break;
+
+	case RedHerring:
+		
+		break;
+	
+	case Test_Area:
+	
+		break;
+	}
 }
 
 /////////////////////////////////////// adders/removers ///////////////////////////////////////
 
+void game::addElement(element* element) {
+
+}
+
+void game::removeElement(element* element) {
+
+}
 
 
 /////////////////////////////////////////// private ///////////////////////////////////////////
@@ -90,7 +118,9 @@ void game::processInput() {
 	}
 	delete event;
 
-
+	//keyboard state pull for closing on escape press
+	keyState = SDL_GetKeyboardState(NULL);
+	if (keyState[SDL_SCANCODE_ESCAPE]) run = false;
 }
 
 void game::update() {
