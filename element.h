@@ -1,6 +1,5 @@
 #pragma once
 #include "game.h"
-#include "component.h"
 
 class element
 {
@@ -11,7 +10,7 @@ public:
 		paused
 	};
 
-	element(game* game);
+	element(game* Game);
 	~element();
 
 	//runs other update functions
@@ -25,7 +24,7 @@ public:
 	void removeComponent(class component* component);
 
 	//returns the center point of element
-	Vector2 getPosition() const { return position; }
+	Vector2 getPosition() { return position; }
 	//sets the center point of element
 	void setPosition(Vector2 pos) { position = pos; }
 	//returns current element state

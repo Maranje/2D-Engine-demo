@@ -1,10 +1,12 @@
 #include "game.h"
+#include "element.h"
 
 game::game() {
 	window = nullptr;
 	renderer = nullptr;
 
 	run = true;
+	updatingElements = false;
 
 	event = nullptr;
 	keyState = nullptr;
@@ -100,11 +102,13 @@ void game::load() {
 /////////////////////////////////////// adders/removers ///////////////////////////////////////
 
 void game::addElement(element* element) {
-
+	if (!updatingElements) elements.emplace_back(element);
+	else elementCue.emplace_back(element);
 }
 
 void game::removeElement(element* element) {
-
+	auto item = std::find(elements.begin(), elements.end(), element);
+	if (item != elements.end()) elements.erase(item);
 }
 
 
@@ -125,6 +129,19 @@ void game::processInput() {
 
 void game::update() {
 	generateDeltaTime();
+
+	//update all active elements in scene, remove any inactive elements that slipped under the radar
+	updatingElements = true; //set flag true
+	for (auto Element : elements) {
+		if (Element->getState() == Element->inactive) removeElement(Element);
+		else Element->update(deltaTime);
+	}
+	updatingElements = false; //set flag false
+	//move any elements waiting in the cue to the active list
+	for (auto pending : elementCue) {
+		elements.emplace_back(pending);
+	}
+	elementCue.clear(); //clear the element cue
 }
 
 void game::generateOutput() {

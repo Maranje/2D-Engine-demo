@@ -72,14 +72,18 @@ private:
 	float deltaTime;
 	int ticks;
 
+	//true if currently updating active elements
+	bool updatingElements;
 	//stores all active elements in current scene
 	std::vector<class element*> elements;
+	//temporarily stores elements if added while updating all elements
+	std::vector<class element*> elementCue;
 };
 
 
 /* vector2 class for 2D in-game positions*/
 
-class Vector2 {
+class Vector2{
 public:
 	int x;
 	int y;

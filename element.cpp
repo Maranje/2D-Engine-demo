@@ -1,13 +1,14 @@
 #include "element.h"
+#include "component.h"
 
-element::element(game* game) {
-	eGame = game;
+element::element(game* Game) {
+	eGame = Game;
 	state = active;
 	order = 0;
 }
 
 element::~element() {
-	//eGame->removeComponent(this);
+	eGame->removeElement(this);
 	while (!components.empty()) delete components.back();
 }
 
@@ -36,8 +37,6 @@ void element::addComponent(component* Component) {
 }
 
 void element::removeComponent(component* component) {
-	auto iteration = std::find(components.begin(), components.end(), component);
-	if (iteration != components.end()) {
-		components.erase(iteration);
-	}
+	auto item = std::find(components.begin(), components.end(), component);
+	if (item != components.end()) components.erase(item);
 }
