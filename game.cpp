@@ -88,7 +88,7 @@ void game::runLoop() {
 void game::load() {
 	switch (scene) {
 	case Pretitle:
-
+		
 		break;
 
 	case Title:
@@ -112,6 +112,10 @@ void game::load() {
 /////////////////////////////////////// adders/removers ///////////////////////////////////////
 
 void game::addElement(element* element) {
+	//if an element is added while the updateElements function is running, it'll instead
+	//be preliminarily added to the pendingElements vector, to be added to the elements vector
+	//once all elements have finished updating. this prevents messing up the elements order
+	//while iterating through the list
 	if (!updatingElements) elements.emplace_back(element);
 	else elementCue.emplace_back(element);
 }
@@ -148,13 +152,7 @@ void game::processInput() {
 	//keyboard state pull for closing on escape press
 	keyState = SDL_GetKeyboardState(NULL);
 	if (keyState[SDL_SCANCODE_ESCAPE]) run = false;
-	/*
-	camera move test
-	if (keyState[SDL_SCANCODE_UP]) camera->y -= 1;
-	if (keyState[SDL_SCANCODE_DOWN]) camera->y += 1;
-	if (keyState[SDL_SCANCODE_LEFT]) camera->x -= 1;
-	if (keyState[SDL_SCANCODE_RIGHT]) camera->x += 1;
-	*/
+
 }
 
 void game::update() {

@@ -30,15 +30,24 @@ public:
 	void load();
 
 	/////////////////////////////////////// adders/removers ///////////////////////////////////////
+
+	//adds an element to the elements vector
 	void addElement(class element* element);
+	//removes passed element from elements
 	void removeElement(class element* element);
+	//adds a sprite to the sprites vector
 	void addSprite(class sprite* sprite);
+	//removes passed sprite from sprites
 	void removeSprite(class sprite* sprite);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 	void setScene(scene_type Scene) { scene = Scene; }
 	scene_type getScene() { return scene; }
 	SDL_Rect* getCamera() { return camera; }
+	void setCamera(int X, int Y) {
+		camera->x = X;
+		camera->y = Y;
+	}
 
 private:
 	//begin process for user input
