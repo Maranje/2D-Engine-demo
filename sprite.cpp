@@ -40,10 +40,10 @@ void sprite::update(float deltaTime) {
 		if (source->y >= (cycleUntil.y * (sheetSize.y / frameCount_y)) 
 			&& source->x == (cycleUntil.x * (sheetSize.x / frameCount_x))
 			&& frame >= static_cast<float>(sheetSize.x) / frameCount_x) {
+			runs++; //increments the number of elapsed cycles by one
 			if (runs == cycles) animated = false; //this ends the animation if the number of cycles desired is reached
 			source->x = cycleFrom.x * (sheetSize.x / frameCount_x);
 			source->y = cycleFrom.y * (sheetSize.y / frameCount_y);
-			runs++; //increments the number of elapsed cycles by one
 		}
 		//this checks for when the value of frame has reached the point at which the animation frame should 
 		//shift horizontally by one frame
@@ -90,6 +90,7 @@ void sprite::setAnimated(bool Animated,
 						 int FrameCount_x, 
 						 int FrameCount_y, 
 						 int FPS, 
+						 Vector2 beginAt,
 						 Vector2 CycleFrom, 
 						 Vector2 CycleUntil, 
 						 int numberOfCycles){
@@ -101,8 +102,8 @@ void sprite::setAnimated(bool Animated,
 	cycleFrom = CycleFrom;
 	cycleUntil = CycleUntil;
 	cycles = numberOfCycles;
-	source->x = cycleFrom.x * (sheetSize.x / frameCount_x);
-	source->y = cycleFrom.y * (sheetSize.y / frameCount_y);
+	source->x = beginAt.x * (sheetSize.x / frameCount_x);
+	source->y = beginAt.y * (sheetSize.y / frameCount_y);
 }
 
 void sprite::destroyTexture() {

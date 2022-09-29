@@ -25,6 +25,7 @@ public:
         int FrameCount_x,
         int FrameCount_y,
         int FPS,
+        Vector2 beginAt,
         Vector2 CycleFrom,
         Vector2 CycleUntil,
         int numberOfCycles = -1

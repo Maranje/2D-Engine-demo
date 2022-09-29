@@ -14,9 +14,11 @@ game::game() {
 	event = nullptr;
 	keyState = nullptr;
 
-	scale = 2;
+	scale = 3;
 	screenWidth = 480 * scale;
 	screenHeight = 270 * scale;
+	centerX = screenWidth / 2;
+	centerY = screenHeight / 2;
 	deltaTime = 0.0f;
 	ticks = 0;
 
@@ -86,21 +88,43 @@ void game::runLoop() {
 }
 
 void game::load() {
+	/* animation test
+	* 
 	element* Logo = new element(this);
-	Logo->setPosition(Vector2(screenWidth / 2, screenHeight / 2));
+	Logo->setPosition(Vector2(centerX, centerY));
 	sprite* logo = new sprite(Logo, renderer, screenWidth, screenHeight);
 	logo->setTexture("assets/art/temp_logo.png");
 	logo->setSource(0, 0, 480, 270);
 	logo->setAnimated(
 		true,
 		Vector2(2400, 2430),
-		5,
-		9,
+		5, 9,
 		3000,
 		Vector2(0, 0),
-		Vector2(4, 8)
+		Vector2(0, 0),
+		Vector2(4, 8),
+		2
 	);
 
+	element* BG = new element(this);
+	BG->setPosition(Vector2(centerX, centerY));
+	sprite* bg = new sprite(BG, renderer, screenWidth, screenHeight);
+	bg->setTexture("assets/art/background6.png");
+	element* TitleCard = new element(this);
+	TitleCard->setPosition(Vector2(centerX, centerY));
+	sprite* titleCard = new sprite(TitleCard, renderer, screenWidth, screenHeight);
+	titleCard->setTexture("assets/art/title_card_sheet.png");
+	titleCard->setSource(0, 0, 480, 270);
+	titleCard->setAnimated(
+		true,
+		Vector2(2400, 1350),
+		5, 5,
+		5000,
+		Vector2(0, 0),
+		Vector2(0, 4),
+		Vector2(4, 4)
+	);
+	*/
 
 	switch (scene) {
 	case Pretitle:
