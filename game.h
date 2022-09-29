@@ -32,10 +32,13 @@ public:
 	/////////////////////////////////////// adders/removers ///////////////////////////////////////
 	void addElement(class element* element);
 	void removeElement(class element* element);
+	void addSprite(class sprite* sprite);
+	void removeSprite(class sprite* sprite);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 	void setScene(scene_type Scene) { scene = Scene; }
 	scene_type getScene() { return scene; }
+	SDL_Rect* getCamera() { return camera; }
 
 private:
 	//begin process for user input
@@ -51,6 +54,8 @@ private:
 	SDL_Window* window;
 	//SDL renderer pointer for rendering all imamges
 	SDL_Renderer* renderer;
+	//SDL rect used as camera
+	SDL_Rect* camera;
 
 	//bool remains true while game is running
 	bool run;
@@ -78,6 +83,9 @@ private:
 	std::vector<class element*> elements;
 	//temporarily stores elements if added while updating all elements
 	std::vector<class element*> elementCue;
+	//stores all active elements sprites
+	std::vector<class sprite*> sprites;
+
 };
 
 

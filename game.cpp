@@ -1,9 +1,11 @@
 #include "game.h"
 #include "element.h"
+#include "sprite.h"
 
 game::game() {
 	window = nullptr;
 	renderer = nullptr;
+	camera = nullptr;
 
 	run = true;
 	updatingElements = false;
@@ -11,13 +13,14 @@ game::game() {
 	event = nullptr;
 	keyState = nullptr;
 
-	scale = 2;
+	scale = 3;
 	screenWidth = 480 * scale;
 	screenHeight = 270 * scale;
 	deltaTime = 0.0f;
 	ticks = 0;
 
 	scene = Pretitle;
+
 }
 
 game::~game() {
@@ -33,7 +36,7 @@ bool game::init() {
 	//initialize window
 	window = SDL_CreateWindow(
 		"Pizza Polly",
-		100,
+		30,
 		100, 
 		screenWidth,
 		screenHeight,
@@ -55,11 +58,18 @@ bool game::init() {
 		return false;
 	}
 
-	//initiate png image
+	//initialize png image
 	if (IMG_Init(IMG_INIT_PNG) == 0) {
 		SDL_Log("ERROR INITIALIZING PNG IMAGE: %s", SDL_GetError());
 		return false;
 	}
+
+	//initialize camera
+	camera = new SDL_Rect;
+	camera->x = 0;
+	camera->y = 0;
+	camera->w = screenWidth;
+	camera->h = screenHeight;
 
 	//load initial scene
 	load();
@@ -111,6 +121,19 @@ void game::removeElement(element* element) {
 	if (item != elements.end()) elements.erase(item);
 }
 
+void game::addSprite(sprite* sprite) {
+	auto iterate = sprites.begin();
+	for (; iterate != sprites.end(); iterate++) {
+		if (sprite->getDrawOrder() < (*iterate)->getDrawOrder()) break;
+	}
+	sprites.insert(iterate, sprite);
+}
+
+void game::removeSprite(sprite* sprite) {
+	auto item = std::find(sprites.begin(), sprites.end(), sprite);
+	if (item != sprites.end()) sprites.erase(item);
+}
+
 
 /////////////////////////////////////////// private ///////////////////////////////////////////
 
@@ -125,6 +148,13 @@ void game::processInput() {
 	//keyboard state pull for closing on escape press
 	keyState = SDL_GetKeyboardState(NULL);
 	if (keyState[SDL_SCANCODE_ESCAPE]) run = false;
+	/*
+	camera move test
+	if (keyState[SDL_SCANCODE_UP]) camera->y -= 1;
+	if (keyState[SDL_SCANCODE_DOWN]) camera->y += 1;
+	if (keyState[SDL_SCANCODE_LEFT]) camera->x -= 1;
+	if (keyState[SDL_SCANCODE_RIGHT]) camera->x += 1;
+	*/
 }
 
 void game::update() {
@@ -147,6 +177,10 @@ void game::update() {
 void game::generateOutput() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //set buffer draw color
 	SDL_RenderClear(renderer); //clear buffer
+
+	for (auto Sprite : sprites) {
+		Sprite->draw();
+	}
 
 	SDL_RenderPresent(renderer); //display all textures on buffer
 }

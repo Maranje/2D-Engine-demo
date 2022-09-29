@@ -8,6 +8,7 @@ element::element(game* Game) {
 }
 
 element::~element() {
+	state = inactive;
 	eGame->removeElement(this);
 	while (!components.empty()) delete components.back();
 }

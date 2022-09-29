@@ -10,7 +10,6 @@ public:
 
 	int getUpdateOrder() { return updateOrder; }
 private:
-	int updateOrder;
+	int updateOrder; //order in which components will be updated within the element
 	class element* owner;
 };
-

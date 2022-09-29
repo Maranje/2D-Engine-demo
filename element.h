@@ -42,4 +42,3 @@ private:
 	std::vector<class component*> components; //vector for storing a list of all attached element components
 	int order; //save the rendering order of the element
 };
-
