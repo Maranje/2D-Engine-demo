@@ -1,3 +1,8 @@
+/*
+* F.Maranje 2D Engine
+* "Pizza Polly" 2022
+*/
+
 #include "game.h"
 
 int main(int argc, char* argv[]) {
