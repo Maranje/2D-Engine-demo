@@ -35,10 +35,12 @@ public:
 	//returns pointer to game
 	game* getGame() { return eGame; }
 
-private:
+protected:
 	game* eGame; //pointer to game
-	Vector2 position; //stores center point position of element
 	elementState state; //current state of element
+
+private:
+	Vector2 position; //stores center point position of element
 	std::vector<class component*> components; //vector for storing a list of all attached element components
 	int order; //save the rendering order of the element
 };

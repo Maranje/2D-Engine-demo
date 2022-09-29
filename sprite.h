@@ -29,6 +29,7 @@ public:
         Vector2 CycleUntil,
         int numberOfCycles = -1
     );
+    bool getAnimated() { return animated; }
     
     void destroyTexture();
 
@@ -48,7 +49,7 @@ private:
     int width;
     int height;
     int cycles;
-    int frame;
     int fps;
     int runs;
+    float frame;
 };

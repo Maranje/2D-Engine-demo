@@ -28,6 +28,8 @@ public:
 	void runLoop();
 	//load scenes
 	void load();
+	//clear vectors
+	void clearVectors();
 
 	/////////////////////////////////////// adders/removers ///////////////////////////////////////
 
@@ -41,12 +43,17 @@ public:
 	void removeSprite(class sprite* sprite);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
-	void setScene(scene_type Scene) { scene = Scene; }
+
+	//get current active scene
 	scene_type getScene() { return scene; }
-	SDL_Rect* getCamera() { return camera; }
+	//set a new value for active scene
+	void setScene(scene_type Scene) { scene = Scene; }
+	//gets the camera rect
+	SDL_Rect* getCamera() { return Camera; }
+	//sets camera x and y positions
 	void setCamera(int X, int Y) {
-		camera->x = X;
-		camera->y = Y;
+		Camera->x = X;
+		Camera->y = Y;
 	}
 
 private:
@@ -64,7 +71,7 @@ private:
 	//SDL renderer pointer for rendering all imamges
 	SDL_Renderer* renderer;
 	//SDL rect used as camera
-	SDL_Rect* camera;
+	SDL_Rect* Camera;
 
 	//bool remains true while game is running
 	bool run;
@@ -92,6 +99,8 @@ private:
 	std::vector<class element*> elements;
 	//temporarily stores elements if added while updating all elements
 	std::vector<class element*> elementCue;
+	//temporarily stores elements if removed while updating all elements
+	std::vector<class element*> elementBin;
 	//stores all active elements sprites
 	std::vector<class sprite*> sprites;
 

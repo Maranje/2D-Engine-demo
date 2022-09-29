@@ -19,7 +19,7 @@ sprite::sprite(element* Owner, SDL_Renderer* Renderer, int Width, int Height, in
 	frameCount_x = 0;
 	frameCount_y = 0;
 	cycles = 0;
-	frame = 0;
+	frame = 0.0f;
 	fps = 0;
 	runs = 0;
 
@@ -27,11 +27,37 @@ sprite::sprite(element* Owner, SDL_Renderer* Renderer, int Width, int Height, in
 }
 
 sprite::~sprite() {
+	destroyTexture();
 	owner->getGame()->removeSprite(this);
 }
 
 void sprite::update(float deltaTime) {
-
+	//sprite animation if animate has been set to true
+	if (animated) {
+		//frame increases as a function of delta time
+		frame += fps * deltaTime;
+		//this condition catches the animation frame when it reaches cycleUntil and sends it back to cycleFrom
+		if (source->y >= (cycleUntil.y * (sheetSize.y / frameCount_y)) 
+			&& source->x == (cycleUntil.x * (sheetSize.x / frameCount_x))
+			&& frame >= static_cast<float>(sheetSize.x) / frameCount_x) {
+			if (runs == cycles) animated = false; //this ends the animation if the number of cycles desired is reached
+			source->x = cycleFrom.x * (sheetSize.x / frameCount_x);
+			source->y = cycleFrom.y * (sheetSize.y / frameCount_y);
+			runs++; //increments the number of elapsed cycles by one
+		}
+		//this checks for when the value of frame has reached the point at which the animation frame should 
+		//shift horizontally by one frame
+		if (frame >= static_cast<float>(sheetSize.x) / frameCount_x) {
+			source->x += sheetSize.x / frameCount_x;
+			frame = 0.0f;
+		}
+		//this checks for when the animation frame has reached the horizontal limit, sends it back to the
+		//horizontal origin, and shift the frame vertically down by one
+		if (source->x >= sheetSize.x) {
+			source->x = 0;
+			source->y += sheetSize.y / frameCount_y;
+		}
+	}
 }
 
 void sprite::draw() {
@@ -46,6 +72,7 @@ void sprite::draw() {
 
 void sprite::setTexture(const char* Texture) {
 	SDL_Surface* temp = IMG_Load(Texture);
+	if (!temp) SDL_Log("ERROR LOADING IMAGE: %s", SDL_GetError());
 	texture = SDL_CreateTextureFromSurface(renderer, temp);
 	SDL_FreeSurface(temp);
 }
@@ -74,6 +101,8 @@ void sprite::setAnimated(bool Animated,
 	cycleFrom = CycleFrom;
 	cycleUntil = CycleUntil;
 	cycles = numberOfCycles;
+	source->x = cycleFrom.x * (sheetSize.x / frameCount_x);
+	source->y = cycleFrom.y * (sheetSize.y / frameCount_y);
 }
 
 void sprite::destroyTexture() {

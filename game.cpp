@@ -1,11 +1,12 @@
 #include "game.h"
 #include "element.h"
 #include "sprite.h"
+#include "camera.h"
 
 game::game() {
 	window = nullptr;
 	renderer = nullptr;
-	camera = nullptr;
+	Camera = nullptr;
 
 	run = true;
 	updatingElements = false;
@@ -13,14 +14,13 @@ game::game() {
 	event = nullptr;
 	keyState = nullptr;
 
-	scale = 3;
+	scale = 2;
 	screenWidth = 480 * scale;
 	screenHeight = 270 * scale;
 	deltaTime = 0.0f;
 	ticks = 0;
 
 	scene = Pretitle;
-
 }
 
 game::~game() {
@@ -65,11 +65,11 @@ bool game::init() {
 	}
 
 	//initialize camera
-	camera = new SDL_Rect;
-	camera->x = 0;
-	camera->y = 0;
-	camera->w = screenWidth;
-	camera->h = screenHeight;
+	Camera = new SDL_Rect;
+	Camera->x = 0;
+	Camera->y = 0;
+	Camera->w = screenWidth;
+	Camera->h = screenHeight;
 
 	//load initial scene
 	load();
@@ -86,13 +86,29 @@ void game::runLoop() {
 }
 
 void game::load() {
+	element* Logo = new element(this);
+	Logo->setPosition(Vector2(screenWidth / 2, screenHeight / 2));
+	sprite* logo = new sprite(Logo, renderer, screenWidth, screenHeight);
+	logo->setTexture("assets/art/temp_logo.png");
+	logo->setSource(0, 0, 480, 270);
+	logo->setAnimated(
+		true,
+		Vector2(2400, 2430),
+		5,
+		9,
+		3000,
+		Vector2(0, 0),
+		Vector2(4, 8)
+	);
+
+
 	switch (scene) {
 	case Pretitle:
-		
+
 		break;
 
 	case Title:
-		
+
 		break;
 
 	case Intro:
@@ -104,7 +120,7 @@ void game::load() {
 		break;
 	
 	case Test_Area:
-	
+
 		break;
 	}
 }
@@ -121,8 +137,13 @@ void game::addElement(element* element) {
 }
 
 void game::removeElement(element* element) {
-	auto item = std::find(elements.begin(), elements.end(), element);
-	if (item != elements.end()) elements.erase(item);
+	if (!updatingElements) {
+		auto item = std::find(elements.begin(), elements.end(), element);
+		if (item != elements.end()) {
+			elements.erase(item);
+		}
+	}
+	else elementBin.emplace_back(element);
 }
 
 void game::addSprite(sprite* sprite) {
@@ -152,24 +173,30 @@ void game::processInput() {
 	//keyboard state pull for closing on escape press
 	keyState = SDL_GetKeyboardState(NULL);
 	if (keyState[SDL_SCANCODE_ESCAPE]) run = false;
-
 }
 
 void game::update() {
 	generateDeltaTime();
 
-	//update all active elements in scene, remove any inactive elements that slipped under the radar
+	//update all active elements in scene
 	updatingElements = true; //set flag true
 	for (auto Element : elements) {
-		if (Element->getState() == Element->inactive) removeElement(Element);
-		else Element->update(deltaTime);
+		Element->update(deltaTime);
 	}
 	updatingElements = false; //set flag false
+
 	//move any elements waiting in the cue to the active list
 	for (auto pending : elementCue) {
 		elements.emplace_back(pending);
 	}
 	elementCue.clear(); //clear the element cue
+
+	//remove any elements from the active list that were placed in the bin
+	for (auto pending : elementBin) {
+		auto Element = std::find(elements.begin(), elements.end(), pending);
+		if (Element != elements.end()) elements.erase(Element);
+	}
+	elementBin.clear();
 }
 
 void game::generateOutput() {
