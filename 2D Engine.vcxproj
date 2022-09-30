@@ -144,14 +144,20 @@
     <ClCompile Include="element.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pretitle.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="element.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="pretitle.h" />
+    <ClInclude Include="scene.h" />
     <ClInclude Include="sprite.h" />
+    <ClInclude Include="title.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

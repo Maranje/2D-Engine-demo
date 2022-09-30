@@ -41,13 +41,17 @@ public:
 	void addSprite(class sprite* sprite);
 	//removes passed sprite from sprites
 	void removeSprite(class sprite* sprite);
+	//adds active scene to scenes
+	void addScene(class scene* Scene);
+	//removes inactive scenes from scene
+	void removeScene(class scene* Scene);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 
 	//get current active scene
-	scene_type getScene() { return scene; }
+	scene_type getScene() { return sceneTag; }
 	//set a new value for active scene
-	void setScene(scene_type Scene) { scene = Scene; }
+	void setScene(scene_type Scene) { sceneTag = Scene; }
 	//gets the camera rect
 	SDL_Rect* getCamera() { return Camera; }
 	//sets camera x and y positions
@@ -76,8 +80,8 @@ private:
 	//bool remains true while game is running
 	bool run;
 
-	//current scene
-	scene_type scene;
+	//current scene tag
+	scene_type sceneTag;
 
 	//SDL event for user input
 	SDL_Event* event;
@@ -105,7 +109,12 @@ private:
 	std::vector<class element*> elementBin;
 	//stores all active elements sprites
 	std::vector<class sprite*> sprites;
+	//stores current active scene
+	std::vector<class scene*> scenes;
 
+	//game scenes
+	class pretitle* pretitleScene;
+	class title* titleScene;
 };
 
 

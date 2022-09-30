@@ -36,6 +36,15 @@
     <ClCompile Include="camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pretitle.cpp">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -52,6 +61,15 @@
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pretitle.h">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>Source Files\Pizza Polly</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

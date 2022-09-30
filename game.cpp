@@ -1,7 +1,10 @@
 #include "game.h"
+#include "scene.h"
 #include "element.h"
 #include "sprite.h"
 #include "camera.h"
+#include "pretitle.h"
+#include "title.h"
 
 game::game() {
 	window = nullptr;
@@ -14,7 +17,7 @@ game::game() {
 	event = nullptr;
 	keyState = nullptr;
 
-	scale = 3;
+	scale = 2;
 	screenWidth = 480 * scale;
 	screenHeight = 270 * scale;
 	centerX = screenWidth / 2;
@@ -22,7 +25,11 @@ game::game() {
 	deltaTime = 0.0f;
 	ticks = 0;
 
-	scene = Pretitle;
+	sceneTag = Pretitle;
+
+	//scenes
+	pretitleScene = nullptr;
+	titleScene = nullptr;
 }
 
 game::~game() {
@@ -88,51 +95,13 @@ void game::runLoop() {
 }
 
 void game::load() {
-	/* animation test
-	* 
-	element* Logo = new element(this);
-	Logo->setPosition(Vector2(centerX, centerY));
-	sprite* logo = new sprite(Logo, renderer, screenWidth, screenHeight);
-	logo->setTexture("assets/art/temp_logo.png");
-	logo->setSource(0, 0, 480, 270);
-	logo->setAnimated(
-		true,
-		Vector2(2400, 2430),
-		5, 9,
-		3000,
-		Vector2(0, 0),
-		Vector2(0, 0),
-		Vector2(4, 8),
-		2
-	);
-
-	element* BG = new element(this);
-	BG->setPosition(Vector2(centerX, centerY));
-	sprite* bg = new sprite(BG, renderer, screenWidth, screenHeight);
-	bg->setTexture("assets/art/background6.png");
-	element* TitleCard = new element(this);
-	TitleCard->setPosition(Vector2(centerX, centerY));
-	sprite* titleCard = new sprite(TitleCard, renderer, screenWidth, screenHeight);
-	titleCard->setTexture("assets/art/title_card_sheet.png");
-	titleCard->setSource(0, 0, 480, 270);
-	titleCard->setAnimated(
-		true,
-		Vector2(2400, 1350),
-		5, 5,
-		5000,
-		Vector2(0, 0),
-		Vector2(0, 4),
-		Vector2(4, 4)
-	);
-	*/
-
-	switch (scene) {
+	switch (sceneTag) {
 	case Pretitle:
-
+		pretitleScene = new pretitle(this, renderer, screenWidth, screenHeight, scale);
 		break;
 
 	case Title:
-
+		titleScene = new title(this, renderer, screenWidth, screenHeight, scale);
 		break;
 
 	case Intro:
@@ -183,6 +152,15 @@ void game::removeSprite(sprite* sprite) {
 	if (item != sprites.end()) sprites.erase(item);
 }
 
+void game::addScene(scene* Scene) {
+	scenes.emplace_back(Scene);
+}
+
+void game::removeScene(scene* Scene) {
+	auto item = std::find(scenes.begin(), scenes.end(), Scene);
+	if (item != scenes.end()) scenes.erase(item);
+}
+
 
 /////////////////////////////////////////// private ///////////////////////////////////////////
 
@@ -211,16 +189,27 @@ void game::update() {
 
 	//move any elements waiting in the cue to the active list
 	for (auto pending : elementCue) {
-		elements.emplace_back(pending);
+		addElement(pending);
 	}
 	elementCue.clear(); //clear the element cue
 
 	//remove any elements from the active list that were placed in the bin
 	for (auto pending : elementBin) {
-		auto Element = std::find(elements.begin(), elements.end(), pending);
-		if (Element != elements.end()) elements.erase(Element);
+		removeElement(pending);
 	}
 	elementBin.clear();
+
+	//check for scene transition
+	scenes[0]->update();
+	if (scenes[0]->getUnloadStatus()) {
+		scenes[0]->unload();
+	}
+	//remove unloaded scene
+	for (auto Scene : scenes) {
+		if (Scene->getState() == Scene->inactive) {
+			delete Scene;
+		}
+	}
 }
 
 void game::generateOutput() {
