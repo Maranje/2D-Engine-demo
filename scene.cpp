@@ -15,4 +15,4 @@ void scene::load(){}
 
 void scene::unload(){}
 
-void scene::update(){}
+void scene::update(float deltaTime) {}

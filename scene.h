@@ -16,7 +16,7 @@ public:
 	virtual void load();
 	virtual void unload();
 
-	virtual void update();
+	virtual void update(float deltaTime);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 

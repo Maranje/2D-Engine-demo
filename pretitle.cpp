@@ -39,6 +39,6 @@ void pretitle::unload() {
 	sGame->load();
 }
 
-void pretitle::update() {
+void pretitle::update(float deltaTime) {
 	if (!logo->getAnimated()) runUnload = true;
 }

@@ -8,7 +8,7 @@ public:
 
     void load() override;
     void unload() override;
-    void update() override;
+    void update(float deltaTime) override;
 
 private:
     SDL_Renderer* renderer;
@@ -18,5 +18,7 @@ private:
     class element* TitleCard;
     class sprite* titleCard;
     const Uint8* keyState;
-};
+    Mix_Music* theme;
 
+    std::vector<class element*> pizzas;
+};

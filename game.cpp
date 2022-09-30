@@ -17,11 +17,9 @@ game::game() {
 	event = nullptr;
 	keyState = nullptr;
 
-	scale = 2;
+	scale = 4;
 	screenWidth = 480 * scale;
 	screenHeight = 270 * scale;
-	centerX = screenWidth / 2;
-	centerY = screenHeight / 2;
 	deltaTime = 0.0f;
 	ticks = 0;
 
@@ -46,11 +44,12 @@ bool game::init() {
 	window = SDL_CreateWindow(
 		"Pizza Polly",
 		30,
-		100, 
+		100,
 		screenWidth,
 		screenHeight,
-		0
+		SDL_WINDOW_BORDERLESS
 	);
+
 	if (!window) {
 		SDL_Log("ERROR INITIALIZING WINDOW: %s", SDL_GetError());
 		return false;
@@ -200,7 +199,7 @@ void game::update() {
 	elementBin.clear();
 
 	//check for scene transition
-	scenes[0]->update();
+	scenes[0]->update(deltaTime);
 	if (scenes[0]->getUnloadStatus()) {
 		scenes[0]->unload();
 	}

@@ -8,7 +8,7 @@ public:
 
     void load() override;
     void unload() override;
-    void update() override;
+    void update(float deltaTime) override;
 
 private:
     SDL_Renderer* renderer;

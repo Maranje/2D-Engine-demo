@@ -92,8 +92,6 @@ private:
 	int screenWidth;
 	int screenHeight;
 	int scale;
-	int centerX;
-	int centerY;
 
 	//float for storing delta time
 	float deltaTime;

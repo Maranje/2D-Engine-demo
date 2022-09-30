@@ -64,8 +64,8 @@ void sprite::draw() {
 	if (texture) {
 		drawRect->w = width;
 		drawRect->h = height;
-		drawRect->x = owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x;
-		drawRect->y = owner->getPosition().y - (height / 2) - owner->getGame()->getCamera()->y;
+		drawRect->x = owner->getPosition().x - (width / 2) -owner->getGame()->getCamera()->x;
+		drawRect->y = owner->getPosition().y - (height / 2) -owner->getGame()->getCamera()->y;
 		SDL_RenderCopy(renderer, texture, source, drawRect);
 	}
 }
