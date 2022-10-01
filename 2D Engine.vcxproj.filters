@@ -45,6 +45,15 @@
     <ClCompile Include="title.cpp">
       <Filter>Source Files\Pizza Polly</Filter>
     </ClCompile>
+    <ClCompile Include="collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_Polly.cpp">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -69,6 +78,15 @@
       <Filter>Source Files\Pizza Polly</Filter>
     </ClInclude>
     <ClInclude Include="title.h">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClInclude>
+    <ClInclude Include="collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="_Polly.h">
       <Filter>Source Files\Pizza Polly</Filter>
     </ClInclude>
   </ItemGroup>

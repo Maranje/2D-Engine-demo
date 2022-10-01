@@ -3,8 +3,10 @@
 #include "element.h"
 #include "sprite.h"
 #include "camera.h"
+#include "collider.h"
 #include "pretitle.h"
 #include "title.h"
+#include "input.h"
 
 game::game() {
 	window = nullptr;
@@ -47,7 +49,7 @@ bool game::init() {
 		100,
 		screenWidth,
 		screenHeight,
-		SDL_WINDOW_BORDERLESS
+		0
 	);
 
 	if (!window) {
@@ -160,6 +162,14 @@ void game::removeScene(scene* Scene) {
 	if (item != scenes.end()) scenes.erase(item);
 }
 
+void game::addCollider(collider* Collider) {
+	colliders.emplace_back(Collider);
+}
+
+void game::removeCollider(collider* Collider) {
+	auto item = std::find(colliders.begin(), colliders.end(), Collider);
+	if (item != colliders.end()) colliders.erase(item);
+}
 
 /////////////////////////////////////////// private ///////////////////////////////////////////
 

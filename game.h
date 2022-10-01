@@ -45,6 +45,10 @@ public:
 	void addScene(class scene* Scene);
 	//removes inactive scenes from scene
 	void removeScene(class scene* Scene);
+	//add a collision detection object
+	void addCollider(class collider* Collider);
+	//remove collision detection object
+	void removeCollider(class collider* Collider);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 
@@ -109,10 +113,14 @@ private:
 	std::vector<class sprite*> sprites;
 	//stores current active scene
 	std::vector<class scene*> scenes;
+	//stores all collision detection objects that are in the current scene
+	std::vector<class collider*> colliders;
 
 	//game scenes
 	class pretitle* pretitleScene;
 	class title* titleScene;
+
+
 };
 
 

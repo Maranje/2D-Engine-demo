@@ -140,24 +140,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="collider.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="element.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pretitle.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="_Polly.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="collider.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="element.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="pretitle.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="_Polly.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

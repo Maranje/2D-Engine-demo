@@ -21,4 +21,6 @@ private:
     Mix_Music* theme;
 
     std::vector<class element*> pizzas;
+
+    class input* startInput;
 };

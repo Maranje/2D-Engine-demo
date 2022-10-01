@@ -40,10 +40,11 @@ void sprite::update(float deltaTime) {
 		if (source->y >= (cycleUntil.y * (sheetSize.y / frameCount_y)) 
 			&& source->x == (cycleUntil.x * (sheetSize.x / frameCount_x))
 			&& frame >= static_cast<float>(sheetSize.x) / frameCount_x) {
-			runs++; //increments the number of elapsed cycles by one
+			if(cycles > 0) runs++; //increments the number of elapsed cycles by one
 			if (runs == cycles) animated = false; //this ends the animation if the number of cycles desired is reached
 			source->x = cycleFrom.x * (sheetSize.x / frameCount_x);
 			source->y = cycleFrom.y * (sheetSize.y / frameCount_y);
+			frame = 0.0f;
 		}
 		//this checks for when the value of frame has reached the point at which the animation frame should 
 		//shift horizontally by one frame

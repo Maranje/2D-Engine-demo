@@ -1,6 +1,8 @@
 #include "title.h"
 #include "element.h"
 #include "sprite.h"
+#include "input.h"
+#include "_Polly.h"
 #include <stdlib.h>
 
 title::title(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale) : scene(Game) {
@@ -15,26 +17,29 @@ title::title(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale) : sc
 	titleCard = nullptr;
 	keyState = nullptr;
 	theme = nullptr;
+
+	startInput = nullptr;
+
 	load();
 }
 
 void title::load() {
 	Background = new element(sGame);
 	Background->setPosition(Vector2(screenWidth / 2, screenHeight / 2));
-	background = new sprite(Background, renderer, screenWidth, screenHeight);
+	background = new sprite(Background, renderer, screenWidth, screenHeight, 0);
 	background->setTexture("assets/art/background6.png");
 
 	for (int i = 0; i < 2; i++) {
 		element* Pizza = new element(sGame);
 		Pizza->setPosition(Vector2(0, (screenHeight/2) - (i * screenHeight)));
-		sprite* pizza = new sprite(Pizza, renderer, 1651 * scale, 270 * scale);
+		sprite* pizza = new sprite(Pizza, renderer, 1651 * scale, 270 * scale, 0);
 		pizza->setTexture("assets/art/pizza_bckgnd.png");
 		pizzas.emplace_back(Pizza);
 	}
 
 	TitleCard = new element(sGame);
 	TitleCard->setPosition(Vector2(screenWidth / 2, screenHeight / 2));
-	titleCard = new sprite(TitleCard, renderer, screenWidth, screenHeight);
+	titleCard = new sprite(TitleCard, renderer, screenWidth, screenHeight, 0);
 	titleCard->setTexture("assets/art/title_card_sheet.png");
 	titleCard->setSource(0, 0, 480, 270);
 	titleCard->setAnimated(
@@ -51,6 +56,8 @@ void title::load() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
 	theme = Mix_LoadMUS("assets/audio/music/title_theme.wav");
 	Mix_PlayMusic(theme, -1);
+
+	startInput = new input(Background, SDL_SCANCODE_SPACE);
 
 }
 
@@ -75,6 +82,6 @@ void title::update(float deltaTime) {
 		}
 		else slice->setPosition(position);
 	}
-	keyState = SDL_GetKeyboardState(NULL);
-	if (keyState[SDL_SCANCODE_RETURN]) runUnload = true;
+
+	if (startInput->getPress()) runUnload = true;
 }
