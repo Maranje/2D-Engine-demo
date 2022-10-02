@@ -63,6 +63,11 @@ public:
 		Camera->x = X;
 		Camera->y = Y;
 	}
+	//reset camera to center of screen
+	void resetCamera() {
+		Camera->x = 0;
+		Camera->y = 0;
+	}
 
 private:
 	//begin process for user input
@@ -119,6 +124,7 @@ private:
 	//game scenes
 	class pretitle* pretitleScene;
 	class title* titleScene;
+	class test_area* testAreaScene;
 
 
 };

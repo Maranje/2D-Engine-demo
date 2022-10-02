@@ -10,6 +10,7 @@ public:
     bool getPress();
     //returns true only once if key is lifted
     bool getLift();
+    //returns if key is being currently pressed
 
 private:
     const Uint8* keyState;

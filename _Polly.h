@@ -11,11 +11,14 @@ public:
 
 private:
     class sprite* polly;
+    class camera* pollyCam;
 
+    Vector2 position;
     class input* up;
     class input* down;
     class input* left;
     class input* right;
+    bool buttonPress;
 
     int fps;
 };

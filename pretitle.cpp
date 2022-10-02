@@ -8,6 +8,8 @@ pretitle::pretitle(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale
 	screenHeight = SH;
 	scale = Scale;
 
+	sGame->resetCamera();
+
 	Logo = nullptr;
 	logo = nullptr;
 

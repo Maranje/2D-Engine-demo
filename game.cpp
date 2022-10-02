@@ -7,6 +7,7 @@
 #include "pretitle.h"
 #include "title.h"
 #include "input.h"
+#include "test_area.h"
 
 game::game() {
 	window = nullptr;
@@ -30,6 +31,7 @@ game::game() {
 	//scenes
 	pretitleScene = nullptr;
 	titleScene = nullptr;
+	testAreaScene = nullptr;
 }
 
 game::~game() {
@@ -114,7 +116,7 @@ void game::load() {
 		break;
 	
 	case Test_Area:
-
+		testAreaScene = new test_area(this, renderer, screenWidth, screenHeight, scale);
 		break;
 	}
 }

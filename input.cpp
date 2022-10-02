@@ -13,7 +13,6 @@ bool input::getPress() {
 		wasPressed = true;
 		return true;
 	}
-
 	return false;
 }
 

@@ -11,6 +11,8 @@ title::title(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale) : sc
 	screenHeight = SH;
 	scale = Scale;
 
+	sGame->resetCamera();
+
 	Background = nullptr;
 	background = nullptr;
 	TitleCard = nullptr;
@@ -44,12 +46,12 @@ void title::load() {
 	titleCard->setSource(0, 0, 480, 270);
 	titleCard->setAnimated(
 		true,
-		Vector2(2400, 1350),
-		5, 5,
+		Vector2(1920, 1620),
+		4, 6,
 		5000,
 		Vector2(0, 0),
-		Vector2(0, 4),
-		Vector2(4, 4)
+		Vector2(0, 5),
+		Vector2(3, 5)
 	);
 
 	//theme music
@@ -68,7 +70,7 @@ void title::unload() {
 	theme = nullptr;
 	Mix_CloseAudio();
 	sceneState = inactive;
-	sGame->setScene(sGame->Pretitle);
+	sGame->setScene(sGame->Test_Area);
 	sGame->load();
 }
 
