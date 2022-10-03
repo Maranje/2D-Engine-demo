@@ -39,7 +39,7 @@ void _Polly::updateElement(float deltaTime) {
 			polly->setSource(0, 0, 26, 56);
 			polly->setAnimated(
 				true,
-				Vector2(104, 56),
+				Vector2(104, 55),
 				4, 1,
 				250,
 				Vector2(0, 0),
@@ -57,15 +57,15 @@ void _Polly::updateElement(float deltaTime) {
 			polly->setSource(0, 0, 26, 56);
 			polly->setAnimated(
 				true,
-				Vector2(104, 56),
-				4, 1,
-				250,
+				Vector2(156, 55),
+				6, 1,
+				350,
 				Vector2(0, 0),
 				Vector2(0, 0),
-				Vector2(3, 0)
+				Vector2(5, 0)
 			);
 		}
-		position.y += static_cast<int>(300 * deltaTime);
+		position.y += static_cast<int>(350 * deltaTime);
 		buttonPress = true;
 	}
 	if (left->getPress()) {
@@ -75,7 +75,7 @@ void _Polly::updateElement(float deltaTime) {
 			polly->setSource(0, 0, 26, 56);
 			polly->setAnimated(
 				true,
-				Vector2(156, 56),
+				Vector2(156, 55),
 				6, 1,
 				350,
 				Vector2(0, 0),
@@ -93,7 +93,7 @@ void _Polly::updateElement(float deltaTime) {
 			polly->setSource(0, 0, 26, 56);
 			polly->setAnimated(
 				true,
-				Vector2(156, 56),
+				Vector2(156, 55),
 				6, 1,
 				350,
 				Vector2(0, 0),
