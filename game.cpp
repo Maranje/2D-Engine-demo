@@ -20,12 +20,19 @@ game::game() {
 	event = nullptr;
 	keyState = nullptr;
 
-	scale = 4;
-	screenWidth = 480 * scale;
-	screenHeight = 270 * scale;
+	//generate game scale according to display resolution
+	if (x / 480 > y / 270) scale = x / 480.0f;
+	else scale = y / 270.0f;
+
+	//test to see what scale is being generated for use on differently sized displays
+	std::cout << scale << std::endl;
+
+	screenWidth = x;
+	screenHeight = y;
 	deltaTime = 0.0f;
 	ticks = 0;
 
+	//initial scene
 	sceneTag = Pretitle;
 
 	//scenes
@@ -47,11 +54,11 @@ bool game::init() {
 	//initialize window
 	window = SDL_CreateWindow(
 		"Pizza Polly",
-		30,
+		50,
 		100,
 		screenWidth,
 		screenHeight,
-		0
+		SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
 	if (!window) {

@@ -2,7 +2,7 @@
 #include "element.h"
 #include "sprite.h"
 
-pretitle::pretitle(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale) : scene(Game) {
+pretitle::pretitle(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) : scene(Game) {
 	renderer = Renderer;
 	screenWidth = SW;
 	screenHeight = SH;
@@ -19,7 +19,7 @@ pretitle::pretitle(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale
 void pretitle::load() {
 	Logo = new element(sGame);
 	Logo->setPosition(Vector2(screenWidth / 2, screenHeight / 2));
-	logo = new sprite(Logo, renderer, screenWidth, screenHeight);
+	logo = new sprite(Logo, renderer, static_cast<int>(480.0f * scale), static_cast<int>(270.0f * scale));
 	logo->setTexture("assets/art/temp_logo.png");
 	logo->setSource(0, 0, 480, 270);
 	logo->setAnimated(

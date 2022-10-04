@@ -4,7 +4,7 @@ class _Polly :
     public element
 {
 public:
-    _Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale);
+    _Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale);
 
     void updateElement(float deltaTime) override;
     void unload();
@@ -19,7 +19,7 @@ private:
     class input* left;
     class input* right;
     bool buttonPress;
-
+    float scale;
     int fps;
 };
 

@@ -5,13 +5,13 @@
 #include "_Polly.h"
 #include <stdlib.h>
 
-title::title(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale) : scene(Game) {
+title::title(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) : scene(Game) {
 	renderer = Renderer;
 	screenWidth = SW;
 	screenHeight = SH;
 	scale = Scale;
 
-	sGame->resetCamera();
+	sGame->setCamera(0, 0);
 
 	Background = nullptr;
 	background = nullptr;
@@ -28,20 +28,20 @@ title::title(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale) : sc
 void title::load() {
 	Background = new element(sGame);
 	Background->setPosition(Vector2(screenWidth / 2, screenHeight / 2));
-	background = new sprite(Background, renderer, screenWidth, screenHeight, 0);
-	background->setTexture("assets/art/background6.png");
+	background = new sprite(Background, renderer, static_cast<int>(480.0f * scale), static_cast<int>(480.0f * scale), 0);
+	background->setTexture("assets/art/background.png");
 
 	for (int i = 0; i < 2; i++) {
 		element* Pizza = new element(sGame);
 		Pizza->setPosition(Vector2(0, (screenHeight/2) - (i * screenHeight)));
-		sprite* pizza = new sprite(Pizza, renderer, 1651 * scale, 270 * scale, 0);
+		sprite* pizza = new sprite(Pizza, renderer, static_cast<int>(1651.0f * scale), static_cast<int>(270.0f * scale), 0);
 		pizza->setTexture("assets/art/pizza_bckgnd.png");
 		pizzas.emplace_back(Pizza);
 	}
 
 	TitleCard = new element(sGame);
 	TitleCard->setPosition(Vector2(screenWidth / 2, screenHeight / 2));
-	titleCard = new sprite(TitleCard, renderer, screenWidth, screenHeight, 0);
+	titleCard = new sprite(TitleCard, renderer, static_cast<int>(480.0f * scale), static_cast<int>(270.0f * scale), 0);
 	titleCard->setTexture("assets/art/title_card_sheet.png");
 	titleCard->setSource(0, 0, 480, 270);
 	titleCard->setAnimated(
@@ -77,8 +77,8 @@ void title::unload() {
 void title::update(float deltaTime) {
 	for (auto slice : pizzas) {
 		Vector2 position = slice->getPosition();
-		position.x += static_cast<int>(100.0f * deltaTime);
-		position.y += static_cast<int>(100.0f * deltaTime);
+		position.x += static_cast<int>(19.0f * scale * deltaTime);
+		position.y += static_cast<int>(19.0f * scale * deltaTime);
 		if (position.y > screenHeight + (screenHeight/2)) {
 			slice->setPosition(Vector2(0, 0 - (screenHeight / 2)));
 		}

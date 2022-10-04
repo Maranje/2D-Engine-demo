@@ -4,7 +4,7 @@ class pretitle :
     public scene
 {
 public:
-    pretitle(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale);
+    pretitle(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale);
 
     void load() override;
     void unload() override;
@@ -12,7 +12,8 @@ public:
 
 private:
     SDL_Renderer* renderer;
-    int screenWidth, screenHeight, scale;
+    int screenWidth, screenHeight;
+    float scale;
     class element* Logo;
     class sprite* logo;
 

@@ -4,7 +4,7 @@
 #include "element.h"
 #include "sprite.h"
 
-test_area::test_area(game* Game, SDL_Renderer* Renderer, int SW, int SH, int Scale) : scene(Game) {
+test_area::test_area(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) : scene(Game) {
 	renderer = Renderer;
 	screenWidth = SW;
 	screenHeight = SH;
@@ -22,8 +22,8 @@ void test_area::load() {
 	polly = new _Polly(sGame, renderer, screenWidth, screenHeight, scale);
 	Background = new element(sGame);
 	Background->setPosition(Vector2((screenWidth / 2), (screenHeight / 2)));
-	background = new sprite(Background, renderer, screenWidth, screenHeight, 0);
-	background->setTexture("assets/art/background6.png");
+	background = new sprite(Background, renderer, static_cast<int>(480.0f * scale), static_cast<int>(480.0f * scale), 0);
+	background->setTexture("assets/art/background.png");
 	exit = new input(polly, SDL_SCANCODE_RETURN);
 }
 

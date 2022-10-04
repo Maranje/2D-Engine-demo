@@ -6,7 +6,6 @@
 #include "game.h"
 
 int main(int argc, char* argv[]) {
-
 	game* Game;
 	Game = new game();
 

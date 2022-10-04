@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <Windows.h>
+#pragma comment(lib, "user32.lib")
 #include "SDL.h"
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_mixer.h"
@@ -8,6 +10,7 @@
 class game
 {
 public:
+
 	//scenes
 	enum scene_type {
 		Pretitle,
@@ -16,6 +19,7 @@ public:
 		RedHerring,
 		Test_Area
 	};
+
 
 	//constructor
 	game();
@@ -28,8 +32,6 @@ public:
 	void runLoop();
 	//load scenes
 	void load();
-	//clear vectors
-	void clearVectors();
 
 	/////////////////////////////////////// adders/removers ///////////////////////////////////////
 
@@ -70,6 +72,11 @@ public:
 	}
 
 private:
+	//user screen resolution x
+	int x = GetSystemMetrics(SM_CXFULLSCREEN);
+	//user screen resolution y
+	int y = GetSystemMetrics(SM_CYFULLSCREEN);
+
 	//begin process for user input
 	void processInput();
 	//update all elements in game
@@ -100,7 +107,7 @@ private:
 	//values for storing screen proportions
 	int screenWidth;
 	int screenHeight;
-	int scale;
+	float scale;
 
 	//float for storing delta time
 	float deltaTime;
