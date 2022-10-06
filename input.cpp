@@ -3,10 +3,21 @@
 input::input(element* Owner, int ScanCode) : component(Owner) {
 	keyState = nullptr;
 	scanCode = ScanCode;
+	isPressed = false;
 	wasPressed = false;
 }
 
 bool input::getPress() {
+	keyState = SDL_GetKeyboardState(NULL);
+
+	if (keyState[scanCode] && !wasPressed) {
+		wasPressed = true;
+		return true;		
+	}
+	return false;
+}
+
+bool input::getActivePress() {
 	keyState = SDL_GetKeyboardState(NULL);
 
 	if (keyState[scanCode]) {
@@ -20,9 +31,7 @@ bool input::getLift() {
 	keyState = SDL_GetKeyboardState(NULL);
 
 	//has to run getPress() because keyState[] never returns false
-	//also, running getPress() would be required to set the value of wasPressed 
-	//if you're exclusively checking for key lift
-	if (!getPress() && wasPressed) {
+	if (!getActivePress() && wasPressed) {
 		wasPressed = false;
 		return true;
 	}

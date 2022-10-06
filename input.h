@@ -6,8 +6,10 @@ class input :
 public:
     input(element* Owner, int ScanCode);
     
-    //returns true if key is pressed
+    //returns true only once if key is pressed
     bool getPress();
+    //returns true if key is pressed
+    bool getActivePress();
     //returns true only once if key is lifted
     bool getLift();
     //returns if key is being currently pressed
@@ -15,5 +17,6 @@ public:
 private:
     const Uint8* keyState;
     int scanCode;
+    bool isPressed;
     bool wasPressed;
 };

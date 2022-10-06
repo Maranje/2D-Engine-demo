@@ -25,7 +25,7 @@ game::game() {
 	else scale = y / 270.0f;
 
 	//test to see what scale is being generated for use on differently sized displays
-	std::cout << scale << std::endl;
+	std::cout << "scale: " << scale << std::endl << "x: " << x << std::endl << "y: " << y << std::endl;
 
 	screenWidth = x;
 	screenHeight = y;
@@ -54,8 +54,8 @@ bool game::init() {
 	//initialize window
 	window = SDL_CreateWindow(
 		"Pizza Polly",
-		50,
-		100,
+		0,
+		45,
 		screenWidth,
 		screenHeight,
 		SDL_WINDOW_FULLSCREEN_DESKTOP
