@@ -20,6 +20,8 @@ private:
     class sprite* background;
     class input* exit;
 
-
+    class element* Test;
+    class sprite* test;
+    class collider* testBody;
 };
 

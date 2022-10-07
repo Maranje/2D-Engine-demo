@@ -24,6 +24,7 @@ public:
 private:
     class sprite* polly;
     class camera* pollyCam;
+    class collider* pollyCollider;
 
     Vector2 position;
     std::vector<Direction> directions;

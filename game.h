@@ -58,6 +58,8 @@ public:
 	scene_type getScene() { return sceneTag; }
 	//set a new value for active scene
 	void setScene(scene_type Scene) { sceneTag = Scene; }
+	//gets colliders vector
+	std::vector<class collider*> getColliders() { return colliders; }
 	//gets the camera rect
 	SDL_Rect* getCamera() { return Camera; }
 	//sets camera x and y positions
@@ -77,7 +79,7 @@ private:
 	//user screen resolution y
 	int y = GetSystemMetrics(SM_CYFULLSCREEN);
 
-	//begin process for user input
+	//process user input
 	void processInput();
 	//update all elements in game
 	void update();

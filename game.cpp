@@ -58,7 +58,7 @@ bool game::init() {
 		45,
 		screenWidth,
 		screenHeight,
-		SDL_WINDOW_FULLSCREEN_DESKTOP
+		0//SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
 	if (!window) {

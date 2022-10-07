@@ -33,7 +33,7 @@ void title::load() {
 
 	for (int i = 0; i < 2; i++) {
 		element* Pizza = new element(sGame);
-		Pizza->setPosition(Vector2(0, ((300 * scale) / 2) - (i * (300 * scale))));
+		Pizza->setPosition(Vector2(0, static_cast<int>(((300 * scale) / 2) - (i * (300 * scale)))));
 		sprite* pizza = new sprite(Pizza, renderer, static_cast<int>(1651.0f * scale), static_cast<int>(300.0f * scale), 0);
 		pizza->setTexture("assets/art/pizza_bckgnd.png");
 		pizzas.emplace_back(Pizza);
@@ -80,7 +80,7 @@ void title::update(float deltaTime) {
 		position.x += static_cast<int>(19.0f * scale * deltaTime);
 		position.y += static_cast<int>(19.0f * scale * deltaTime);
 		if (position.y > 450 * scale) {
-			slice->setPosition(Vector2(0, 0 - (150 * scale)));
+			slice->setPosition(Vector2(0, static_cast<int>(0 - (150 * scale))));
 		}
 		else slice->setPosition(position);
 	}

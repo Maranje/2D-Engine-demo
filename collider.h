@@ -5,14 +5,13 @@ class collider :
     public component
 {
 public:
-    collider(element* Owner, std::string elementName);
+    collider(element* Owner, int SW, int SH);
     ~collider();
-
+    void update(float deltaTime) override;
     void checkCollisionWide();
-    void checkCollisionLocal();
+    bool checkCollisionLocal();
 
-    void setCollisionBody(int Width, int Height);
-    void setCollisionBodyLocation(Vector2 Center_Position);
+    void setCollisionBody(int Width, int Height, Vector2 OffCenterPosition = Vector2(0, 0));
     SDL_Rect* getCollisionBodyRect() { return collisionRect; }
     
     bool detectCollision();
@@ -22,10 +21,11 @@ private:
     SDL_Rect* localRect;
     SDL_Rect* collisionRect;
     Vector2 center;
+    Vector2 offCenterPosition;
+    bool scanWide;
     
-    bool collision;
-    int scale;
-    std::string tag;
+    int screenWidth;
+    int screenHeight;
     std::vector<collider*> localColliders;
 };
 

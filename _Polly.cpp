@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "input.h"
 #include "camera.h"
+#include "collider.h"
 
 _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) : element(Game) {
 	scale = Scale;
@@ -10,10 +11,10 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) 
 	setPosition(Vector2((SW / 2), (SH / 2)));
 	polly = new sprite(this, Renderer, static_cast<int>(26.0f * scale), static_cast<int>(56.0f * scale));
 	polly->setTexture("assets/art/Polly_idle_forward.png");
-	polly->setSource(0, 0, 26, 56);
+	polly->setSource(0, 0, 26, 55);
 	polly->setAnimated(
 		true,
-		Vector2(182, 448),
+		Vector2(182, 440),
 		7, 8,
 		300,
 		Vector2(0, 0),
@@ -21,6 +22,8 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) 
 		Vector2(6, 7)
 	);
 	pollyCam = new camera(this);
+	pollyCollider = new collider(this, SW, SH);
+	pollyCollider->setCollisionBody(static_cast<int>(12 * scale), static_cast<int>(53 * scale));
 
 	//set controls
 	up = new input(this, SDL_SCANCODE_UP);
@@ -32,6 +35,8 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) 
 }
 
 void _Polly::updateElement(float deltaTime) {
+	if (pollyCollider->detectCollision()) std::cout << "collision detected" << std::endl;
+
 	processInput(); //process user input
 	
 	position = getPosition();//get the current position
@@ -97,10 +102,10 @@ void _Polly::processInput() {
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_back.png");
-			polly->setSource(0, 0, 26, 56);
+			polly->setSource(0, 0, 26, 55);
 			polly->setAnimated(
 				true,
-				Vector2(182, 56),
+				Vector2(182, 55),
 				7, 1,
 				300,
 				Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
@@ -117,13 +122,13 @@ void _Polly::processInput() {
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_forward.png");
-			polly->setSource(0, 0, 26, 56);
+			polly->setSource(0, 0, 26, 55);
 			polly->setAnimated(
 				true,
-				Vector2(182, 56),
-				7, 1,
+				Vector2(182, 440),
+				7, 8,
 				300,
-				Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
+				Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
 			);
 		}
 		else setAnimation();
@@ -137,13 +142,13 @@ void _Polly::processInput() {
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_left.png");
-			polly->setSource(0, 0, 26, 56);
+			polly->setSource(0, 0, 26, 55);
 			polly->setAnimated(
 				true,
-				Vector2(182, 56),
-				7, 1,
+				Vector2(182, 440),
+				7, 8,
 				300,
-				Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
+				Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
 			);
 		}
 		else setAnimation();
@@ -157,13 +162,13 @@ void _Polly::processInput() {
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_right.png");
-			polly->setSource(0, 0, 26, 56);
+			polly->setSource(0, 0, 26, 55);
 			polly->setAnimated(
 				true,
-				Vector2(182, 56),
-				7, 1,
+				Vector2(182, 440),
+				7, 8,
 				300,
-				Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
+				Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
 			);
 		}
 		else setAnimation();
@@ -175,10 +180,10 @@ void _Polly::setAnimation() {
 	case Up:
 		polly->destroyTexture();
 		polly->setTexture("assets/art/Polly_walk_back.png");
-		polly->setSource(0, 0, 26, 56);
+		polly->setSource(0, 0, 26, 55);
 		polly->setAnimated(
 			true,
-			Vector2(156, 56),
+			Vector2(156, 55),
 			6, 1,
 			350,
 			Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
@@ -199,7 +204,7 @@ void _Polly::setAnimation() {
 	case Left:
 		polly->destroyTexture();
 		polly->setTexture("assets/art/Polly_walk_left.png");
-		polly->setSource(0, 0, 26, 56);
+		polly->setSource(0, 0, 26, 55);
 		polly->setAnimated(
 			true,
 			Vector2(156, 55),
@@ -211,7 +216,7 @@ void _Polly::setAnimation() {
 	case Right:
 		polly->destroyTexture();
 		polly->setTexture("assets/art/Polly_walk_right.png");
-		polly->setSource(0, 0, 26, 56);
+		polly->setSource(0, 0, 26, 55);
 		polly->setAnimated(
 			true,
 			Vector2(156, 55),
