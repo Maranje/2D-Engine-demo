@@ -32,13 +32,14 @@ void collider::setCollisionBody(int width, int height, Vector2 OffCenterPosition
 
 void collider::update(float deltaTime) {
 	center = owner->getPosition();
+	//update the position of the collision rect
 	collisionRect->x = center.x - (collisionRect->w / 2) - offCenterPosition.x;
 	collisionRect->y = center.y - (collisionRect->h / 2) - offCenterPosition.y;
-	//check to see if object has reached the bounds of the local rect
-	if ((center.x - (collisionRect->w / 2)) <= localRect->x || 
-		(center.x + (collisionRect->w / 2)) >= (localRect->x + localRect->w) || 
-		(center.y - (collisionRect->h / 2)) <= localRect->y || 
-		(center.y + (collisionRect->h / 2)) >= (localRect->y + localRect->h)) {
+	//check to see if object is approaching the bounds of the local rect
+	if ((center.x - collisionRect->w) <= localRect->x || 
+		(center.x + collisionRect->w) >= (localRect->x + localRect->w) || 
+		(center.y - collisionRect->h) <= localRect->y || 
+		(center.y + collisionRect->h) >= (localRect->y + localRect->h)) {
 		scanWide = true; //set to rescan local area
 		localRect->x = center.x - (screenWidth / 2); //update local rect x-position
 		localRect->y = center.y - (screenHeight / 2); //update local rect y-position
@@ -54,11 +55,11 @@ void collider::checkCollisionWide() {
 	for (auto rect : owner->getGame()->getColliders()) {
 		if (SDL_HasIntersection(localRect, rect->getCollisionBodyRect())) {
 			localColliders.emplace_back(rect);//place collision object in list of local colliders
-			std::cout << "rect detected at: " << rect->center.x << ", " << rect->center.y << std::endl;
+			std::cout << "rect detected at: " << rect->center.x << ", " << rect->center.y << std::endl; //functionality testing output
 		}
 	}
 	owner->getGame()->addCollider(this);//replace self into list of all collision objects
-	scanWide = false;
+	scanWide = false; //set scanWide to false so that a full scene scan for collision objects happens only when required
 }
 
 bool collider::checkCollisionLocal() {

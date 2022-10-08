@@ -23,7 +23,9 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) 
 	);
 	pollyCam = new camera(this);
 	pollyCollider = new collider(this, SW, SH);
-	pollyCollider->setCollisionBody(static_cast<int>(12 * scale), static_cast<int>(53 * scale));
+	pollyCollider->setCollisionBody(static_cast<int>(16 * scale), 
+									static_cast<int>(10 * scale), 
+									Vector2(static_cast<int>(0 * scale), static_cast<int>(-22 * scale)));
 
 	//set controls
 	up = new input(this, SDL_SCANCODE_UP);
@@ -35,7 +37,11 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) 
 }
 
 void _Polly::updateElement(float deltaTime) {
-	if (pollyCollider->detectCollision()) std::cout << "collision detected" << std::endl;
+	//detect collisions... i honestly don't know why this works so well, but it's crucial for it to be before processInput()
+	if (pollyCollider->detectCollision()) {
+		std::cout << "collision detected" << std::endl;
+		move = false;
+	}
 
 	processInput(); //process user input
 	
@@ -56,7 +62,24 @@ void _Polly::updateElement(float deltaTime) {
 			break;
 		}
 	}
-	setPosition(position);
+	//tiny bounce back from collision
+	if (pollyCollider->detectCollision()) {
+		switch (directions[currentPressed - 1]) {
+		case Up:
+			position.y += 5;
+			break;
+		case Down:
+			position.y -= 5;
+			break;
+		case Left:
+			position.x += 5;
+			break;
+		case Right:
+			position.x -= 5;
+			break;
+		}
+	}
+	setPosition(position); //set new position
 }
 
 void _Polly::unload() {
