@@ -1,9 +1,9 @@
 #include "collider.h"
 
-collider::collider(element* Owner, int SW, int SH) : component(Owner) {
+collider::collider(element* Owner) : component(Owner) {
 	owner = Owner;
-	screenWidth = SW;
-	screenHeight = SH;
+	screenWidth = Owner->getGame()->getScreenX();
+	screenHeight = Owner->getGame()->getScreenY();
 	center = owner->getPosition();
 	collisionRect = new SDL_Rect;
 
@@ -55,7 +55,6 @@ void collider::checkCollisionWide() {
 	for (auto rect : owner->getGame()->getColliders()) {
 		if (SDL_HasIntersection(localRect, rect->getCollisionBodyRect())) {
 			localColliders.emplace_back(rect);//place collision object in list of local colliders
-			std::cout << "rect detected at: " << rect->center.x << ", " << rect->center.y << std::endl; //functionality testing output
 		}
 	}
 	owner->getGame()->addCollider(this);//replace self into list of all collision objects

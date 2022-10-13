@@ -54,6 +54,8 @@ public:
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 
+	//returns scale generated from user screen
+	float getScale() { return scale; }
 	//get current active scene
 	scene_type getScene() { return sceneTag; }
 	//set a new value for active scene
@@ -72,6 +74,11 @@ public:
 		Camera->x = 0;
 		Camera->y = 0;
 	}
+
+	// return user screen resolution x value
+	int getScreenX() { return x; }
+	// return user screen resolution y value
+	int getScreenY() { return y; }
 
 private:
 	//user screen resolution x
@@ -106,9 +113,6 @@ private:
 
 	const Uint8* keyState;
 
-	//values for storing screen proportions
-	int screenWidth;
-	int screenHeight;
 	float scale;
 
 	//float for storing delta time

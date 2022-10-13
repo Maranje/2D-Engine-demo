@@ -6,6 +6,7 @@ element::element(game* Game) {
 	state = active;
 	order = 0;
 	eGame->addElement(this);
+	position = Vector2(eGame->getScreenX() / 2, eGame->getScreenY() / 2);
 }
 
 element::~element() {
@@ -42,4 +43,9 @@ void element::removeComponent(component* component) {
 	if (item != components.end()) { 
 		components.erase(item);
 	}
+}
+
+void element::setPosition(Vector2 pos) {
+	position.x = (eGame->getScreenX() / 2) + pos.x;
+	position.y = (eGame->getScreenY() / 2) - pos.y;
 }

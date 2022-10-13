@@ -24,11 +24,6 @@ game::game() {
 	if (x / 480 > y / 270) scale = x / 480.0f;
 	else scale = y / 270.0f;
 
-	//test to see what scale is being generated for use on differently sized displays
-	std::cout << "scale: " << scale << std::endl << "x: " << x << std::endl << "y: " << y << std::endl;
-
-	screenWidth = x;
-	screenHeight = y;
 	deltaTime = 0.0f;
 	ticks = 0;
 
@@ -56,8 +51,8 @@ bool game::init() {
 		"Pizza Polly",
 		0,
 		45,
-		screenWidth,
-		screenHeight,
+		x,
+		y,
 		0//SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
@@ -87,8 +82,8 @@ bool game::init() {
 	Camera = new SDL_Rect;
 	Camera->x = 0;
 	Camera->y = 0;
-	Camera->w = screenWidth;
-	Camera->h = screenHeight;
+	Camera->w = x;
+	Camera->h = y;
 
 	//load initial scene
 	load();
@@ -107,11 +102,11 @@ void game::runLoop() {
 void game::load() {
 	switch (sceneTag) {
 	case Pretitle:
-		pretitleScene = new pretitle(this, renderer, screenWidth, screenHeight, scale);
+		pretitleScene = new pretitle(this, renderer, scale);
 		break;
 
 	case Title:
-		titleScene = new title(this, renderer, screenWidth, screenHeight, scale);
+		titleScene = new title(this, renderer, scale);
 		break;
 
 	case Intro:
@@ -123,7 +118,7 @@ void game::load() {
 		break;
 	
 	case Test_Area:
-		testAreaScene = new test_area(this, renderer, screenWidth, screenHeight, scale);
+		testAreaScene = new test_area(this, renderer, scale);
 		break;
 	}
 }

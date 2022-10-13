@@ -4,7 +4,7 @@ class test_area :
     public scene
 {
 public:
-    test_area(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale);
+    test_area(game* Game, SDL_Renderer* Renderer, float Scale);
 
     void load() override;
     void unload() override;
@@ -12,7 +12,6 @@ public:
 
 private:
     SDL_Renderer* renderer;
-    int screenWidth, screenHeight;
     float scale;
 
     class _Polly* polly;

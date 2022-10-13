@@ -4,7 +4,7 @@ class title :
     public scene
 {
 public:
-    title(game* Game, SDL_Renderer* Renderer, int SW, int SH, float scale);
+    title(game* Game, SDL_Renderer* Renderer, float scale);
 
     void load() override;
     void unload() override;
@@ -12,7 +12,6 @@ public:
 
 private:
     SDL_Renderer* renderer;
-    int screenWidth, screenHeight;
     float scale;
     class element* Background;
     class sprite* background;

@@ -25,8 +25,15 @@ public:
 
 	//returns the center point of element
 	Vector2 getPosition() { return position; }
+
 	//sets the center point of element
-	void setPosition(Vector2 pos) { position = pos; }
+	void setPosition(Vector2 pos);
+
+	//changes the current x position
+	void increaseHorizontalPosition(int x) { position.x += x; }
+	//changes the current y position
+	void increaseVerticalPosition(int y) { position.y -= y; }
+
 	//returns current element state
 	elementState getState() { return state; }
 	//sets current element state

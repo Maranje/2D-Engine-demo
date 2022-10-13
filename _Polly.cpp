@@ -4,11 +4,10 @@
 #include "camera.h"
 #include "collider.h"
 
-_Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) : element(Game) {
+_Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) {
 	scale = Scale;
 
 	//load Polly
-	setPosition(Vector2((SW / 2), (SH / 2)));
 	polly = new sprite(this, Renderer, static_cast<int>(26.0f * scale), static_cast<int>(56.0f * scale));
 	polly->setTexture("assets/art/Polly_idle_forward.png");
 	polly->setSource(0, 0, 26, 55);
@@ -22,7 +21,7 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) 
 		Vector2(6, 7)
 	);
 	pollyCam = new camera(this);
-	pollyCollider = new collider(this, SW, SH);
+	pollyCollider = new collider(this);
 	pollyCollider->setCollisionBody(static_cast<int>(16 * scale), 
 									static_cast<int>(10 * scale), 
 									Vector2(static_cast<int>(0 * scale), static_cast<int>(-22 * scale)));
@@ -33,53 +32,51 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale) 
 	left = new input(this, SDL_SCANCODE_LEFT);
 	right = new input(this, SDL_SCANCODE_RIGHT);
 	move = false;
+	direction = Down;
 	currentPressed = 0;
 }
 
 void _Polly::updateElement(float deltaTime) {
-	//detect collisions... i honestly don't know why this works so well, but it's crucial for it to be before processInput()
+	processInput(); //process user input
+
+	//detect collisions
 	if (pollyCollider->detectCollision()) {
 		std::cout << "collision detected" << std::endl;
 		move = false;
-	}
 
-	processInput(); //process user input
+		//bounce back from collision
+		switch (direction) {
+		case Up:
+			increaseVerticalPosition(static_cast<int>(-91.0f * scale * deltaTime));
+			break;
+		case Down:
+			increaseVerticalPosition(static_cast<int>(91.0f * scale * deltaTime));
+			break;
+		case Left:
+			increaseHorizontalPosition(static_cast<int>(91.0f * scale * deltaTime));
+			break;
+		case Right:
+			increaseHorizontalPosition(static_cast<int>(-91.0f * scale * deltaTime));
+			break;
+		}
+	}
 	
-	position = getPosition();//get the current position
 	if (move) {
 		switch (directions[currentPressed - 1]) {
 		case Up:
-			position.y -= static_cast<int>(91.0f * scale * deltaTime);
+			increaseVerticalPosition(static_cast<int>(91.0f * scale * deltaTime));
 			break;
 		case Down:
-			position.y += static_cast<int>(91.0f * scale * deltaTime);
+			increaseVerticalPosition(static_cast<int>(-91.0f * scale * deltaTime));
 			break;
 		case Left:
-			position.x -= static_cast<int>(104.0f * scale * deltaTime);
+			increaseHorizontalPosition(static_cast<int>(-91.0f * scale * deltaTime));
 			break;
 		case Right:
-			position.x += static_cast<int>(104.0f * scale * deltaTime);
+			increaseHorizontalPosition(static_cast<int>(91.0f * scale * deltaTime));
 			break;
 		}
 	}
-	//tiny bounce back from collision
-	if (pollyCollider->detectCollision()) {
-		switch (directions[currentPressed - 1]) {
-		case Up:
-			position.y += 5;
-			break;
-		case Down:
-			position.y -= 5;
-			break;
-		case Left:
-			position.x += 5;
-			break;
-		case Right:
-			position.x -= 5;
-			break;
-		}
-	}
-	setPosition(position); //set new position
 }
 
 void _Polly::unload() {
@@ -89,24 +86,28 @@ void _Polly::unload() {
 void _Polly::processInput() {
 	//key presses
 	if (up->getPress()) {
+		direction = Up;
 		directions.emplace_back(Up);//store respective direction enum in directions vector
 		move = true;; // set speed to 1 to activate position movement
 		currentPressed++; //increase the number of currently pressed key by one
 		setAnimation(); //set respective walk animation
 	}
 	if (down->getPress()) {
+		direction = Down;
 		directions.emplace_back(Down);
 		move = true;
 		currentPressed++;
 		setAnimation();
 	}
 	if (left->getPress()) {
+		direction = Left;
 		directions.emplace_back(Left);
 		move = true;
 		currentPressed++;
 		setAnimation();
 	}
 	if (right->getPress()) {
+		direction = Right;
 		directions.emplace_back(Right);
 		move = true;
 		currentPressed++;
@@ -122,6 +123,7 @@ void _Polly::processInput() {
 		if (currentPressed < 0) currentPressed = 0; //make sure the number of current keys being pressed is never negative
 		//set to respective idle animation if no keys are being currently pressed
 		if (currentPressed == 0) {
+			direction = Up;
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_back.png");
@@ -134,7 +136,11 @@ void _Polly::processInput() {
 				Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
 			);
 		}
-		else setAnimation();//set to the walk animation of the next most recently pressed key
+		else {
+			move = true;
+			direction = directions[currentPressed - 1];
+			setAnimation();//set to the walk animation of the next most recently pressed key
+		}
 	}
 	if (down->getLift()) {
 		auto item = std::find(directions.begin(), directions.end(), Down);
@@ -142,6 +148,7 @@ void _Polly::processInput() {
 		currentPressed--;
 		if (currentPressed < 0) currentPressed = 0;
 		if (currentPressed == 0) {
+			direction = Down;
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_forward.png");
@@ -154,7 +161,11 @@ void _Polly::processInput() {
 				Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
 			);
 		}
-		else setAnimation();
+		else {
+			move = true;
+			direction = directions[currentPressed - 1];
+			setAnimation();//set to the walk animation of the next most recently pressed key
+		}
 	}
 	if (left->getLift()) {
 		auto item = std::find(directions.begin(), directions.end(), Left);
@@ -162,6 +173,7 @@ void _Polly::processInput() {
 		currentPressed--;
 		if (currentPressed < 0) currentPressed = 0;
 		if (currentPressed == 0) {
+			direction = Left;
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_left.png");
@@ -174,7 +186,11 @@ void _Polly::processInput() {
 				Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
 			);
 		}
-		else setAnimation();
+		else {
+			move = true;
+			direction = directions[currentPressed - 1];
+			setAnimation();//set to the walk animation of the next most recently pressed key
+		}
 	}
 	if (right->getLift()) {
 		auto item = std::find(directions.begin(), directions.end(), Right);
@@ -182,6 +198,7 @@ void _Polly::processInput() {
 		currentPressed--;
 		if (currentPressed < 0) currentPressed = 0;
 		if (currentPressed == 0) {
+			direction = Right;
 			move = false;
 			polly->destroyTexture();
 			polly->setTexture("assets/art/Polly_idle_right.png");
@@ -194,7 +211,11 @@ void _Polly::processInput() {
 				Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
 			);
 		}
-		else setAnimation();
+		else {
+			move = true;
+			direction = directions[currentPressed - 1];
+			setAnimation();//set to the walk animation of the next most recently pressed key
+		}
 	}
 }
 

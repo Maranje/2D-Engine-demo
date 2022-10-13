@@ -5,7 +5,7 @@ class _Polly :
     public element
 {
 public:
-    _Polly(game* Game, SDL_Renderer* Renderer, int SW, int SH, float Scale);
+    _Polly(game* Game, SDL_Renderer* Renderer, float Scale);
     
     void updateElement(float deltaTime) override;
     void unload();
@@ -27,6 +27,7 @@ private:
     class collider* pollyCollider;
 
     Vector2 position;
+    Direction direction;
     std::vector<Direction> directions;
     class input* up;
     class input* down;

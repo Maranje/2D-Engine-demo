@@ -5,7 +5,7 @@ class collider :
     public component
 {
 public:
-    collider(element* Owner, int SW, int SH);
+    collider(element* Owner);
     ~collider();
     void update(float deltaTime) override;
 
