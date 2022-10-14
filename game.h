@@ -53,7 +53,8 @@ public:
 	void removeCollider(class collider* Collider);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
-
+	//returns deltaTime
+	float getDeltaTime() { return deltaTime; }
 	//returns scale generated from user screen
 	float getScale() { return scale; }
 	//get current active scene

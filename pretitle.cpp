@@ -16,7 +16,7 @@ pretitle::pretitle(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game
 
 void pretitle::load() {
 	Logo = new element(sGame);
-	logo = new sprite(Logo, renderer, static_cast<int>(480.0f * scale), static_cast<int>(270.0f * scale));
+	logo = new sprite(Logo, renderer, 480, 270);
 	logo->setTexture("assets/art/temp_logo.png");
 	logo->setSource(0, 0, 480, 270);
 	logo->setAnimated(

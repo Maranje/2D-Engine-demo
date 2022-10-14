@@ -30,9 +30,9 @@ public:
 	void setPosition(Vector2 pos);
 
 	//changes the current x position
-	void increaseHorizontalPosition(int x) { position.x += x; }
+	void increaseHorizontalPosition(int x) { position.x += static_cast<int>(x * eGame->getDeltaTime() * eGame->getScale()); }
 	//changes the current y position
-	void increaseVerticalPosition(int y) { position.y -= y; }
+	void increaseVerticalPosition(int y) { position.y -= static_cast<int>(y * eGame->getDeltaTime() * eGame->getScale()); }
 
 	//returns current element state
 	elementState getState() { return state; }

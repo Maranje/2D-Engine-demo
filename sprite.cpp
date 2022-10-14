@@ -3,8 +3,8 @@
 sprite::sprite(element* Owner, SDL_Renderer* Renderer, int Width, int Height, int DrawOrder) : component(Owner, DrawOrder) {
 	owner = Owner;
 	renderer = Renderer;
-	width = Width;
-	height = Height;
+	width = static_cast<int>(Width * owner->getGame()->getScale());
+	height = static_cast<int>(Height * owner->getGame()->getScale());
 	drawOrder = DrawOrder;
 
 	texture = nullptr;

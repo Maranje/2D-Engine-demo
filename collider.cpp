@@ -24,17 +24,17 @@ collider::~collider() {
 
 void collider::setCollisionBody(int width, int height, Vector2 OffCenterPosition) {
 	offCenterPosition = OffCenterPosition;
-	collisionRect->x = center.x - (width / 2) - offCenterPosition.x;
-	collisionRect->y = center.y - (height / 2) - offCenterPosition.y;
-	collisionRect->w = width;
-	collisionRect->h = height;
+	collisionRect->w = static_cast<int>(width * owner->getGame()->getScale());
+	collisionRect->h = static_cast<int>(height * owner->getGame()->getScale());
+	collisionRect->x = center.x - (collisionRect->w / 2) - static_cast<int>(offCenterPosition.x * owner->getGame()->getScale());
+	collisionRect->y = center.y - (collisionRect->h / 2) - static_cast<int>(offCenterPosition.y * owner->getGame()->getScale());
 }
 
 void collider::update(float deltaTime) {
 	center = owner->getPosition();
 	//update the position of the collision rect
-	collisionRect->x = center.x - (collisionRect->w / 2) - offCenterPosition.x;
-	collisionRect->y = center.y - (collisionRect->h / 2) - offCenterPosition.y;
+	collisionRect->x = center.x - (collisionRect->w / 2) - static_cast<int>(offCenterPosition.x * owner->getGame()->getScale());
+	collisionRect->y = center.y - (collisionRect->h / 2) - static_cast<int>(offCenterPosition.y * owner->getGame()->getScale());
 	//check to see if object is approaching the bounds of the local rect
 	if ((center.x - collisionRect->w) <= localRect->x || 
 		(center.x + collisionRect->w) >= (localRect->x + localRect->w) || 

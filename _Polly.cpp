@@ -8,7 +8,7 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) 
 	scale = Scale;
 
 	//load Polly
-	polly = new sprite(this, Renderer, static_cast<int>(26.0f * scale), static_cast<int>(56.0f * scale));
+	polly = new sprite(this, Renderer, 26, 56);
 	polly->setTexture("assets/art/Polly_idle_forward.png");
 	polly->setSource(0, 0, 26, 55);
 	polly->setAnimated(
@@ -22,9 +22,7 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) 
 	);
 	pollyCam = new camera(this);
 	pollyCollider = new collider(this);
-	pollyCollider->setCollisionBody(static_cast<int>(16 * scale), 
-									static_cast<int>(10 * scale), 
-									Vector2(static_cast<int>(0 * scale), static_cast<int>(-22 * scale)));
+	pollyCollider->setCollisionBody(16, 10, Vector2(0, -22));
 
 	//set controls
 	up = new input(this, SDL_SCANCODE_UP);
@@ -37,43 +35,45 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) 
 }
 
 void _Polly::updateElement(float deltaTime) {
-	processInput(); //process user input
 
 	//detect collisions
 	if (pollyCollider->detectCollision()) {
 		std::cout << "collision detected" << std::endl;
 		move = false;
-
+		
 		//bounce back from collision
 		switch (direction) {
 		case Up:
-			increaseVerticalPosition(static_cast<int>(-91.0f * scale * deltaTime));
+			increaseVerticalPosition(-91);
 			break;
 		case Down:
-			increaseVerticalPosition(static_cast<int>(91.0f * scale * deltaTime));
+			increaseVerticalPosition(91);
 			break;
 		case Left:
-			increaseHorizontalPosition(static_cast<int>(91.0f * scale * deltaTime));
+			increaseHorizontalPosition(91);
 			break;
 		case Right:
-			increaseHorizontalPosition(static_cast<int>(-91.0f * scale * deltaTime));
+			increaseHorizontalPosition(-91);
 			break;
 		}
 	}
+
+	processInput(); //process user input
 	
+	//move polly
 	if (move) {
 		switch (directions[currentPressed - 1]) {
 		case Up:
-			increaseVerticalPosition(static_cast<int>(91.0f * scale * deltaTime));
+			increaseVerticalPosition(91);
 			break;
 		case Down:
-			increaseVerticalPosition(static_cast<int>(-91.0f * scale * deltaTime));
+			increaseVerticalPosition(-91);
 			break;
 		case Left:
-			increaseHorizontalPosition(static_cast<int>(-91.0f * scale * deltaTime));
+			increaseHorizontalPosition(-91);
 			break;
 		case Right:
-			increaseHorizontalPosition(static_cast<int>(91.0f * scale * deltaTime));
+			increaseHorizontalPosition(91);
 			break;
 		}
 	}
@@ -113,6 +113,7 @@ void _Polly::processInput() {
 		currentPressed++;
 		setAnimation();
 	}
+
 	//key lifts
 	if (up->getLift()) {
 		//find lifted key type and remove it from directions vector

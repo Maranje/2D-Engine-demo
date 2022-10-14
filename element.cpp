@@ -46,6 +46,6 @@ void element::removeComponent(component* component) {
 }
 
 void element::setPosition(Vector2 pos) {
-	position.x = (eGame->getScreenX() / 2) + pos.x;
-	position.y = (eGame->getScreenY() / 2) - pos.y;
+	position.x = (eGame->getScreenX() / 2) + static_cast<int>(pos.x * eGame->getScale());
+	position.y = (eGame->getScreenY() / 2) - static_cast<int>(pos.y * eGame->getScale());
 }

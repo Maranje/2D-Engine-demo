@@ -25,19 +25,19 @@ title::title(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game) {
 
 void title::load() {
 	Background = new element(sGame);
-	background = new sprite(Background, renderer, static_cast<int>(480.0f * scale), static_cast<int>(480.0f * scale), 0);
+	background = new sprite(Background, renderer, 480, 480, 0);
 	background->setTexture("assets/art/background.png");
 
 	for (int i = 0; i < 2; i++) {
 		element* Pizza = new element(sGame);
-		Pizza->setPosition(Vector2(0, static_cast<int>((i * (300 * scale)))));
-		sprite* pizza = new sprite(Pizza, renderer, static_cast<int>(1651.0f * scale), static_cast<int>(300.0f * scale), 0);
+		Pizza->setPosition(Vector2(0, (i * 300)));
+		sprite* pizza = new sprite(Pizza, renderer, 1651, 300, 0);
 		pizza->setTexture("assets/art/pizza_bckgnd.png");
 		pizzas.emplace_back(Pizza);
 	}
 
 	TitleCard = new element(sGame);
-	titleCard = new sprite(TitleCard, renderer, static_cast<int>(480.0f * scale), static_cast<int>(270.0f * scale), 0);
+	titleCard = new sprite(TitleCard, renderer, 480, 270, 0);
 	titleCard->setTexture("assets/art/title_card_sheet.png");
 	titleCard->setSource(0, 0, 480, 270);
 	titleCard->setAnimated(
@@ -74,11 +74,11 @@ void title::update(float deltaTime) {
 	for (auto slice : pizzas) {
 		Vector2 position = slice->getPosition();
 		if (position.y > 450 * scale) {
-			slice->setPosition(Vector2(0, static_cast<int>((300 * scale))));
+			slice->setPosition(Vector2(0, 300));
 		}
 		else {
-			slice->increaseHorizontalPosition(static_cast<int>(19.0f * scale * deltaTime));
-			slice->increaseVerticalPosition(static_cast<int>(-19.0f * scale * deltaTime));
+			slice->increaseHorizontalPosition(19);
+			slice->increaseVerticalPosition(-19);
 		}
 	}
 
