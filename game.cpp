@@ -53,7 +53,7 @@ bool game::init() {
 		45,
 		x,
 		y,
-		0//SDL_WINDOW_FULLSCREEN_DESKTOP
+		SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
 	if (!window) {

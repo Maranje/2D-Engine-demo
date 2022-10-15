@@ -13,11 +13,14 @@ public:
 
     /////////////////////////////////////// getters/setters ///////////////////////////////////////
     void setDrawOrder(int DrawOrder) { drawOrder = DrawOrder; }
+    void setDrawOrderByVerticalPosition(int Offset = 0);
+    void setDrawOrderByHorizontalPosition(int Offset = 0);
     int getDrawOrder() const { return drawOrder; }
     int getWidth() const { return width; }
     int getHeight() const { return height; }
     void setTexture(const char* Texture);// { texture = textures::LoadTexture(Texture, renderer); }
 
+    void updateDrawOrder();
     void setSource(int X, int Y, int W, int H);
     void setAnimated(
         bool Animated,

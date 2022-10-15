@@ -71,11 +71,24 @@ void sprite::draw() {
 	}
 }
 
+void sprite::setDrawOrderByVerticalPosition(int Offset){
+	drawOrder = owner->getPosition().y - static_cast<int>(Offset * owner->getGame()->getScale());
+}
+
+void sprite::setDrawOrderByHorizontalPosition(int Offset){
+	drawOrder = owner->getPosition().x - static_cast<int>(Offset * owner->getGame()->getScale());
+}
+
 void sprite::setTexture(const char* Texture) {
 	SDL_Surface* temp = IMG_Load(Texture);
 	if (!temp) SDL_Log("ERROR LOADING IMAGE: %s", SDL_GetError());
 	texture = SDL_CreateTextureFromSurface(renderer, temp);
 	SDL_FreeSurface(temp);
+}
+
+void sprite::updateDrawOrder(){
+	owner->getGame()->removeSprite(this);
+	owner->getGame()->addSprite(this);
 }
 
 void sprite::setSource(int X, int Y, int W, int H) {

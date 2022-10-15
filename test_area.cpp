@@ -34,14 +34,16 @@ void test_area::load() {
 
 	Test = new element(sGame);
 	Test->setPosition(Vector2(50, 50));
-	test = new sprite(Test, renderer, 49, 50, Test->getPosition().y - 100); //draw order according to position onscreen and tweaked to optimize
+	test = new sprite(Test, renderer, 49, 50); 
+	test->setDrawOrderByVerticalPosition(25);//set draw order according to position onscreen and tweaked to optimize
 	test->setTexture("assets/art/dough_stack.png");
 	testBody = new collider(Test);
 	testBody->setCollisionBody(49, 36, Vector2(0, -12));
 
 	Test2 = new element(sGame);
 	Test2->setPosition(Vector2(50, 125));
-	test2 = new sprite(Test2, renderer, 49, 50, Test2->getPosition().y - 100);
+	test2 = new sprite(Test2, renderer, 49, 50);
+	test2->setDrawOrderByVerticalPosition(25);
 	test2->setTexture("assets/art/dough_stack.png");
 	testBody2 = new collider(Test2);
 	testBody2->setCollisionBody(49, 36, Vector2(0, -12));

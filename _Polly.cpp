@@ -78,10 +78,8 @@ void _Polly::updateElement(float deltaTime) {
 	}
 
 	//change polly render order to reflect position behind or infront of other objects on map
-	polly->setDrawOrder(getPosition().y);
-	eGame->removeSprite(polly);//remove from render sprite list
-	eGame->addSprite(polly);//re-add to render sprite list in updated draw order
-
+	polly->setDrawOrderByVerticalPosition();
+	polly->updateDrawOrder();
 }
 
 void _Polly::unload() {
