@@ -38,7 +38,6 @@ void _Polly::updateElement(float deltaTime) {
 
 	//detect collisions
 	if (pollyCollider->detectCollision()) {
-		std::cout << "collision detected" << std::endl;
 		move = false;
 		
 		//bounce back from collision
@@ -77,6 +76,12 @@ void _Polly::updateElement(float deltaTime) {
 			break;
 		}
 	}
+
+	//change polly render order to reflect position behind or infront of other objects on map
+	polly->setDrawOrder(getPosition().y);
+	eGame->removeSprite(polly);//remove from render sprite list
+	eGame->addSprite(polly);//re-add to render sprite list in updated draw order
+
 }
 
 void _Polly::unload() {

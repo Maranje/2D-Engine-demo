@@ -12,7 +12,7 @@ public:
     void draw();
 
     /////////////////////////////////////// getters/setters ///////////////////////////////////////
-
+    void setDrawOrder(int DrawOrder) { drawOrder = DrawOrder; }
     int getDrawOrder() const { return drawOrder; }
     int getWidth() const { return width; }
     int getHeight() const { return height; }

@@ -22,5 +22,9 @@ private:
     class element* Test;
     class sprite* test;
     class collider* testBody;
+
+    class element* Test2;
+    class sprite* test2;
+    class collider* testBody2;
 };
 
