@@ -4,6 +4,7 @@
 #include "element.h"
 #include "sprite.h"
 #include "collider.h"
+#include "interaction.h"
 
 test_area::test_area(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game) {
 	renderer = Renderer;
@@ -17,6 +18,7 @@ test_area::test_area(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Ga
 	Test = nullptr;
 	test = nullptr;
 	testBody = nullptr;
+	testAct = nullptr;
 
 	Test2 = nullptr;
 	test2 = nullptr;
@@ -28,7 +30,7 @@ test_area::test_area(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Ga
 void test_area::load() {
 	polly = new _Polly(sGame, renderer, scale);
 	Background = new element(sGame);
-	background = new sprite(Background, renderer, 480, 480, -999999999); //set draw order arbitrarily low for background
+	background = new sprite(Background, renderer, 480, 480); //set draw order arbitrarily low for background
 	background->setTexture("assets/art/background.png");
 	exit = new input(polly, SDL_SCANCODE_RETURN);
 
@@ -39,6 +41,8 @@ void test_area::load() {
 	test->setTexture("assets/art/dough_stack.png");
 	testBody = new collider(Test);
 	testBody->setCollisionBody(49, 36, Vector2(0, -12));
+	testAct = new interaction(Test);
+	testAct->setInteractionArea(60, 60);
 
 	Test2 = new element(sGame);
 	Test2->setPosition(Vector2(50, 125));

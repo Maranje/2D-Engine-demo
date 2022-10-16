@@ -5,7 +5,8 @@ class sprite :
     public component
 {
 public:
-    sprite(element* Owner, SDL_Renderer* Renderer, int Width, int Height, int DrawOrder = 100);
+    //sprite constructor, draw order set to an arbitrarily low number by default
+    sprite(element* Owner, SDL_Renderer* Renderer, int Width, int Height, int DrawOrder = -999999999);
     ~sprite() override;
 
     void update(float deltaTime) override;

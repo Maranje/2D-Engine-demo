@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "input.h"
 #include "camera.h"
+#include "interaction.h"
 #include "collider.h"
 
 _Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) {
@@ -23,8 +24,11 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) 
 	pollyCam = new camera(this);
 	pollyCollider = new collider(this);
 	pollyCollider->setCollisionBody(16, 10, Vector2(0, -22));
+	pollyAction = new interaction(this);
+	pollyAction->setInteractionArea(26, 55);
 
 	//set controls
+	action = new input(this, SDL_SCANCODE_SPACE);
 	up = new input(this, SDL_SCANCODE_UP);
 	down = new input(this, SDL_SCANCODE_DOWN);
 	left = new input(this, SDL_SCANCODE_LEFT);
@@ -88,10 +92,15 @@ void _Polly::unload() {
 
 void _Polly::processInput() {
 	//key presses
+	if (action->getPress() && pollyAction->detectInteraction()) {
+		std::cout << "action" << std::endl;
+	}
+	else action->resetKey();
+
 	if (up->getPress()) {
 		direction = Up;
 		directions.emplace_back(Up);//store respective direction enum in directions vector
-		move = true;; // set speed to 1 to activate position movement
+		move = true;; // set move to true to activate position movement
 		currentPressed++; //increase the number of currently pressed key by one
 		setAnimation(); //set respective walk animation
 	}
@@ -137,7 +146,9 @@ void _Polly::processInput() {
 				Vector2(182, 55),
 				7, 1,
 				300,
-				Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
+				Vector2(0, 0), 
+				Vector2(0, 0), 
+				Vector2(6, 0)
 			);
 		}
 		else {

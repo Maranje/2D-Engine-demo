@@ -57,6 +57,9 @@
     <ClCompile Include="test_area.cpp">
       <Filter>Source Files\Pizza Polly</Filter>
     </ClCompile>
+    <ClCompile Include="interaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

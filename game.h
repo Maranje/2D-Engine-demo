@@ -51,6 +51,10 @@ public:
 	void addCollider(class collider* Collider);
 	//remove collision detection object
 	void removeCollider(class collider* Collider);
+	//add a interaction detection object
+	void addInteraction(class interaction* Interaction);
+	//remove collision detection object
+	void removeInteraction(class interaction* Interaction);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 	//returns deltaTime
@@ -63,6 +67,8 @@ public:
 	void setScene(scene_type Scene) { sceneTag = Scene; }
 	//gets colliders vector
 	std::vector<class collider*> getColliders() { return colliders; }
+	//gets interactions vector
+	std::vector<class interaction*> getInteractions() { return interactions; }
 	//gets the camera rect
 	SDL_Rect* getCamera() { return Camera; }
 	//sets camera x and y positions
@@ -134,6 +140,8 @@ private:
 	std::vector<class scene*> scenes;
 	//stores all collision detection objects that are in the current scene
 	std::vector<class collider*> colliders;
+	//stores all interaction detection objects that are in the current scene
+	std::vector<class interaction*> interactions;
 
 	//game scenes
 	class pretitle* pretitleScene;

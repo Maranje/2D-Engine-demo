@@ -25,6 +25,7 @@ private:
     class sprite* polly;
     class camera* pollyCam;
     class collider* pollyCollider;
+    class interaction* pollyAction;
 
     Vector2 position;
     Direction direction;
@@ -33,6 +34,7 @@ private:
     class input* down;
     class input* left;
     class input* right;
+    class input* action;
     int currentPressed;
     bool move;
 

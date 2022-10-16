@@ -3,7 +3,6 @@
 input::input(element* Owner, int ScanCode) : component(Owner) {
 	keyState = nullptr;
 	scanCode = ScanCode;
-	isPressed = false;
 	wasPressed = false;
 }
 

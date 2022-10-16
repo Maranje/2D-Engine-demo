@@ -13,10 +13,10 @@ public:
     //returns true only once if key is lifted
     bool getLift();
     //returns if key is being currently pressed
+    void resetKey() { wasPressed = false; }
 
 private:
     const Uint8* keyState;
     int scanCode;
-    bool isPressed;
     bool wasPressed;
 };

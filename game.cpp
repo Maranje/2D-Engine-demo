@@ -4,6 +4,7 @@
 #include "sprite.h"
 #include "camera.h"
 #include "collider.h"
+#include "interaction.h"
 #include "pretitle.h"
 #include "title.h"
 #include "input.h"
@@ -53,7 +54,7 @@ bool game::init() {
 		45,
 		x,
 		y,
-		SDL_WINDOW_FULLSCREEN_DESKTOP
+		0//SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
 	if (!window) {
@@ -173,6 +174,15 @@ void game::addCollider(collider* Collider) {
 void game::removeCollider(collider* Collider) {
 	auto item = std::find(colliders.begin(), colliders.end(), Collider);
 	if (item != colliders.end()) colliders.erase(item);
+}
+
+void game::addInteraction(interaction* Interaction) {
+	interactions.emplace_back(Interaction);
+}
+
+void game::removeInteraction(interaction* Interaction) {
+	auto item = std::find(interactions.begin(), interactions.end(), Interaction);
+	if (item != interactions.end()) interactions.erase(item);
 }
 
 /////////////////////////////////////////// private ///////////////////////////////////////////
