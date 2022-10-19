@@ -11,6 +11,9 @@ public:
     void setInteractionArea(int Width, int Height, Vector2 OffCenterPosition = Vector2(0, 0));
     bool detectInteraction();
 
+    void setObjectFlag(bool Flag) { objectFlag = Flag; }
+    bool getObjectFlag() { return objectFlag; }
+
     SDL_Rect* getInteractionRect() { return interactionRect; }
 
 private:
@@ -23,6 +26,7 @@ private:
     Vector2 center;
     Vector2 offCenterPosition;
     bool scanWide;
+    bool objectFlag;
 
     int screenWidth;
     int screenHeight;

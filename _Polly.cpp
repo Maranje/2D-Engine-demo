@@ -92,10 +92,10 @@ void _Polly::unload() {
 
 void _Polly::processInput() {
 	//key presses
-	if (action->getPress() && pollyAction->detectInteraction()) {
-		std::cout << "action" << std::endl;
+	if (action->getPress()){
+		pollyAction->detectInteraction();
 	}
-	else action->resetKey();
+	if (action->getLift());
 
 	if (up->getPress()) {
 		direction = Up;

@@ -55,6 +55,10 @@ void test_area::load() {
 
 void test_area::update(float deltaTime) {
 	if (exit->getPress()) runUnload = true;
+	if (testAct->getObjectFlag()) {
+		std::cout << "action" << std::endl;
+		testAct->setObjectFlag(false);
+	}
 }
 
 void test_area::unload() {

@@ -14,6 +14,7 @@ interaction::interaction(element* Owner) : component(Owner) {
 	localRect->h = screenHeight;
 
 	scanWide = true;
+	objectFlag = false;
 
 	owner->getGame()->addInteraction(this);
 }
@@ -64,6 +65,7 @@ void interaction::checkInteractionWide() {
 bool interaction::checkInteractionLocal() {
 	for (auto rect : localInteractions) {
 		if (SDL_HasIntersection(interactionRect, rect->getInteractionRect())) {
+			rect->setObjectFlag(true);
 			return true;
 		}
 	}
