@@ -21,6 +21,9 @@ public:
     int getHeight() const { return height; }
     void setTexture(const char* Texture);// { texture = textures::LoadTexture(Texture, renderer); }
 
+    //sets the element to be unaffected by camera
+    void setCameraNeutral(bool CameraNeutral = true) { cameraNeutral = CameraNeutral; }
+
     void updateDrawOrder();
     void setSource(int X, int Y, int W, int H);
     void setAnimated(
@@ -48,6 +51,7 @@ private:
     Vector2 cycleFrom;
     Vector2 cycleUntil;
     bool animated;
+    bool cameraNeutral;
     int frameCount_x;
     int frameCount_y;
     int drawOrder;

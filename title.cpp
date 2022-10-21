@@ -66,7 +66,7 @@ void title::unload() {
 	theme = nullptr;
 	Mix_CloseAudio();
 	sceneState = inactive;
-	sGame->setScene(sGame->Test_Area);
+	sGame->setScene(sGame->RedHerring);
 	sGame->load();
 }
 

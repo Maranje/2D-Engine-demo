@@ -14,6 +14,9 @@ public:
     //assign walking animation
     void setAnimation();
 
+    //get the camera
+    class camera* getPollyCam() { return pollyCam; }
+
     enum Direction {
         Up,
         Down,

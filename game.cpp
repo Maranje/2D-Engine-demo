@@ -9,6 +9,7 @@
 #include "title.h"
 #include "input.h"
 #include "test_area.h"
+#include "red_herring.h"
 
 game::game() {
 	window = nullptr;
@@ -35,6 +36,7 @@ game::game() {
 	pretitleScene = nullptr;
 	titleScene = nullptr;
 	testAreaScene = nullptr;
+	redHerringScene = nullptr;
 }
 
 game::~game() {
@@ -115,7 +117,7 @@ void game::load() {
 		break;
 
 	case RedHerring:
-		
+		redHerringScene = new red_herring(this, renderer, scale);
 		break;
 	
 	case Test_Area:

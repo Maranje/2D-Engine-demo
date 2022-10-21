@@ -60,6 +60,9 @@
     <ClCompile Include="interaction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="red_herring.cpp">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="interaction.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="red_herring.h">
+      <Filter>Source Files\Pizza Polly</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

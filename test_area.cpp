@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "collider.h"
 #include "interaction.h"
+#include "camera.h"
 
 test_area::test_area(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game) {
 	renderer = Renderer;
@@ -32,6 +33,7 @@ void test_area::load() {
 	Background = new element(sGame);
 	background = new sprite(Background, renderer, 480, 480); //set draw order arbitrarily low for background
 	background->setTexture("assets/art/background.png");
+	background->setCameraNeutral(); //make the background unaffected by camera movement
 	exit = new input(polly, SDL_SCANCODE_RETURN);
 
 	Test = new element(sGame);
@@ -54,6 +56,13 @@ void test_area::load() {
 }
 
 void test_area::update(float deltaTime) {
+	//limit the camera
+	if (polly->getPosition().y < -250 || polly->getPosition().y > 1050) {
+		polly->getPollyCam()->cameraHaltY(true);
+	}
+	else polly->getPollyCam()->cameraHaltY(false);
+
+
 	if (exit->getPress()) runUnload = true;
 	if (testAct->getObjectFlag()) {
 		std::cout << "action" << std::endl;

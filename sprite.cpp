@@ -12,6 +12,7 @@ sprite::sprite(element* Owner, SDL_Renderer* Renderer, int Width, int Height, in
 	drawRect = new SDL_Rect;
 
 	animated = false;
+	cameraNeutral = false;
 
 	sheetSize = Vector2(0, 0);
 	cycleFrom = Vector2(0, 0);
@@ -65,8 +66,14 @@ void sprite::draw() {
 	if (texture) {
 		drawRect->w = width;
 		drawRect->h = height;
-		drawRect->x = owner->getPosition().x - (width / 2) -owner->getGame()->getCamera()->x;
-		drawRect->y = owner->getPosition().y - (height / 2) -owner->getGame()->getCamera()->y;
+		if (cameraNeutral) {
+			drawRect->x = owner->getPosition().x - (width / 2);
+			drawRect->y = owner->getPosition().y - (height / 2);
+		}
+		else {
+			drawRect->x = owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x;
+			drawRect->y = owner->getPosition().y - (height / 2) - owner->getGame()->getCamera()->y;
+		}
 		SDL_RenderCopy(renderer, texture, source, drawRect);
 	}
 }

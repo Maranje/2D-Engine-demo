@@ -147,6 +147,7 @@ private:
 	class pretitle* pretitleScene;
 	class title* titleScene;
 	class test_area* testAreaScene;
+	class red_herring* redHerringScene;
 
 
 };

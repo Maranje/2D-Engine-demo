@@ -39,7 +39,6 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) 
 }
 
 void _Polly::updateElement(float deltaTime) {
-
 	//detect collisions
 	if (pollyCollider->detectCollision()) {
 		move = false;
@@ -92,10 +91,10 @@ void _Polly::unload() {
 
 void _Polly::processInput() {
 	//key presses
-	if (action->getPress()){
+	if (action->getPress()) {
 		pollyAction->detectInteraction();
 	}
-	if (action->getLift());
+	else action->getLift();
 
 	if (up->getPress()) {
 		direction = Up;
