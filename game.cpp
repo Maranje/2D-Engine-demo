@@ -56,7 +56,7 @@ bool game::init() {
 		45,
 		x,
 		y,
-		0//SDL_WINDOW_FULLSCREEN_DESKTOP
+		SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
 	if (!window) {
@@ -80,6 +80,9 @@ bool game::init() {
 		SDL_Log("ERROR INITIALIZING PNG IMAGE: %s", SDL_GetError());
 		return false;
 	}
+
+	//hide the curson
+	SDL_ShowCursor(SDL_DISABLE);
 
 	//initialize camera
 	Camera = new SDL_Rect;
@@ -105,11 +108,11 @@ void game::runLoop() {
 void game::load() {
 	switch (sceneTag) {
 	case Pretitle:
-		pretitleScene = new pretitle(this, renderer, scale);
+		pretitleScene = new pretitle(this, renderer);
 		break;
 
 	case Title:
-		titleScene = new title(this, renderer, scale);
+		titleScene = new title(this, renderer);
 		break;
 
 	case Intro:
@@ -117,11 +120,11 @@ void game::load() {
 		break;
 
 	case RedHerring:
-		redHerringScene = new red_herring(this, renderer, scale);
+		redHerringScene = new red_herring(this, renderer);
 		break;
 	
 	case Test_Area:
-		testAreaScene = new test_area(this, renderer, scale);
+		testAreaScene = new test_area(this, renderer);
 		break;
 	}
 }

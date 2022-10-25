@@ -2,9 +2,8 @@
 #include "element.h"
 #include "sprite.h"
 
-pretitle::pretitle(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game) {
+pretitle::pretitle(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	renderer = Renderer;
-	scale = Scale;
 
 	sGame->resetCamera();
 

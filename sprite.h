@@ -20,6 +20,7 @@ public:
     int getWidth() const { return width; }
     int getHeight() const { return height; }
     void setTexture(const char* Texture);// { texture = textures::LoadTexture(Texture, renderer); }
+    int getRuns() { return runs; }
 
     //sets the element to be unaffected by camera
     void setCameraNeutral(bool CameraNeutral = true) { cameraNeutral = CameraNeutral; }
@@ -59,6 +60,6 @@ private:
     int height;
     int cycles;
     int fps;
-    int runs;
+    unsigned int runs;
     float frame;
 };

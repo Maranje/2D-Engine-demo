@@ -41,7 +41,7 @@ void sprite::update(float deltaTime) {
 		if (source->y >= (cycleUntil.y * (sheetSize.y / frameCount_y)) 
 			&& source->x == (cycleUntil.x * (sheetSize.x / frameCount_x))
 			&& frame >= static_cast<float>(sheetSize.x) / frameCount_x) {
-			if(cycles > 0) runs++; //increments the number of elapsed cycles by one
+			runs++; //increments the number of elapsed cycles by one
 			if (runs == cycles) animated = false; //this ends the animation if the number of cycles desired is reached
 			source->x = cycleFrom.x * (sheetSize.x / frameCount_x);
 			source->y = cycleFrom.y * (sheetSize.y / frameCount_y);
@@ -125,6 +125,7 @@ void sprite::setAnimated(bool Animated,
 	cycles = numberOfCycles;
 	source->x = beginAt.x * (sheetSize.x / frameCount_x);
 	source->y = beginAt.y * (sheetSize.y / frameCount_y);
+	runs = 0;
 }
 
 void sprite::destroyTexture() {

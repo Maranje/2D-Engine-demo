@@ -5,8 +5,7 @@
 #include "interaction.h"
 #include "collider.h"
 
-_Polly::_Polly(game* Game, SDL_Renderer* Renderer, float Scale) : element(Game) {
-	scale = Scale;
+_Polly::_Polly(game* Game, SDL_Renderer* Renderer) : element(Game) {
 
 	//load Polly
 	polly = new sprite(this, Renderer, 26, 56);

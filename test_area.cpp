@@ -7,9 +7,8 @@
 #include "interaction.h"
 #include "camera.h"
 
-test_area::test_area(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game) {
+test_area::test_area(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	renderer = Renderer;
-	scale = Scale;
 
 	polly = nullptr;
 	Background = nullptr;
@@ -29,7 +28,7 @@ test_area::test_area(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Ga
 }
 
 void test_area::load() {
-	polly = new _Polly(sGame, renderer, scale);
+	polly = new _Polly(sGame, renderer);
 	Background = new element(sGame);
 	background = new sprite(Background, renderer, 480, 480); //set draw order arbitrarily low for background
 	background->setTexture("assets/art/background.png");
@@ -79,4 +78,3 @@ void test_area::unload() {
 	sGame->setScene(sGame->Pretitle);
 	sGame->load();
 }
-

@@ -4,7 +4,7 @@ class red_herring :
     public scene
 {
 public:
-    red_herring(game* Game, SDL_Renderer* Renderer, float Scale);
+    red_herring(game* Game, SDL_Renderer* Renderer);
 
     void load() override;
     void unload() override;
@@ -12,7 +12,6 @@ public:
 
 private:
     SDL_Renderer* renderer;
-    float scale;
 
     class _Polly* polly;
     class input* exit;
@@ -51,6 +50,12 @@ private:
     class sprite* ovenBelt;
     class collider* ovenMainBody;
     class collider* ovenBeltBody;
+
+    class element* Roger;
+    class sprite* roger;
+    class collider* rogerBody;
+    class interaction* rogerInteraction;
+    bool rogerSleep;
 
 };
 

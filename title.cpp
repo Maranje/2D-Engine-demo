@@ -5,9 +5,8 @@
 #include "_Polly.h"
 #include <stdlib.h>
 
-title::title(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game) {
+title::title(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	renderer = Renderer;
-	scale = Scale;
 
 	sGame->setCamera(0, 0);
 
@@ -25,7 +24,7 @@ title::title(game* Game, SDL_Renderer* Renderer, float Scale) : scene(Game) {
 
 void title::load() {
 	Background = new element(sGame);
-	background = new sprite(Background, renderer, 480, 480, 0);
+	background = new sprite(Background, renderer, 700, 480, 0);
 	background->setTexture("assets/art/background.png");
 
 	for (int i = 0; i < 2; i++) {
@@ -73,7 +72,7 @@ void title::unload() {
 void title::update(float deltaTime) {
 	for (auto slice : pizzas) {
 		Vector2 position = slice->getPosition();
-		if (position.y > 450 * scale) {
+		if (position.y > 450 * sGame->getScale()) {
 			slice->setPosition(Vector2(0, 300));
 		}
 		else {
