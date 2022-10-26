@@ -69,6 +69,8 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 }
 
 void red_herring::load() {
+	Mix_OpenAudio(22050, AUDIO_S16SYS, 4, 4096);
+
 	polly = new _Polly(sGame, renderer);
 	polly->getPollyCam()->cameraHaltX(true);
 	exit = new input(polly, SDL_SCANCODE_RETURN);
@@ -231,6 +233,8 @@ void red_herring::unload() {
 	delete Wall;
 	delete Poster;
 	delete BackroomShade;
+
+	Mix_CloseAudio();
 	sceneState = inactive;
 	sGame->setScene(sGame->Pretitle);
 	sGame->load();
@@ -306,7 +310,7 @@ void red_herring::update(float deltaTime) {
 	}
 	rogerInteraction->setObjectFlag(false);
 
-	if (polly->getPosition().y < 121) { BackroomShade->setPosition(Vector2(900000, 0)); }
+	if (polly->getPosition().y < 130) { BackroomShade->setPosition(Vector2(900000, 0)); }
 	else BackroomShade->setPosition(Vector2(0, 215));
 
 }

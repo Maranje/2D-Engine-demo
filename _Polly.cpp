@@ -26,6 +26,9 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer) : element(Game) {
 	pollyAction = new interaction(this);
 	pollyAction->setInteractionArea(26, 55);
 
+	//sounds
+	//    add sounds here
+
 	//set controls
 	action = new input(this, SDL_SCANCODE_SPACE);
 	up = new input(this, SDL_SCANCODE_UP);

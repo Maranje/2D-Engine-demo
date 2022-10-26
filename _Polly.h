@@ -40,5 +40,6 @@ private:
     class input* action;
     int currentPressed;
     bool move;
+
 };
 

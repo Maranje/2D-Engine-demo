@@ -16,8 +16,19 @@ title::title(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	titleCard = nullptr;
 	keyState = nullptr;
 	theme = nullptr;
+	blit = nullptr;
+	Fade = nullptr;
+	fade = nullptr;
+	OrderUp = nullptr;
+	orderUp = nullptr;
+	Polly = nullptr;
+	polly = nullptr;
 
 	startInput = nullptr;
+
+	startBlit = false;
+	nextBlit = false;
+	lastBlit = false;
 
 	load();
 }
@@ -56,12 +67,24 @@ void title::load() {
 
 	startInput = new input(Background, SDL_SCANCODE_SPACE);
 
+	Fade = new element(sGame);
+	fade = new sprite(Fade, renderer, 700, 480, 10);
+
+	OrderUp = new element(sGame);
+	orderUp = new sprite(OrderUp, renderer, 480, 270, 11);
+
+	Polly = new element(sGame);
+	polly = new sprite(Polly, renderer, 26, 55, 12);
+
 }
 
 void title::unload() {
 	for (auto slice : pizzas) delete slice;
 	delete Background;
 	delete TitleCard;
+	delete Fade;
+	delete OrderUp;
+	delete Polly;
 	theme = nullptr;
 	Mix_CloseAudio();
 	sceneState = inactive;
@@ -81,5 +104,73 @@ void title::update(float deltaTime) {
 		}
 	}
 
-	if (startInput->getPress()) runUnload = true;
+	if (startInput->getPress()) {
+		Mix_FadeOutMusic(1300);
+		start();
+		startBlit = true;
+	}
+	if (startBlit) {
+		if (!fade->getAnimated()) {
+			blitOrderUp();
+			nextBlit = true;
+			startBlit = false;
+		}
+	}
+	if (nextBlit) {
+		if (!orderUp->getAnimated()) {
+			blitPolly();
+			lastBlit = true;
+			nextBlit = false;
+		}
+	}
+	if (lastBlit) {
+		if (!polly->getAnimated()) runUnload = true;
+	}
+}
+
+void title::start() {
+	fade->setTexture("assets/art/Fade.png");
+	fade->setSource(0, 0, 700, 480);
+	fade->setAnimated(
+		true,
+		Vector2(3500, 960),
+		5, 2,
+		15000,
+		Vector2(0, 0),
+		Vector2(4, 1),
+		Vector2(4, 1),
+		1
+	);
+}
+
+void title::blitOrderUp() {
+	orderUp->setTexture("assets/art/order_up.png");
+	orderUp->setSource(0, 0, 480, 270);
+	orderUp->setAnimated(
+	true,
+		Vector2(1920, 1620),
+		4, 6,
+		7000,
+		Vector2(0, 0),
+		Vector2(3, 5),
+		Vector2(3, 5),
+		1
+	);
+}
+
+void title::blitPolly() {
+	blit = Mix_LoadWAV("assets/audio/effects/blit.wav");
+	Mix_PlayChannel(1, blit, 0);
+	polly->setTexture("assets/art/polly.png");
+	polly->setSource(0, 0, 26, 55);
+	polly->setAnimated(
+		true,
+		Vector2(26, 55),
+		1, 1,
+		120,
+		Vector2(0, 0),
+		Vector2(0, 0),
+		Vector2(0, 0),
+		2
+	);
 }
