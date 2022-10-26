@@ -22,6 +22,7 @@ private:
     const Uint8* keyState;
     Mix_Music* theme;
     Mix_Chunk* blit;
+    Mix_Chunk* blat;
 
     std::vector<class element*> pizzas;
 

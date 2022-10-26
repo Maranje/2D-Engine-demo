@@ -15,8 +15,11 @@ title::title(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	TitleCard = nullptr;
 	titleCard = nullptr;
 	keyState = nullptr;
+
 	theme = nullptr;
 	blit = nullptr;
+	blat = nullptr;
+
 	Fade = nullptr;
 	fade = nullptr;
 	OrderUp = nullptr;
@@ -156,6 +159,9 @@ void title::blitOrderUp() {
 		Vector2(3, 5),
 		1
 	);
+	blat = Mix_LoadWAV("assets/audio/effects/bump.wav");
+	Mix_VolumeChunk(blat, 50);
+	Mix_PlayChannel(1, blat, 7);
 }
 
 void title::blitPolly() {
