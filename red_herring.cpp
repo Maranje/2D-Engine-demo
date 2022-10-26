@@ -52,6 +52,19 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	rogerInteraction = nullptr;
 	rogerSleep = false;
 
+	Wall = nullptr;
+	wall = nullptr;
+	wallBody = nullptr;
+
+	Poster = nullptr;
+	poster = nullptr;
+
+	Mat = nullptr;
+	mat = nullptr;
+
+	BackroomShade = nullptr;
+	backroomShade = nullptr;
+
 	load();
 }
 
@@ -124,8 +137,8 @@ void red_herring::load() {
 
 	OvenMain = new element(sGame);
 	OvenBelt = new element(sGame);
-	OvenMain->setPosition(Vector2(5, 75));
-	OvenBelt->setPosition(Vector2(5, 68));
+	OvenMain->setPosition(Vector2(10, 75));
+	OvenBelt->setPosition(Vector2(10, 68));
 	ovenMain = new sprite(OvenMain, renderer, 59, 63);
 	ovenMain->setDrawOrderByVerticalPosition();
 	ovenMain->updateDrawOrder();
@@ -170,6 +183,37 @@ void red_herring::load() {
 	rogerBody->setCollisionBody(30, 15, Vector2(0, -20));
 	rogerInteraction = new interaction(Roger);
 	rogerInteraction->setInteractionArea(40, 60);
+
+	Wall = new element(sGame);
+	Wall->setPosition(Vector2(0, 115));
+	wall = new sprite(Wall, renderer, 170, 73);
+	wall->setTexture("assets/art/Back_wall.png");
+	wall->setDrawOrderByVerticalPosition(-10);
+	wall->updateDrawOrder();
+	wallBody = new collider(Wall);
+	wallBody->setCollisionBody(125, 10, Vector2(20, -35));
+	wallBody = new collider(Wall);
+	wallBody->setCollisionBody(13, 10, Vector2(-75, -35));
+
+	Poster = new element(sGame);
+	Poster->setPosition(Vector2(60, 117));
+	poster = new sprite(Poster, renderer, 20, 29);
+	poster->setDrawOrderByVerticalPosition(-20);
+	poster->updateDrawOrder();
+	poster->setTexture("assets/art/poster.png");
+
+	BackroomShade = new element(sGame);
+	BackroomShade->setPosition(Vector2(0, 215));
+	backroomShade = new sprite(BackroomShade, renderer, 171, 128);
+	backroomShade->setTexture("assets/art/Backroom_shade.png");
+
+	/*
+	* i don't like how this looks 
+	Mat = new element(sGame);
+	Mat->setPosition(Vector2(0, -30));
+	mat = new sprite(Mat, renderer, 38, 97);
+	mat->setTexture("assets/art/mat.png");
+	*/
 }
 
 void red_herring::unload() {
@@ -184,6 +228,9 @@ void red_herring::unload() {
 	delete OvenMain;
 	delete OvenBelt;
 	delete Roger;
+	delete Wall;
+	delete Poster;
+	delete BackroomShade;
 	sceneState = inactive;
 	sGame->setScene(sGame->Pretitle);
 	sGame->load();
@@ -258,4 +305,8 @@ void red_herring::update(float deltaTime) {
 		);
 	}
 	rogerInteraction->setObjectFlag(false);
+
+	if (polly->getPosition().y < 121) { BackroomShade->setPosition(Vector2(900000, 0)); }
+	else BackroomShade->setPosition(Vector2(0, 215));
+
 }

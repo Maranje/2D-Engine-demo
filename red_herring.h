@@ -51,6 +51,19 @@ private:
     class collider* ovenMainBody;
     class collider* ovenBeltBody;
 
+    class element* Wall;
+    class sprite* wall;
+    class collider* wallBody;
+
+    class element* Poster;
+    class sprite* poster;
+
+    class element* Mat;
+    class sprite* mat;
+
+    class element* BackroomShade;
+    class sprite* backroomShade;
+
     class element* Roger;
     class sprite* roger;
     class collider* rogerBody;
