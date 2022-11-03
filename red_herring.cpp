@@ -387,22 +387,23 @@ void red_herring::update(float deltaTime) {
 	rogerInteraction->setObjectFlag(false);
 
 	//door
+	//std::cout << polly->getScaledPosition().y << std::endl;
 	if (pollySouth) {
 		//polly opens door up
-		if (polly->getPosition().y < 190 && polly->getPosition().y > 80) {
-			if (polly->getPosition().y < 190 && polly->getPosition().y > 180) {
+		if (polly->getScaledPosition().y <= 36 && polly->getScaledPosition().y > 15) {
+			if (polly->getScaledPosition().y <= 36 && polly->getScaledPosition().y >= 34) {
 				door->haltAnimation();
 				door->setSource(0, 82, 32, 82);
 			}
-			else if (polly->getPosition().y < 180 && polly->getPosition().y > 170) door->setSource(32, 82, 32, 82);
-			else if (polly->getPosition().y < 170 && polly->getPosition().y > 160) door->setSource(64, 82, 32, 82);
-			else if (polly->getPosition().y < 160 && polly->getPosition().y > 140) door->setSource(96, 82, 32, 82);
-			else if (polly->getPosition().y < 140 && polly->getPosition().y > 115) door->setSource(128, 82, 32, 82);
-			else if (polly->getPosition().y < 115 && polly->getPosition().y > 100) door->setSource(160, 82, 32, 82);
-			else if (polly->getPosition().y < 100 && polly->getPosition().y > 80) door->setSource(192, 82, 32, 82);
+			else if (polly->getScaledPosition().y < 34 && polly->getScaledPosition().y > 32) door->setSource(32, 82, 32, 82);
+			else if (polly->getScaledPosition().y < 32 && polly->getScaledPosition().y > 30) door->setSource(64, 82, 32, 82);
+			else if (polly->getScaledPosition().y < 30 && polly->getScaledPosition().y > 27) door->setSource(96, 82, 32, 82);
+			else if (polly->getScaledPosition().y < 27 && polly->getScaledPosition().y > 22) door->setSource(128, 82, 32, 82);
+			else if (polly->getScaledPosition().y < 22 && polly->getScaledPosition().y > 19) door->setSource(160, 82, 32, 82);
+			else if (polly->getScaledPosition().y < 19 && polly->getScaledPosition().y > 15) door->setSource(192, 82, 32, 82);
 		}
 		//door shuts
-		else if (polly->getPosition().y <= 80) {
+		else if (polly->getScaledPosition().y <= 15) {
 			door->setAnimated(
 				true,
 				Vector2(576, 164),
@@ -418,22 +419,22 @@ void red_herring::update(float deltaTime) {
 	}
 	else{
 		//polly opens door down
-		if (polly->getPosition().y > 80 && polly->getPosition().y < 230) {
+		if (polly->getScaledPosition().y > 15 && polly->getScaledPosition().y < 44) {
 			door->setDrawOrderByVerticalPosition(-20);
 			door->updateDrawOrder();
-			if (polly->getPosition().y > 140 && polly->getPosition().y < 150) {
+			if (polly->getScaledPosition().y >= 27 && polly->getScaledPosition().y <= 29) {
 				door->haltAnimation();
 				door->setSource(0, 0, 32, 82);
 			}
-			else if (polly->getPosition().y > 135 && polly->getPosition().y < 140) door->setSource(32, 0, 32, 82);
-			else if (polly->getPosition().y < 150 && polly->getPosition().y > 140) door->setSource(64, 0, 32, 82);
-			else if (polly->getPosition().y < 170 && polly->getPosition().y > 150) door->setSource(96, 0, 32, 82);
-			else if (polly->getPosition().y < 195 && polly->getPosition().y > 170) door->setSource(128, 0, 32, 82);
-			else if (polly->getPosition().y < 210 && polly->getPosition().y > 195) door->setSource(160, 0, 32, 82);
-			else if (polly->getPosition().y < 230 && polly->getPosition().y > 210) door->setSource(192, 0, 32, 82);
+			else if (polly->getScaledPosition().y > 26 && polly->getScaledPosition().y < 27) door->setSource(32, 0, 32, 82);
+			else if (polly->getScaledPosition().y < 29 && polly->getScaledPosition().y > 27) door->setSource(64, 0, 32, 82);
+			else if (polly->getScaledPosition().y < 32 && polly->getScaledPosition().y > 29) door->setSource(96, 0, 32, 82);
+			else if (polly->getScaledPosition().y < 37 && polly->getScaledPosition().y > 32) door->setSource(128, 0, 32, 82);
+			else if (polly->getScaledPosition().y < 40 && polly->getScaledPosition().y > 37) door->setSource(160, 0, 32, 82);
+			else if (polly->getScaledPosition().y < 44 && polly->getScaledPosition().y > 40) door->setSource(192, 0, 32, 82);
 		}
 		//door shuts
-		else if (polly->getPosition().y >= 230) {
+		else if (polly->getScaledPosition().y >= 44) {
 			door->setAnimated(
 				true,
 				Vector2(576, 164),

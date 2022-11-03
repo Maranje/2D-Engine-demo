@@ -25,6 +25,7 @@ public:
 
 	//returns the center point of element
 	Vector2 getPosition() { return position; }
+	Vector2 getScaledPosition() { return Vector2(static_cast<int>(position.x / eGame->getScale()), static_cast<int>(position.y / eGame->getScale())); }
 
 	//sets the center point of element
 	void setPosition(Vector2 pos);
