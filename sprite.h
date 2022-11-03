@@ -27,6 +27,7 @@ public:
 
     void updateDrawOrder();
     void setSource(int X, int Y, int W, int H);
+    void haltAnimation() { animated = false; }
     void setAnimated(
         bool Animated,
         Vector2 SheetSize,

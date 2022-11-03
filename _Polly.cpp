@@ -24,7 +24,7 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer) : element(Game) {
 	pollyCollider = new collider(this);
 	pollyCollider->setCollisionBody(16, 10, Vector2(0, -22));
 	pollyAction = new interaction(this);
-	pollyAction->setInteractionArea(26, 55);
+	pollyAction->setInteractionArea(5, 15, Vector2(0, -15));
 
 	//sounds
 	//    add sounds here
@@ -60,6 +60,22 @@ void _Polly::updateElement(float deltaTime) {
 			increaseHorizontalPosition(-91);
 			break;
 		}
+	}
+
+	//set interaction direction
+	switch (direction) {
+	case Up:
+		pollyAction->setInteractionArea(5, 15, Vector2(0, 15));
+		break;
+	case Down:
+		pollyAction->setInteractionArea(5, 15, Vector2(0, -15));
+		break;
+	case Left:
+		pollyAction->setInteractionArea(15, 5, Vector2(15, 0));
+		break;
+	case Right:
+		pollyAction->setInteractionArea(15, 5, Vector2(-15, 0));
+		break;
 	}
 
 	processInput(); //process user input

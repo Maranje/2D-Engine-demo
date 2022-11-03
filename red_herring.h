@@ -55,20 +55,39 @@ private:
     class sprite* wall;
     class collider* wallBody;
 
-    class element* Poster;
-    class sprite* poster;
-
     class element* Mat;
     class sprite* mat;
-
-    class element* BackroomShade;
-    class sprite* backroomShade;
 
     class element* Roger;
     class sprite* roger;
     class collider* rogerBody;
     class interaction* rogerInteraction;
     bool rogerSleep;
+
+    class element* Ingredients;
+    class sprite* ingredients;
+    class collider* ingredientsBody;
+
+    class element* Mop;
+    class sprite* mop;
+    class collider* mopBody;
+
+    class element* Box;
+    class sprite* box;
+    class collider* boxBody;
+
+    class element* Wall2;
+    class sprite* wall2;
+    class collider* wall2Body;
+
+    class element* CRT;
+    class sprite* crt;
+
+    class element* Door;
+    class sprite* door;
+    bool pollySouth;
+
+    Mix_Music* theme;
 
 };
 

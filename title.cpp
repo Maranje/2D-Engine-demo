@@ -108,7 +108,7 @@ void title::update(float deltaTime) {
 	}
 
 	if (startInput->getPress()) {
-		Mix_FadeOutMusic(1300);
+		Mix_FadeOutMusic(800);
 		start();
 		startBlit = true;
 	}

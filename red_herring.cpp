@@ -10,7 +10,12 @@
 red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	renderer = Renderer;
 
+	//music
+	theme = nullptr;
+
+	//////////////////////////////game objects/////////////////////////////////
 	polly = nullptr;
+	pollySouth = true;
 	exit = nullptr;
 	Background = nullptr;
 	background = nullptr;
@@ -22,7 +27,6 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	boundE = nullptr;
 	boundW = nullptr;
 
-	//////////////////////////////game objects/////////////////////////////////
 	Counter = nullptr;
 	counter = nullptr;
 	counterBody = nullptr;
@@ -56,20 +60,39 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	wall = nullptr;
 	wallBody = nullptr;
 
-	Poster = nullptr;
-	poster = nullptr;
-
 	Mat = nullptr;
 	mat = nullptr;
 
-	BackroomShade = nullptr;
-	backroomShade = nullptr;
+	Ingredients = nullptr;
+	ingredients = nullptr;
+	ingredientsBody = nullptr;
+
+	Mop = nullptr;
+	mop = nullptr;
+	mopBody = nullptr;
+
+	Box = nullptr;
+	box = nullptr;
+	boxBody = nullptr;
+
+	Wall2 = nullptr;
+	wall2 = nullptr;
+	wall2Body = nullptr;
+
+	CRT = nullptr;
+	crt = nullptr;
+
+	Door = nullptr;
+	door = nullptr;
 
 	load();
 }
 
 void red_herring::load() {
+	//play music
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 4, 4096);
+	theme = Mix_LoadMUS("assets/audio/music/pizza_theme.wav");
+	Mix_PlayMusic(theme, -1);
 
 	polly = new _Polly(sGame, renderer);
 	polly->getPollyCam()->cameraHaltX(true);
@@ -120,7 +143,7 @@ void red_herring::load() {
 	doughStackBody->setCollisionBody(49, 30, Vector2(0, -11));
 
 	TrayStation = new element(sGame);
-	TrayStation->setPosition(Vector2(-62, 0));
+	TrayStation->setPosition(Vector2(-64, 0));
 	trayStation = new sprite(TrayStation, renderer, 43, 56);
 	trayStation->setDrawOrderByVerticalPosition(25);
 	trayStation->updateDrawOrder();
@@ -129,7 +152,7 @@ void red_herring::load() {
 	trayStationBody->setCollisionBody(44, 30, Vector2(0, -11));
 
 	FlourStation = new element(sGame);
-	FlourStation->setPosition(Vector2(-62, -37));
+	FlourStation->setPosition(Vector2(-64, -37));
 	flourStation = new sprite(FlourStation, renderer, 44, 55);
 	flourStation->setDrawOrderByVerticalPosition(25);
 	flourStation->updateDrawOrder();
@@ -184,30 +207,79 @@ void red_herring::load() {
 	rogerBody = new collider(Roger);
 	rogerBody->setCollisionBody(30, 15, Vector2(0, -20));
 	rogerInteraction = new interaction(Roger);
-	rogerInteraction->setInteractionArea(40, 60);
+	rogerInteraction->setInteractionArea(22, 35);
 
 	Wall = new element(sGame);
-	Wall->setPosition(Vector2(0, 115));
-	wall = new sprite(Wall, renderer, 170, 73);
+	Wall->setPosition(Vector2(0, 117));
+	wall = new sprite(Wall, renderer, 170, 81);
 	wall->setTexture("assets/art/Back_wall.png");
 	wall->setDrawOrderByVerticalPosition(-10);
 	wall->updateDrawOrder();
 	wallBody = new collider(Wall);
-	wallBody->setCollisionBody(125, 10, Vector2(20, -35));
+	wallBody->setCollisionBody(125, 28, Vector2(20, -22));
 	wallBody = new collider(Wall);
-	wallBody->setCollisionBody(13, 10, Vector2(-75, -35));
+	wallBody->setCollisionBody(15, 34, Vector2(-74, -26));
 
-	Poster = new element(sGame);
-	Poster->setPosition(Vector2(60, 117));
-	poster = new sprite(Poster, renderer, 20, 29);
-	poster->setDrawOrderByVerticalPosition(-20);
-	poster->updateDrawOrder();
-	poster->setTexture("assets/art/poster.png");
+	Ingredients = new element(sGame);
+	Ingredients->setPosition(Vector2(64, -40));
+	ingredients = new sprite(Ingredients, renderer, 41, 127);
+	ingredients->setTexture("assets/art/ing_station.png");
+	ingredients->setDrawOrderByVerticalPosition(60);
+	ingredients->updateDrawOrder();
+	ingredientsBody = new collider(Ingredients);
+	ingredientsBody->setCollisionBody(41, 108, Vector2(0, -11));
 
-	BackroomShade = new element(sGame);
-	BackroomShade->setPosition(Vector2(0, 215));
-	backroomShade = new sprite(BackroomShade, renderer, 171, 128);
-	backroomShade->setTexture("assets/art/Backroom_shade.png");
+	Mop = new element(sGame);
+	Mop->setPosition(Vector2(-70, 200));
+	mop = new sprite(Mop, renderer, 28, 64);
+	mop->setTexture("assets/art/bucket_mop.png");
+	mop->setDrawOrderByVerticalPosition();
+	mop->updateDrawOrder();
+	mopBody = new collider(Mop);
+	mopBody->setCollisionBody(28, 20, Vector2(0, -22));
+
+	Box = new element(sGame);
+	Box->setPosition(Vector2(-62, 198));
+	box = new sprite(Box, renderer, 45, 29);
+	box->setTexture("assets/art/box.png");
+	box->setDrawOrderByVerticalPosition(30);
+	box->updateDrawOrder();
+	boxBody = new collider(Box);
+	boxBody->setCollisionBody(45, 20, Vector2(0, -2));
+
+	Wall2 = new element(sGame);
+	Wall2->setPosition(Vector2(0, 242));
+	wall2 = new sprite(Wall2, renderer, 170, 74);
+	wall2->setTexture("assets/art/Exit_wall.png");
+	wall2->setDrawOrderByVerticalPosition();
+	wall2->updateDrawOrder();
+	wall2Body = new collider(Wall2);
+	wall2Body->setCollisionBody(170, 73);
+
+	CRT = new element(sGame);
+	CRT->setPosition(Vector2(-7, 124));
+	crt = new sprite(CRT, renderer, 26, 45);
+	crt->setTexture("assets/art/crt.png");
+	crt->setDrawOrderByVerticalPosition(-70);
+	crt->updateDrawOrder();
+	crt->setSource(0, 0, 26, 45);
+	crt->setAnimated(
+		true,
+		Vector2(598, 450),
+		23, 10,
+		130,
+		Vector2(0, 0),
+		Vector2(0, 0),
+		Vector2(22, 9)
+	);
+
+	Door = new element(sGame);
+	Door->setPosition(Vector2(-56, 106));
+	door = new sprite(Door, renderer, 32, 82);
+	door->setDrawOrderByVerticalPosition(10);
+	door->updateDrawOrder();
+	door->setTexture("assets/art/Door.png");
+	door->setSource(0, 0, 32, 82);
 
 	/*
 	* i don't like how this looks 
@@ -231,8 +303,12 @@ void red_herring::unload() {
 	delete OvenBelt;
 	delete Roger;
 	delete Wall;
-	delete Poster;
-	delete BackroomShade;
+	delete Ingredients;
+	delete Mop;
+	delete Box;
+	delete Wall2;
+	delete CRT;
+	delete Door;
 
 	Mix_CloseAudio();
 	sceneState = inactive;
@@ -310,7 +386,68 @@ void red_herring::update(float deltaTime) {
 	}
 	rogerInteraction->setObjectFlag(false);
 
-	if (polly->getPosition().y < 130) { BackroomShade->setPosition(Vector2(900000, 0)); }
-	else BackroomShade->setPosition(Vector2(0, 215));
+	//door
+	if (pollySouth) {
+		//polly opens door up
+		if (polly->getPosition().y < 190 && polly->getPosition().y > 80) {
+			if (polly->getPosition().y < 190 && polly->getPosition().y > 180) {
+				door->haltAnimation();
+				door->setSource(0, 82, 32, 82);
+			}
+			else if (polly->getPosition().y < 180 && polly->getPosition().y > 170) door->setSource(32, 82, 32, 82);
+			else if (polly->getPosition().y < 170 && polly->getPosition().y > 160) door->setSource(64, 82, 32, 82);
+			else if (polly->getPosition().y < 160 && polly->getPosition().y > 140) door->setSource(96, 82, 32, 82);
+			else if (polly->getPosition().y < 140 && polly->getPosition().y > 115) door->setSource(128, 82, 32, 82);
+			else if (polly->getPosition().y < 115 && polly->getPosition().y > 100) door->setSource(160, 82, 32, 82);
+			else if (polly->getPosition().y < 100 && polly->getPosition().y > 80) door->setSource(192, 82, 32, 82);
+		}
+		//door shuts
+		else if (polly->getPosition().y <= 80) {
+			door->setAnimated(
+				true,
+				Vector2(576, 164),
+				18, 2,
+				500,
+				Vector2(6, 1),
+				Vector2(17, 1),
+				Vector2(17, 1),
+				1
+			);
+			pollySouth = false;
+		}
+	}
+	else{
+		//polly opens door down
+		if (polly->getPosition().y > 80 && polly->getPosition().y < 230) {
+			door->setDrawOrderByVerticalPosition(-20);
+			door->updateDrawOrder();
+			if (polly->getPosition().y > 140 && polly->getPosition().y < 150) {
+				door->haltAnimation();
+				door->setSource(0, 0, 32, 82);
+			}
+			else if (polly->getPosition().y > 135 && polly->getPosition().y < 140) door->setSource(32, 0, 32, 82);
+			else if (polly->getPosition().y < 150 && polly->getPosition().y > 140) door->setSource(64, 0, 32, 82);
+			else if (polly->getPosition().y < 170 && polly->getPosition().y > 150) door->setSource(96, 0, 32, 82);
+			else if (polly->getPosition().y < 195 && polly->getPosition().y > 170) door->setSource(128, 0, 32, 82);
+			else if (polly->getPosition().y < 210 && polly->getPosition().y > 195) door->setSource(160, 0, 32, 82);
+			else if (polly->getPosition().y < 230 && polly->getPosition().y > 210) door->setSource(192, 0, 32, 82);
+		}
+		//door shuts
+		else if (polly->getPosition().y >= 230) {
+			door->setAnimated(
+				true,
+				Vector2(576, 164),
+				18, 2,
+				500,
+				Vector2(6, 0),
+				Vector2(17, 0),
+				Vector2(17, 0),
+				1
+			);
+			pollySouth = true;
+			door->setDrawOrderByVerticalPosition(10);
+			door->updateDrawOrder();
+		}
+	}
 
 }
