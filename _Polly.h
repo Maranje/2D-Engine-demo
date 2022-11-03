@@ -26,6 +26,7 @@ public:
 
 private:
     class sprite* polly;
+    class sprite* shadow;
     class camera* pollyCam;
     class collider* pollyCollider;
     class interaction* pollyAction;

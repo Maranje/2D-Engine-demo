@@ -8,7 +8,7 @@
 _Polly::_Polly(game* Game, SDL_Renderer* Renderer) : element(Game) {
 
 	//load Polly
-	polly = new sprite(this, Renderer, 26, 56);
+	polly = new sprite(this, Renderer, 26, 55);
 	polly->setTexture("assets/art/Polly_idle_forward.png");
 	polly->setSource(0, 0, 26, 55);
 	polly->setAnimated(
@@ -20,6 +20,8 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer) : element(Game) {
 		Vector2(0, 0),
 		Vector2(6, 7)
 	);
+	shadow = new sprite(this, Renderer, 26, 55);
+	shadow->setTexture("assets/art/Polly_shadow.png");
 	pollyCam = new camera(this);
 	pollyCollider = new collider(this);
 	pollyCollider->setCollisionBody(16, 10, Vector2(0, -22));
@@ -101,6 +103,8 @@ void _Polly::updateElement(float deltaTime) {
 	//change polly render order to reflect position behind or infront of other objects on map
 	polly->setDrawOrderByVerticalPosition();
 	polly->updateDrawOrder();
+	shadow->setDrawOrderByVerticalPosition(55);
+	shadow->updateDrawOrder();
 }
 
 void _Polly::unload() {

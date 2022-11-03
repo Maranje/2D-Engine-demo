@@ -227,7 +227,7 @@ void red_herring::load() {
 	ingredients->setDrawOrderByVerticalPosition(60);
 	ingredients->updateDrawOrder();
 	ingredientsBody = new collider(Ingredients);
-	ingredientsBody->setCollisionBody(41, 108, Vector2(0, -11));
+	ingredientsBody->setCollisionBody(41, 108, Vector2(-2, -11));
 
 	Mop = new element(sGame);
 	Mop->setPosition(Vector2(-70, 200));
