@@ -85,6 +85,14 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	Door = nullptr;
 	door = nullptr;
 
+	Can = nullptr;
+	can = nullptr;
+	canBody = nullptr;
+
+	SealedStack = nullptr;
+	sealedStack = nullptr;
+	sealedStackBody = nullptr;
+
 	load();
 }
 
@@ -221,16 +229,16 @@ void red_herring::load() {
 	wallBody->setCollisionBody(15, 34, Vector2(-74, -26));
 
 	Ingredients = new element(sGame);
-	Ingredients->setPosition(Vector2(64, -40));
-	ingredients = new sprite(Ingredients, renderer, 41, 127);
+	Ingredients->setPosition(Vector2(64, -45));
+	ingredients = new sprite(Ingredients, renderer, 41, 153);
 	ingredients->setTexture("assets/art/ing_station.png");
 	ingredients->setDrawOrderByVerticalPosition(60);
 	ingredients->updateDrawOrder();
 	ingredientsBody = new collider(Ingredients);
-	ingredientsBody->setCollisionBody(41, 108, Vector2(-2, -11));
+	ingredientsBody->setCollisionBody(41, 134, Vector2(-2, -11));
 
 	Mop = new element(sGame);
-	Mop->setPosition(Vector2(-70, 200));
+	Mop->setPosition(Vector2(-71, 200));
 	mop = new sprite(Mop, renderer, 28, 64);
 	mop->setTexture("assets/art/bucket_mop.png");
 	mop->setDrawOrderByVerticalPosition();
@@ -239,7 +247,7 @@ void red_herring::load() {
 	mopBody->setCollisionBody(28, 20, Vector2(0, -22));
 
 	Box = new element(sGame);
-	Box->setPosition(Vector2(-62, 198));
+	Box->setPosition(Vector2(-63, 198));
 	box = new sprite(Box, renderer, 45, 29);
 	box->setTexture("assets/art/box.png");
 	box->setDrawOrderByVerticalPosition(30);
@@ -281,6 +289,24 @@ void red_herring::load() {
 	door->setTexture("assets/art/Door.png");
 	door->setSource(0, 0, 32, 82);
 
+	Can = new element(sGame);
+	Can->setPosition(Vector2(-26, 210));
+	can = new sprite(Can, renderer, 33, 40);
+	can->setTexture("assets/art/Can.png");
+	can->setDrawOrderByVerticalPosition(10);
+	can->updateDrawOrder();
+	canBody = new collider(Can);
+	canBody->setCollisionBody(33, 14, Vector2(0, -13));
+
+	SealedStack = new element(sGame);
+	SealedStack->setPosition(Vector2(60, 175));
+	sealedStack = new sprite(SealedStack, renderer, 51, 51);
+	sealedStack->setDrawOrderByVerticalPosition(20);
+	sealedStack->updateDrawOrder();
+	sealedStack->setTexture("assets/art/dough_stack_sealed.png");
+	sealedStackBody = new collider(SealedStack);
+	sealedStackBody->setCollisionBody(51, 30, Vector2(0, -11));
+
 	/*
 	* i don't like how this looks 
 	Mat = new element(sGame);
@@ -292,8 +318,7 @@ void red_herring::load() {
 
 void red_herring::unload() {
 	delete polly;
-	delete Background;
-	for (auto slice : pizzas) delete slice;
+	delete Background;	
 	delete Floor;
 	delete Counter;
 	delete DoughStack;
@@ -309,7 +334,9 @@ void red_herring::unload() {
 	delete Wall2;
 	delete CRT;
 	delete Door;
-
+	delete Can;
+	delete SealedStack;
+	for (auto slice : pizzas) delete slice;
 	Mix_CloseAudio();
 	sceneState = inactive;
 	sGame->setScene(sGame->Pretitle);

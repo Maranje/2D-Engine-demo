@@ -87,6 +87,14 @@ private:
     class sprite* door;
     bool pollySouth;
 
+    class element* Can;
+    class sprite* can;
+    class collider* canBody;
+
+    class element* SealedStack;
+    class sprite* sealedStack;
+    class collider* sealedStackBody;
+
     Mix_Music* theme;
 
 };
