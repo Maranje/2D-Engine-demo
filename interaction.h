@@ -13,6 +13,8 @@ public:
 
     void setObjectFlag(bool Flag) { objectFlag = Flag; }
     bool getObjectFlag() { return objectFlag; }
+    void setInteractFlag(bool Flag) { interactFlag = Flag; }
+    bool getInteractFlag() { return interactFlag; }
 
     SDL_Rect* getInteractionRect() { return interactionRect; }
 
@@ -27,6 +29,7 @@ private:
     Vector2 offCenterPosition;
     bool scanWide;
     bool objectFlag;
+    bool interactFlag;
 
     int screenWidth;
     int screenHeight;

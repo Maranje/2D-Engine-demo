@@ -67,6 +67,9 @@ private:
     class element* Ingredients;
     class sprite* ingredients;
     class collider* ingredientsBody;
+    class interaction* bc;
+    class sprite* bcLabel;
+    bool label;
 
     class element* Mop;
     class sprite* mop;

@@ -113,10 +113,14 @@ void _Polly::unload() {
 
 void _Polly::processInput() {
 	//key presses
-	if (action->getPress()) {
-		pollyAction->detectInteraction();
+	if (pollyAction->detectInteraction()) {
+		if (action->getPress()) {
+			pollyAction->setInteractFlag(true);
+		}
+		else if (action->getLift()) {
+			pollyAction->setInteractFlag(false);
+		}
 	}
-	else action->getLift();
 
 	if (up->getPress()) {
 		direction = Up;

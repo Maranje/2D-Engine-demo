@@ -63,9 +63,12 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	Mat = nullptr;
 	mat = nullptr;
 
+	label = false;
 	Ingredients = nullptr;
 	ingredients = nullptr;
 	ingredientsBody = nullptr;
+	bc = nullptr;
+
 
 	Mop = nullptr;
 	mop = nullptr;
@@ -236,6 +239,11 @@ void red_herring::load() {
 	ingredients->updateDrawOrder();
 	ingredientsBody = new collider(Ingredients);
 	ingredientsBody->setCollisionBody(41, 134, Vector2(-2, -11));
+	bc = new interaction(Ingredients);
+	bc->setInteractionArea(30, 7, Vector2(0, 22));
+	bcLabel = new sprite(Ingredients, renderer, 54, 13, 1000000, Vector2(10, 27));
+	bcLabel->setTexture("assets/art/label_bc.png");
+	bcLabel->setSource(0, 0, 81, 19);
 
 	Mop = new element(sGame);
 	Mop->setPosition(Vector2(-71, 200));
@@ -299,7 +307,7 @@ void red_herring::load() {
 	canBody->setCollisionBody(33, 14, Vector2(0, -13));
 
 	SealedStack = new element(sGame);
-	SealedStack->setPosition(Vector2(60, 175));
+	SealedStack->setPosition(Vector2(60, 177));
 	sealedStack = new sprite(SealedStack, renderer, 51, 51);
 	sealedStack->setDrawOrderByVerticalPosition(20);
 	sealedStack->updateDrawOrder();
@@ -363,9 +371,41 @@ void red_herring::update(float deltaTime) {
 			slice->increaseVerticalPosition(-19);
 		}
 	}
+
+	//buffalo chicken label
+	if (bc->getObjectFlag()) {
+		if (!label) {
+			bcLabel->setAnimated(
+				true,
+				Vector2(81, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			label = true;
+		}
+	}
+	else {
+		if (label) {
+			bcLabel->setAnimated(
+				true,
+				Vector2(81, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			label = false;
+		}
+	}
 	
 	//roger falls asleep
-	if (roger->getRuns() == 2 && rogerSleep == false && !rogerInteraction->getObjectFlag()) {
+	if (roger->getRuns() == 2 && rogerSleep == false && !rogerInteraction->getInteractFlag()) {
 		roger->setTexture("assets/art/Roger_sleeping.png");
 		roger->setSource(0, 0, 22, 35);
 		roger->setAnimated(
@@ -380,7 +420,7 @@ void red_herring::update(float deltaTime) {
 		rogerSleep = true;
 	}
 	//roger gets startled awake	
-	if (rogerInteraction->getObjectFlag() && rogerSleep == true) {
+	if (rogerInteraction->getInteractFlag() && rogerSleep == true) {
 		Roger->setPosition(Vector2(60, -166));
 		roger->setTexture("assets/art/Roger_startled.png");
 		roger->setSource(0, 0, 22, 35);
@@ -411,10 +451,9 @@ void red_herring::update(float deltaTime) {
 			Vector2(9, 6)
 		);
 	}
-	rogerInteraction->setObjectFlag(false);
+	rogerInteraction->setInteractFlag(false);
 
 	//door
-	//std::cout << polly->getScaledPosition().y << std::endl;
 	if (pollySouth) {
 		//polly opens door up
 		if (polly->getScaledPosition().y <= 36 && polly->getScaledPosition().y > 15) {

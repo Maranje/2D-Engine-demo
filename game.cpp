@@ -254,6 +254,6 @@ void game::generateOutput() {
 void game::generateDeltaTime() {
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticks + 16));
 	deltaTime = (SDL_GetTicks() - ticks) / 1000.0f;
-	if (deltaTime > 0.05f) deltaTime = 0.05f;
+	if (deltaTime > 0.03f) deltaTime = 0.03f;
 	ticks = SDL_GetTicks();
 }
