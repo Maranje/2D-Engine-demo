@@ -69,7 +69,28 @@ private:
     class collider* ingredientsBody;
     class interaction* bc;
     class sprite* bcLabel;
+    class interaction* bo;
+    class sprite* boLabel;
+    class interaction* gp;
+    class sprite* gpLabel;
+    class interaction* p;
+    class sprite* pLabel;
+    class interaction* pi;
+    class sprite* piLabel;
+    class interaction* s;
+    class sprite* sLabel;
+    class interaction* h;
+    class sprite* hLabel;
+    class interaction* c;
+    class sprite* cLabel;
     bool label;
+    bool labelBO;
+    bool labelGP;
+    bool labelP;
+    bool labelPI;
+    bool labelS;
+    bool labelH;
+    bool labelC;
 
     class element* Mop;
     class sprite* mop;

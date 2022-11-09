@@ -68,7 +68,13 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	ingredients = nullptr;
 	ingredientsBody = nullptr;
 	bc = nullptr;
-
+	bo = nullptr;
+	gp = nullptr;
+	p = nullptr;
+	pi = nullptr;
+	s = nullptr;
+	h = nullptr;
+	c = nullptr;
 
 	Mop = nullptr;
 	mop = nullptr;
@@ -242,8 +248,43 @@ void red_herring::load() {
 	bc = new interaction(Ingredients);
 	bc->setInteractionArea(30, 7, Vector2(0, 22));
 	bcLabel = new sprite(Ingredients, renderer, 54, 13, 1000000, Vector2(10, 27));
-	bcLabel->setTexture("assets/art/label_bc.png");
+	bcLabel->setTexture("assets/art/labels/label_bc.png");
 	bcLabel->setSource(0, 0, 81, 19);
+	bo = new interaction(Ingredients);
+	bo->setInteractionArea(30, 7, Vector2(0, 70));
+	boLabel = new sprite(Ingredients, renderer, 43, 13, 1000000, Vector2(10, 75));
+	boLabel->setTexture("assets/art/labels/label_bo.png");
+	boLabel->setSource(0, 0, 65, 19);
+	gp = new interaction(Ingredients);
+	gp->setInteractionArea(30, 7, Vector2(0, 38));
+	gpLabel = new sprite(Ingredients, renderer, 54, 13, 1000000, Vector2(10, 43));
+	gpLabel->setTexture("assets/art/labels/label_gp.png");
+	gpLabel->setSource(0, 0, 81, 19);
+	p = new interaction(Ingredients);
+	p->setInteractionArea(30, 7, Vector2(0, -10));
+	pLabel = new sprite(Ingredients, renderer, 39, 13, 1000000, Vector2(10, -5));
+	pLabel->setTexture("assets/art/labels/label_p.png");
+	pLabel->setSource(0, 0, 59, 19);
+	pi = new interaction(Ingredients);
+	pi->setInteractionArea(30, 7, Vector2(0, 54));
+	piLabel = new sprite(Ingredients, renderer, 37, 13, 1000000, Vector2(10, 59));
+	piLabel->setTexture("assets/art/labels/label_pi.png");
+	piLabel->setSource(0, 0, 56, 19);
+	s = new interaction(Ingredients);
+	s->setInteractionArea(30, 7, Vector2(0, -42));
+	sLabel = new sprite(Ingredients, renderer, 27, 13, 1000000, Vector2(10, -37));
+	sLabel->setTexture("assets/art/labels/label_s.png");
+	sLabel->setSource(0, 0, 40, 19);
+	h = new interaction(Ingredients);
+	h->setInteractionArea(30, 7, Vector2(0, 6));
+	hLabel = new sprite(Ingredients, renderer, 19, 13, 1000000, Vector2(10, 11));
+	hLabel->setTexture("assets/art/labels/label_h.png");
+	hLabel->setSource(0, 0, 28, 19);
+	c = new interaction(Ingredients);
+	c->setInteractionArea(30, 7, Vector2(0, -26));
+	cLabel = new sprite(Ingredients, renderer, 30, 13, 1000000, Vector2(10, -21));
+	cLabel->setTexture("assets/art/labels/label_c.png");
+	cLabel->setSource(0, 0, 45, 19);
 
 	Mop = new element(sGame);
 	Mop->setPosition(Vector2(-71, 200));
@@ -401,6 +442,223 @@ void red_herring::update(float deltaTime) {
 				1
 			);
 			label = false;
+		}
+	}
+	//black olives label
+	if (bo->getObjectFlag()) {
+		if (!labelBO) {
+			boLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			labelBO = true;
+		}
+	}
+	else {
+		if (labelBO) {
+			boLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			labelBO = false;
+		}
+	}
+	//green peppers label
+	if (gp->getObjectFlag()) {
+		if (!labelGP) {
+			gpLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			labelGP = true;
+		}
+	}
+	else {
+		if (labelGP) {
+			gpLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			labelGP = false;
+		}
+	}
+	//pepperoni label
+	if (p->getObjectFlag()) {
+		if (!labelP) {
+			pLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			labelP = true;
+		}
+	}
+	else {
+		if (labelP) {
+			pLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			labelP = false;
+		}
+	}
+	//pineapple label
+	if (pi->getObjectFlag()) {
+		if (!labelPI) {
+			piLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			labelPI = true;
+		}
+	}
+	else {
+		if (labelPI) {
+			piLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			labelPI = false;
+		}
+	}
+	//sauce label
+	if (s->getObjectFlag()) {
+		if (!labelS) {
+			sLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			labelS = true;
+		}
+	}
+	else {
+		if (labelS) {
+			sLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			labelS = false;
+		}
+	}
+	//ham label
+	if (h->getObjectFlag()) {
+		if (!labelH) {
+			hLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			labelH = true;
+		}
+	}
+	else {
+		if (labelH) {
+			hLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			labelH = false;
+		}
+	}
+	//cheese label
+	if (c->getObjectFlag()) {
+		if (!labelC) {
+			cLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			labelC = true;
+		}
+	}
+	else {
+		if (labelC) {
+			cLabel->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 5),
+				Vector2(0, 0),
+				Vector2(0, 9),
+				1
+			);
+			labelC = false;
 		}
 	}
 	
