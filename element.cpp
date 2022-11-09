@@ -4,6 +4,7 @@
 element::element(game* Game) {
 	eGame = Game;
 	state = active;
+	renderer = eGame->getRenderer();
 	order = 0;
 	eGame->addElement(this);
 	position = Vector2(eGame->getScreenX() / 2, eGame->getScreenY() / 2);

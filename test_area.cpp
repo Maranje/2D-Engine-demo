@@ -7,9 +7,8 @@
 #include "interaction.h"
 #include "camera.h"
 
-test_area::test_area(game* Game, SDL_Renderer* Renderer) : scene(Game) {
-	renderer = Renderer;
-
+test_area::test_area(game* Game) : scene(Game) {
+	/*
 	polly = nullptr;
 	Background = nullptr;
 	background = nullptr;
@@ -23,21 +22,21 @@ test_area::test_area(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	Test2 = nullptr;
 	test2 = nullptr;
 	testBody2 = nullptr;
-
+	*/
 	load();
 }
 
 void test_area::load() {
-	polly = new _Polly(sGame, renderer);
+	polly = new _Polly(sGame);
 	Background = new element(sGame);
-	background = new sprite(Background, renderer, 480, 480); //set draw order arbitrarily low for background
+	background = new sprite(Background, 480, 480); //set draw order arbitrarily low for background
 	background->setTexture("assets/art/background.png");
 	background->setCameraNeutral(); //make the background unaffected by camera movement
 	exit = new input(polly, SDL_SCANCODE_RETURN);
 
 	Test = new element(sGame);
 	Test->setPosition(Vector2(50, 50));
-	test = new sprite(Test, renderer, 49, 50); 
+	test = new sprite(Test, 49, 50); 
 	test->setDrawOrderByVerticalPosition(25);//set draw order according to position onscreen and tweaked to optimize
 	test->setTexture("assets/art/dough_stack.png");
 	testBody = new collider(Test);
@@ -47,7 +46,7 @@ void test_area::load() {
 
 	Test2 = new element(sGame);
 	Test2->setPosition(Vector2(50, 125));
-	test2 = new sprite(Test2, renderer, 49, 50);
+	test2 = new sprite(Test2, 49, 50);
 	test2->setDrawOrderByVerticalPosition(25);
 	test2->setTexture("assets/art/dough_stack.png");
 	testBody2 = new collider(Test2);

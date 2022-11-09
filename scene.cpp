@@ -3,6 +3,7 @@
 scene::scene(game* Game) {
 	sGame = Game;
 	sceneState = active;
+	renderer = sGame->getRenderer();
 	runUnload = false;
 	sGame->addScene(this);
 }

@@ -4,7 +4,7 @@ class title :
     public scene
 {
 public:
-    title(game* Game, SDL_Renderer* Renderer);
+    title(game* Game);
 
     void load() override;
     void unload() override;

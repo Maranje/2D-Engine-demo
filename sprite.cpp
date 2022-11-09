@@ -1,8 +1,8 @@
 #include "sprite.h"
 
-sprite::sprite(element* Owner, SDL_Renderer* Renderer, int Width, int Height, int DrawOrder, Vector2 Offset) : component(Owner, DrawOrder) {
+sprite::sprite(element* Owner, int Width, int Height, int DrawOrder, Vector2 Offset) : component(Owner, DrawOrder) {
 	owner = Owner;
-	renderer = Renderer;
+	renderer = owner->getGame()->getRenderer();
 	width = static_cast<int>(Width * owner->getGame()->getScale());
 	height = static_cast<int>(Height * owner->getGame()->getScale());
 	drawOrder = DrawOrder;
@@ -68,12 +68,12 @@ void sprite::draw() {
 		drawRect->w = width;
 		drawRect->h = height;
 		if (cameraNeutral) {
-			drawRect->x = owner->getPosition().x - (width / 2) + (offset.x * owner->getGame()->getScale());
-			drawRect->y = owner->getPosition().y - (height / 2) - (offset.y * owner->getGame()->getScale());
+			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) + (offset.x * owner->getGame()->getScale()));
+			drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - (offset.y * owner->getGame()->getScale()));
 		}
 		else {
-			drawRect->x = owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale());
-			drawRect->y = owner->getPosition().y - (height / 2) - owner->getGame()->getCamera()->y - (offset.y * owner->getGame()->getScale());
+			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));
+			drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - owner->getGame()->getCamera()->y - (offset.y * owner->getGame()->getScale()));
 		}
 		SDL_RenderCopy(renderer, texture, source, drawRect);
 	}

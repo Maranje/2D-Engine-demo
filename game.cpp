@@ -108,11 +108,11 @@ void game::runLoop() {
 void game::load() {
 	switch (sceneTag) {
 	case Pretitle:
-		pretitleScene = new pretitle(this, renderer);
+		pretitleScene = new pretitle(this);
 		break;
 
 	case Title:
-		titleScene = new title(this, renderer);
+		titleScene = new title(this);
 		break;
 
 	case Intro:
@@ -120,11 +120,11 @@ void game::load() {
 		break;
 
 	case RedHerring:
-		redHerringScene = new red_herring(this, renderer);
+		redHerringScene = new red_herring(this);
 		break;
 	
 	case Test_Area:
-		testAreaScene = new test_area(this, renderer);
+		testAreaScene = new test_area(this);
 		break;
 	}
 }

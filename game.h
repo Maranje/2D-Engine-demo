@@ -59,6 +59,8 @@ public:
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
 	//returns deltaTime
 	float getDeltaTime() { return deltaTime; }
+	//returns renderer
+	SDL_Renderer* getRenderer() { return renderer; }
 	//returns scale generated from user screen
 	float getScale() { return scale; }
 	//get current active scene
@@ -154,7 +156,6 @@ private:
 
 
 /* vector2 class for 2D in-game positions*/
-
 class Vector2{
 public:
 	int x;

@@ -45,6 +45,7 @@ public:
 
 protected:
 	game* eGame; //pointer to game
+	SDL_Renderer* renderer;
 	elementState state; //current state of element
 
 private:

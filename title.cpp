@@ -5,11 +5,10 @@
 #include "_Polly.h"
 #include <stdlib.h>
 
-title::title(game* Game, SDL_Renderer* Renderer) : scene(Game) {
-	renderer = Renderer;
-
+title::title(game* Game) : scene(Game) {
 	sGame->setCamera(0, 0);
-
+	/*
+	* test if need
 	Background = nullptr;
 	background = nullptr;
 	TitleCard = nullptr;
@@ -28,7 +27,7 @@ title::title(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	polly = nullptr;
 
 	startInput = nullptr;
-
+	*/
 	startBlit = false;
 	nextBlit = false;
 	lastBlit = false;
@@ -38,19 +37,19 @@ title::title(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 
 void title::load() {
 	Background = new element(sGame);
-	background = new sprite(Background, renderer, 700, 480, 0);
+	background = new sprite(Background, 700, 480, 0);
 	background->setTexture("assets/art/background.png");
 
 	for (int i = 0; i < 2; i++) {
 		element* Pizza = new element(sGame);
 		Pizza->setPosition(Vector2(0, (i * 300)));
-		sprite* pizza = new sprite(Pizza, renderer, 1651, 300, 0);
+		sprite* pizza = new sprite(Pizza, 1651, 300, 0);
 		pizza->setTexture("assets/art/pizza_bckgnd.png");
 		pizzas.emplace_back(Pizza);
 	}
 
 	TitleCard = new element(sGame);
-	titleCard = new sprite(TitleCard, renderer, 480, 270, 0);
+	titleCard = new sprite(TitleCard, 480, 270, 0);
 	titleCard->setTexture("assets/art/title_card_sheet.png");
 	titleCard->setSource(0, 0, 480, 270);
 	titleCard->setAnimated(
@@ -71,13 +70,13 @@ void title::load() {
 	startInput = new input(Background, SDL_SCANCODE_SPACE);
 
 	Fade = new element(sGame);
-	fade = new sprite(Fade, renderer, 700, 480, 10);
+	fade = new sprite(Fade, 700, 480, 10);
 
 	OrderUp = new element(sGame);
-	orderUp = new sprite(OrderUp, renderer, 480, 270, 11);
+	orderUp = new sprite(OrderUp, 480, 270, 11);
 
 	Polly = new element(sGame);
-	polly = new sprite(Polly, renderer, 26, 55, 12);
+	polly = new sprite(Polly, 26, 55, 12);
 
 }
 

@@ -24,6 +24,7 @@ public:
 	state getState() { return sceneState; }
 
 protected: 
+	SDL_Renderer* renderer;
 	bool runUnload;
 	state sceneState;
 	game* sGame;

@@ -7,15 +7,27 @@
 #include "interaction.h"
 #include "camera.h"
 
-red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
-	renderer = Renderer;
-
+red_herring::red_herring(game* Game) : scene(Game) {
 	//music
-	theme = nullptr;
+	//theme = nullptr;
 
-	//////////////////////////////game objects/////////////////////////////////
-	polly = nullptr;
+	//bools
+	rogerSleep = false;
+	label = false;
+	labelBO = false;
+	labelGP = false;
+	labelP = false;
+	labelPI = false;
+	labelS = false;
+	labelH = false;
+	labelC = false;
 	pollySouth = true;
+
+
+	//////////////////////////////game objects///////////////////////////////// (might not need this part)
+	/*
+	polly = nullptr;
+	
 	exit = nullptr;
 	Background = nullptr;
 	background = nullptr;
@@ -54,7 +66,6 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	roger = nullptr;
 	rogerBody = nullptr;
 	rogerInteraction = nullptr;
-	rogerSleep = false;
 
 	Wall = nullptr;
 	wall = nullptr;
@@ -63,7 +74,6 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	Mat = nullptr;
 	mat = nullptr;
 
-	label = false;
 	Ingredients = nullptr;
 	ingredients = nullptr;
 	ingredientsBody = nullptr;
@@ -101,6 +111,7 @@ red_herring::red_herring(game* Game, SDL_Renderer* Renderer) : scene(Game) {
 	SealedStack = nullptr;
 	sealedStack = nullptr;
 	sealedStackBody = nullptr;
+	*/
 
 	load();
 }
@@ -111,26 +122,26 @@ void red_herring::load() {
 	theme = Mix_LoadMUS("assets/audio/music/pizza_theme.wav");
 	Mix_PlayMusic(theme, -1);
 
-	polly = new _Polly(sGame, renderer);
+	polly = new _Polly(sGame);
 	polly->getPollyCam()->cameraHaltX(true);
 	exit = new input(polly, SDL_SCANCODE_RETURN);
 
 	Background = new element(sGame);
-	background = new sprite(Background, renderer, 700, 480);
+	background = new sprite(Background, 700, 480);
 	background->setTexture("assets/art/background.png");
 	background->setCameraNeutral();
 
 	for (int i = 0; i < 2; i++) {
 		element* Pizza = new element(sGame);
 		Pizza->setPosition(Vector2(0, (i * 300)));
-		sprite* pizza = new sprite(Pizza, renderer, 1651, 300);
+		sprite* pizza = new sprite(Pizza, 1651, 300);
 		pizza->setTexture("assets/art/pizza_bckgnd.png");
 		pizza->setCameraNeutral();
 		pizzas.emplace_back(Pizza);
 	}
 
 	Floor = new element(sGame);
-	floor = new sprite(Floor, renderer, 190, 577);
+	floor = new sprite(Floor, 190, 577);
 	floor->setTexture("assets/art/pizza_floor.png");
 	boundN = new collider(Floor);
 	boundN->setCollisionBody(172, 10, Vector2(0, 279));
@@ -143,7 +154,7 @@ void red_herring::load() {
 
 	Counter = new element(sGame);
 	Counter->setPosition(Vector2(0, -180));
-	counter = new sprite(Counter, renderer, 165, 85);
+	counter = new sprite(Counter, 165, 85);
 	counter->setDrawOrderByVerticalPosition();
 	counter->updateDrawOrder();
 	counter->setTexture("assets/art/front_counter.png");
@@ -152,7 +163,7 @@ void red_herring::load() {
 
 	DoughStack = new element(sGame);
 	DoughStack->setPosition(Vector2(-60, -90));
-	doughStack = new sprite(DoughStack, renderer, 49, 50);
+	doughStack = new sprite(DoughStack, 49, 50);
 	doughStack->setDrawOrderByVerticalPosition(25);
 	doughStack->updateDrawOrder();
 	doughStack->setTexture("assets/art/dough_stack.png");
@@ -161,7 +172,7 @@ void red_herring::load() {
 
 	TrayStation = new element(sGame);
 	TrayStation->setPosition(Vector2(-64, 0));
-	trayStation = new sprite(TrayStation, renderer, 43, 56);
+	trayStation = new sprite(TrayStation, 43, 56);
 	trayStation->setDrawOrderByVerticalPosition(25);
 	trayStation->updateDrawOrder();
 	trayStation->setTexture("assets/art/tray_station.png");
@@ -170,7 +181,7 @@ void red_herring::load() {
 
 	FlourStation = new element(sGame);
 	FlourStation->setPosition(Vector2(-64, -37));
-	flourStation = new sprite(FlourStation, renderer, 44, 55);
+	flourStation = new sprite(FlourStation, 44, 55);
 	flourStation->setDrawOrderByVerticalPosition(25);
 	flourStation->updateDrawOrder();
 	flourStation->setTexture("assets/art/flour_station.png");
@@ -181,13 +192,13 @@ void red_herring::load() {
 	OvenBelt = new element(sGame);
 	OvenMain->setPosition(Vector2(10, 75));
 	OvenBelt->setPosition(Vector2(10, 68));
-	ovenMain = new sprite(OvenMain, renderer, 59, 63);
+	ovenMain = new sprite(OvenMain, 59, 63);
 	ovenMain->setDrawOrderByVerticalPosition();
 	ovenMain->updateDrawOrder();
 	ovenMain->setTexture("assets/art/oven_mainbody.png");
 	ovenMainBody = new collider(OvenMain);
 	ovenMainBody->setCollisionBody(59, 30, Vector2(0, -11));
-	ovenBelt = new sprite(OvenBelt, renderer, 85, 40);
+	ovenBelt = new sprite(OvenBelt, 85, 40);
 	ovenBelt->setTexture("assets/art/oven_belt.png");
 	ovenBelt->setSource(0, 0, 85, 40);
 	ovenBelt->setDrawOrderByVerticalPosition(20);
@@ -207,7 +218,7 @@ void red_herring::load() {
 
 	Roger = new element(sGame);
 	Roger->setPosition(Vector2(60, -166));
-	roger = new sprite(Roger, renderer, 22, 35);
+	roger = new sprite(Roger, 22, 35);
 	roger->setTexture("assets/art/Roger_bored.png");
 	roger->setSource(0, 0, 22, 35);
 	roger->setDrawOrderByVerticalPosition(-50);
@@ -228,7 +239,7 @@ void red_herring::load() {
 
 	Wall = new element(sGame);
 	Wall->setPosition(Vector2(0, 117));
-	wall = new sprite(Wall, renderer, 170, 81);
+	wall = new sprite(Wall, 170, 81);
 	wall->setTexture("assets/art/Back_wall.png");
 	wall->setDrawOrderByVerticalPosition(-10);
 	wall->updateDrawOrder();
@@ -239,7 +250,7 @@ void red_herring::load() {
 
 	Ingredients = new element(sGame);
 	Ingredients->setPosition(Vector2(64, -45));
-	ingredients = new sprite(Ingredients, renderer, 41, 153);
+	ingredients = new sprite(Ingredients, 41, 153);
 	ingredients->setTexture("assets/art/ing_station.png");
 	ingredients->setDrawOrderByVerticalPosition(60);
 	ingredients->updateDrawOrder();
@@ -247,48 +258,48 @@ void red_herring::load() {
 	ingredientsBody->setCollisionBody(41, 134, Vector2(-2, -11));
 	bc = new interaction(Ingredients);
 	bc->setInteractionArea(30, 11, Vector2(0, 22));
-	bcLabel = new sprite(Ingredients, renderer, 54, 13, 1000000, Vector2(10, 27));
+	bcLabel = new sprite(Ingredients, 61, 14, 1000000, Vector2(10, 27));
 	bcLabel->setTexture("assets/art/labels/label_bc.png");
 	bcLabel->setSource(0, 0, 81, 19);
 	bo = new interaction(Ingredients);
 	bo->setInteractionArea(30, 11, Vector2(0, 70));
-	boLabel = new sprite(Ingredients, renderer, 43, 13, 1000000, Vector2(10, 75));
+	boLabel = new sprite(Ingredients, 49, 14, 1000000, Vector2(10, 75));
 	boLabel->setTexture("assets/art/labels/label_bo.png");
 	boLabel->setSource(0, 0, 65, 19);
 	gp = new interaction(Ingredients);
 	gp->setInteractionArea(30, 11, Vector2(0, 38));
-	gpLabel = new sprite(Ingredients, renderer, 54, 13, 1000000, Vector2(10, 43));
+	gpLabel = new sprite(Ingredients, 61, 14, 1000000, Vector2(10, 43));
 	gpLabel->setTexture("assets/art/labels/label_gp.png");
 	gpLabel->setSource(0, 0, 81, 19);
 	p = new interaction(Ingredients);
 	p->setInteractionArea(30, 11, Vector2(0, -10));
-	pLabel = new sprite(Ingredients, renderer, 39, 13, 1000000, Vector2(10, -5));
+	pLabel = new sprite(Ingredients, 44, 14, 1000000, Vector2(10, -5));
 	pLabel->setTexture("assets/art/labels/label_p.png");
 	pLabel->setSource(0, 0, 59, 19);
 	pi = new interaction(Ingredients);
 	pi->setInteractionArea(30, 11, Vector2(0, 54));
-	piLabel = new sprite(Ingredients, renderer, 37, 13, 1000000, Vector2(10, 59));
+	piLabel = new sprite(Ingredients, 42, 14, 1000000, Vector2(10, 59));
 	piLabel->setTexture("assets/art/labels/label_pi.png");
 	piLabel->setSource(0, 0, 56, 19);
 	s = new interaction(Ingredients);
 	s->setInteractionArea(30, 11, Vector2(0, -42));
-	sLabel = new sprite(Ingredients, renderer, 27, 13, 1000000, Vector2(10, -37));
+	sLabel = new sprite(Ingredients, 30, 14, 1000000, Vector2(10, -37));
 	sLabel->setTexture("assets/art/labels/label_s.png");
 	sLabel->setSource(0, 0, 40, 19);
 	h = new interaction(Ingredients);
 	h->setInteractionArea(30, 11, Vector2(0, 6));
-	hLabel = new sprite(Ingredients, renderer, 19, 13, 1000000, Vector2(10, 11));
+	hLabel = new sprite(Ingredients, 21, 14, 1000000, Vector2(10, 11));
 	hLabel->setTexture("assets/art/labels/label_h.png");
 	hLabel->setSource(0, 0, 28, 19);
 	c = new interaction(Ingredients);
 	c->setInteractionArea(30, 11, Vector2(0, -26));
-	cLabel = new sprite(Ingredients, renderer, 30, 13, 1000000, Vector2(10, -21));
+	cLabel = new sprite(Ingredients, 34, 14, 1000000, Vector2(10, -21));
 	cLabel->setTexture("assets/art/labels/label_c.png");
 	cLabel->setSource(0, 0, 45, 19);
 
 	Mop = new element(sGame);
 	Mop->setPosition(Vector2(-71, 200));
-	mop = new sprite(Mop, renderer, 28, 64);
+	mop = new sprite(Mop, 28, 64);
 	mop->setTexture("assets/art/bucket_mop.png");
 	mop->setDrawOrderByVerticalPosition();
 	mop->updateDrawOrder();
@@ -297,7 +308,7 @@ void red_herring::load() {
 
 	Box = new element(sGame);
 	Box->setPosition(Vector2(-63, 198));
-	box = new sprite(Box, renderer, 45, 29);
+	box = new sprite(Box, 45, 29);
 	box->setTexture("assets/art/box.png");
 	box->setDrawOrderByVerticalPosition(30);
 	box->updateDrawOrder();
@@ -306,7 +317,7 @@ void red_herring::load() {
 
 	Wall2 = new element(sGame);
 	Wall2->setPosition(Vector2(0, 242));
-	wall2 = new sprite(Wall2, renderer, 170, 74);
+	wall2 = new sprite(Wall2, 170, 74);
 	wall2->setTexture("assets/art/Exit_wall.png");
 	wall2->setDrawOrderByVerticalPosition();
 	wall2->updateDrawOrder();
@@ -315,7 +326,7 @@ void red_herring::load() {
 
 	CRT = new element(sGame);
 	CRT->setPosition(Vector2(-7, 124));
-	crt = new sprite(CRT, renderer, 26, 45);
+	crt = new sprite(CRT, 26, 45);
 	crt->setTexture("assets/art/crt.png");
 	crt->setDrawOrderByVerticalPosition(-70);
 	crt->updateDrawOrder();
@@ -332,7 +343,7 @@ void red_herring::load() {
 
 	Door = new element(sGame);
 	Door->setPosition(Vector2(-56, 106));
-	door = new sprite(Door, renderer, 32, 82);
+	door = new sprite(Door, 32, 82);
 	door->setDrawOrderByVerticalPosition(10);
 	door->updateDrawOrder();
 	door->setTexture("assets/art/Door.png");
@@ -340,7 +351,7 @@ void red_herring::load() {
 
 	Can = new element(sGame);
 	Can->setPosition(Vector2(-26, 210));
-	can = new sprite(Can, renderer, 33, 40);
+	can = new sprite(Can, 33, 40);
 	can->setTexture("assets/art/Can.png");
 	can->setDrawOrderByVerticalPosition(10);
 	can->updateDrawOrder();
@@ -349,7 +360,7 @@ void red_herring::load() {
 
 	SealedStack = new element(sGame);
 	SealedStack->setPosition(Vector2(60, 177));
-	sealedStack = new sprite(SealedStack, renderer, 51, 51);
+	sealedStack = new sprite(SealedStack, 51, 51);
 	sealedStack->setDrawOrderByVerticalPosition(20);
 	sealedStack->updateDrawOrder();
 	sealedStack->setTexture("assets/art/dough_stack_sealed.png");

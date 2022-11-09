@@ -5,7 +5,7 @@ class _Polly :
     public element
 {
 public:
-    _Polly(game* Game, SDL_Renderer* Renderer);
+    _Polly(game* Game);
     
     void updateElement(float deltaTime) override;
     void unload();

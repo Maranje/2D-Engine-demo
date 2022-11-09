@@ -2,20 +2,18 @@
 #include "element.h"
 #include "sprite.h"
 
-pretitle::pretitle(game* Game, SDL_Renderer* Renderer) : scene(Game) {
-	renderer = Renderer;
-
+pretitle::pretitle(game* Game) : scene(Game) {
 	sGame->resetCamera();
 
-	Logo = nullptr;
-	logo = nullptr;
+	//Logo = nullptr;
+	//logo = nullptr;
 
 	load();
 }
 
 void pretitle::load() {
 	Logo = new element(sGame);
-	logo = new sprite(Logo, renderer, 480, 270);
+	logo = new sprite(Logo, 480, 270);
 	logo->setTexture("assets/art/temp_logo.png");
 	logo->setSource(0, 0, 480, 270);
 	logo->setAnimated(

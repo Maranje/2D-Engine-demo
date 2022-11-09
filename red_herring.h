@@ -4,7 +4,7 @@ class red_herring :
     public scene
 {
 public:
-    red_herring(game* Game, SDL_Renderer* Renderer);
+    red_herring(game* Game);
 
     void load() override;
     void unload() override;

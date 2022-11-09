@@ -5,10 +5,10 @@
 #include "interaction.h"
 #include "collider.h"
 
-_Polly::_Polly(game* Game, SDL_Renderer* Renderer) : element(Game) {
+_Polly::_Polly(game* Game) : element(Game) {
 
 	//load Polly
-	polly = new sprite(this, Renderer, 26, 55);
+	polly = new sprite(this, 26, 55);
 	polly->setTexture("assets/art/Polly_idle_forward.png");
 	polly->setSource(0, 0, 26, 55);
 	polly->setAnimated(
@@ -20,7 +20,7 @@ _Polly::_Polly(game* Game, SDL_Renderer* Renderer) : element(Game) {
 		Vector2(0, 0),
 		Vector2(6, 7)
 	);
-	shadow = new sprite(this, Renderer, 26, 55);
+	shadow = new sprite(this, 26, 55);
 	shadow->setTexture("assets/art/Polly_shadow.png");
 	pollyCam = new camera(this);
 	pollyCollider = new collider(this);

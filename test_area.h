@@ -4,7 +4,7 @@ class test_area :
     public scene
 {
 public:
-    test_area(game* Game, SDL_Renderer* Renderer);
+    test_area(game* Game);
 
     void load() override;
     void unload() override;
