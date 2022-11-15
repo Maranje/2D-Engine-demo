@@ -115,10 +115,6 @@ void game::load() {
 		titleScene = new title(this);
 		break;
 
-	case Intro:
-
-		break;
-
 	case RedHerring:
 		redHerringScene = new red_herring(this);
 		break;

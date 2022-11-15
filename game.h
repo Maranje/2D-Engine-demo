@@ -15,7 +15,6 @@ public:
 	enum scene_type {
 		Pretitle,
 		Title,
-		Intro,
 		RedHerring,
 		Test_Area
 	};

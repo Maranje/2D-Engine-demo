@@ -28,6 +28,8 @@ _Polly::_Polly(game* Game) : element(Game) {
 	pollyAction = new interaction(this);
 	pollyAction->setInteractionArea(5, 15, Vector2(0, -15));
 
+	pollySpeed = 91;
+
 	//sounds
 	//    add sounds here
 
@@ -86,16 +88,16 @@ void _Polly::updateElement(float deltaTime) {
 	if (move) {
 		switch (directions[currentPressed - 1]) {
 		case Up:
-			increaseVerticalPosition(91);
+			increaseVerticalPosition(pollySpeed);
 			break;
 		case Down:
-			increaseVerticalPosition(-91);
+			increaseVerticalPosition(-1 * pollySpeed);
 			break;
 		case Left:
-			increaseHorizontalPosition(-91);
+			increaseHorizontalPosition(-1 * pollySpeed);
 			break;
 		case Right:
-			increaseHorizontalPosition(91);
+			increaseHorizontalPosition(pollySpeed);
 			break;
 		}
 	}

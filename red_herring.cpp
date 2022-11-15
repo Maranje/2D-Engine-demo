@@ -23,7 +23,6 @@ red_herring::red_herring(game* Game) : scene(Game) {
 	labelC = false;
 	pollySouth = true;
 
-
 	//////////////////////////////game objects///////////////////////////////// (might not need this part)
 	/*
 	polly = nullptr;
@@ -367,13 +366,6 @@ void red_herring::load() {
 	sealedStackBody = new collider(SealedStack);
 	sealedStackBody->setCollisionBody(51, 30, Vector2(0, -11));
 
-	/*
-	* i don't like how this looks 
-	Mat = new element(sGame);
-	Mat->setPosition(Vector2(0, -30));
-	mat = new sprite(Mat, renderer, 38, 97);
-	mat->setTexture("assets/art/mat.png");
-	*/
 }
 
 void red_herring::unload() {
@@ -726,6 +718,7 @@ void red_herring::update(float deltaTime) {
 	if (pollySouth) {
 		//polly opens door up
 		if (polly->getScaledPosition().y <= 36 && polly->getScaledPosition().y > 15) {
+			polly->setPollySpeed(75);
 			if (polly->getScaledPosition().y <= 36 && polly->getScaledPosition().y >= 34) {
 				door->haltAnimation();
 				door->setSource(0, 82, 32, 82);
@@ -739,6 +732,7 @@ void red_herring::update(float deltaTime) {
 		}
 		//door shuts
 		else if (polly->getScaledPosition().y <= 15) {
+			polly->setPollySpeed(91);
 			door->setAnimated(
 				true,
 				Vector2(576, 164),
@@ -751,10 +745,12 @@ void red_herring::update(float deltaTime) {
 			);
 			pollySouth = false;
 		}
+		else if (polly->getPollySpeed() != 91) polly->setPollySpeed(91);
 	}
 	else{
 		//polly opens door down
 		if (polly->getScaledPosition().y > 15 && polly->getScaledPosition().y < 44) {
+			polly->setPollySpeed(75);
 			door->setDrawOrderByVerticalPosition(-20);
 			door->updateDrawOrder();
 			if (polly->getScaledPosition().y >= 27 && polly->getScaledPosition().y <= 29) {
@@ -770,6 +766,7 @@ void red_herring::update(float deltaTime) {
 		}
 		//door shuts
 		else if (polly->getScaledPosition().y >= 44) {
+			polly->setPollySpeed(91);
 			door->setAnimated(
 				true,
 				Vector2(576, 164),
@@ -784,6 +781,7 @@ void red_herring::update(float deltaTime) {
 			door->setDrawOrderByVerticalPosition(10);
 			door->updateDrawOrder();
 		}
+		else if (polly->getPollySpeed() != 91) polly->setPollySpeed(91);
 	}
 
 }

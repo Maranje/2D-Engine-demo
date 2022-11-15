@@ -11,6 +11,9 @@ public:
     void unload();
     void processInput();
 
+    void setPollySpeed(int Speed) { pollySpeed = Speed; }
+    int getPollySpeed() { return pollySpeed; }
+
     //assign walking animation
     void setAnimation();
 
@@ -40,6 +43,7 @@ private:
     class input* right;
     class input* action;
     int currentPressed;
+    int pollySpeed;
     bool move;
 
 };
