@@ -14,6 +14,9 @@ public:
     void setPollySpeed(int Speed) { pollySpeed = Speed; }
     int getPollySpeed() { return pollySpeed; }
 
+    bool getCarry() { return carry; }
+    void setCarry(bool Carry) { carry = Carry; }
+
     //assign walking animation
     void setAnimation();
 
@@ -26,6 +29,8 @@ public:
         Left,
         Right
     };
+
+    Direction getDirection() { return direction; }
 
 private:
     class sprite* polly;
@@ -45,6 +50,7 @@ private:
     int currentPressed;
     int pollySpeed;
     bool move;
+    bool carry;
 
 };
 

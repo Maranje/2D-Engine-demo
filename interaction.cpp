@@ -70,7 +70,10 @@ bool interaction::checkInteractionLocal() {
 			if (interactFlag) { rect->setInteractFlag(true); }
 			return true;
 		}
-		else rect->setObjectFlag(false);
+		else {
+			rect->setObjectFlag(false);
+			rect->setInteractFlag(false);
+		}
 	}
 	return false;
 }

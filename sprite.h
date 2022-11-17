@@ -21,6 +21,7 @@ public:
     int getHeight() const { return height; }
     void setTexture(const char* Texture);// { texture = textures::LoadTexture(Texture, renderer); }
     int getRuns() { return runs; }
+    void setOffset(Vector2 Offset) { offset = Offset; }
 
     //sets the element to be unaffected by camera
     void setCameraNeutral(bool CameraNeutral = true) { cameraNeutral = CameraNeutral; }

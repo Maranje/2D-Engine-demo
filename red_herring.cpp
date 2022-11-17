@@ -118,8 +118,11 @@ red_herring::red_herring(game* Game) : scene(Game) {
 void red_herring::load() {
 	//play music
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 4, 4096);
+	Mix_VolumeMusic(30);
 	theme = Mix_LoadMUS("assets/audio/music/pizza_theme.wav");
 	Mix_PlayMusic(theme, -1);
+	flup = Mix_LoadWAV("assets/audio/effects/flup.wav");
+	dump = Mix_LoadWAV("assets/audio/effects/dump.wav");
 
 	polly = new _Polly(sGame);
 	polly->getPollyCam()->cameraHaltX(true);
@@ -168,6 +171,8 @@ void red_herring::load() {
 	doughStack->setTexture("assets/art/dough_stack.png");
 	doughStackBody = new collider(DoughStack);
 	doughStackBody->setCollisionBody(49, 30, Vector2(0, -11));
+	dough = new interaction(DoughStack);
+	dough->setInteractionArea(40, 40);
 
 	TrayStation = new element(sGame);
 	TrayStation->setPosition(Vector2(-64, 0));
@@ -352,10 +357,12 @@ void red_herring::load() {
 	Can->setPosition(Vector2(-26, 210));
 	can = new sprite(Can, 33, 40);
 	can->setTexture("assets/art/Can.png");
-	can->setDrawOrderByVerticalPosition(10);
+	can->setDrawOrderByVerticalPosition(15);
 	can->updateDrawOrder();
 	canBody = new collider(Can);
 	canBody->setCollisionBody(33, 14, Vector2(0, -13));
+	trash = new interaction(Can);
+	trash->setInteractionArea(40, 15, Vector2(0, 10));
 
 	SealedStack = new element(sGame);
 	SealedStack->setPosition(Vector2(60, 177));
@@ -696,7 +703,6 @@ void red_herring::update(float deltaTime) {
 			1
 			);
 		rogerSleep = false;
-		rogerInteraction->setObjectFlag(false);
 	}
 	//normal bored roger
 	if (roger->getAnimated() == false) {
@@ -712,7 +718,6 @@ void red_herring::update(float deltaTime) {
 			Vector2(9, 6)
 		);
 	}
-	rogerInteraction->setInteractFlag(false);
 
 	//door
 	if (pollySouth) {
@@ -782,6 +787,48 @@ void red_herring::update(float deltaTime) {
 			door->updateDrawOrder();
 		}
 		else if (polly->getPollySpeed() != 91) polly->setPollySpeed(91);
+	}
+
+	//make pizza
+	if (dough->getInteractFlag() && !polly->getCarry()) {
+		Mix_PlayChannel(1, flup, 0);
+		polly->setCarry(true);
+		polly->setAnimation();
+		pizza = new sprite(polly, 15, 11);
+		pizza->setTexture("assets/art/Dough.png");
+		pizza->setOffset(Vector2(-11, -1));
+	}
+	//update the orientation of pizza according to polly direction
+	if (polly->getCarry()) {
+		switch (polly->getDirection()) {
+		case 0: //up
+			pizza->setOffset(Vector2(0, -5));
+			pizza->setDrawOrderByVerticalPosition(1);
+			pizza->updateDrawOrder();
+			break;
+		case 1: //down
+			pizza->setOffset(Vector2(0, -6));
+			pizza->setDrawOrderByVerticalPosition(-1);
+			pizza->updateDrawOrder();
+			break;
+		case 2: //left
+			pizza->setOffset(Vector2(-11, -2));
+			pizza->setDrawOrderByVerticalPosition(1);
+			pizza->updateDrawOrder();
+			break;
+		case 3: //right
+			pizza->setOffset(Vector2(11, -2));
+			pizza->setDrawOrderByVerticalPosition(1);
+			pizza->updateDrawOrder();
+			break;
+		}
+	}
+	//toss out
+	if (trash->getInteractFlag() && polly->getCarry()) {
+		Mix_PlayChannel(1, dump, 0);
+		polly->setCarry(false);
+		polly->setAnimation();
+		delete pizza;
 	}
 
 }

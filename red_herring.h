@@ -14,6 +14,7 @@ private:
     SDL_Renderer* renderer;
 
     class _Polly* polly;
+    class sprite* pizza;
     class input* exit;
 
     class element* Background;
@@ -35,6 +36,7 @@ private:
     class element* DoughStack;
     class sprite* doughStack;
     class collider* doughStackBody;
+    class interaction* dough;
 
     class element* FlourStation;
     class sprite* flourStation;
@@ -114,12 +116,15 @@ private:
     class element* Can;
     class sprite* can;
     class collider* canBody;
+    class interaction* trash;
 
     class element* SealedStack;
     class sprite* sealedStack;
     class collider* sealedStackBody;
 
     Mix_Music* theme;
+    Mix_Chunk* flup;
+    Mix_Chunk* dump;
 
 };
 
