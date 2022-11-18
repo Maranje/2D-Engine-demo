@@ -10,11 +10,20 @@ public:
     void unload() override;
     void update(float deltaTime) override;
 
+    enum stage {
+        free,
+        doughStage,
+        prepStage,
+        cookStage,
+        boxStage
+    };
 private:
     SDL_Renderer* renderer;
 
     class _Polly* polly;
     class sprite* pizza;
+    stage pizzaStage;
+
     class input* exit;
 
     class element* Background;
@@ -40,7 +49,9 @@ private:
 
     class element* FlourStation;
     class sprite* flourStation;
+    int flattens;
     class collider* flourStationBody;
+    class interaction* flatten;
 
     class element* TrayStation;
     class sprite* trayStation;

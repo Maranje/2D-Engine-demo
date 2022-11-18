@@ -1,6 +1,6 @@
 #include "sprite.h"
 
-sprite::sprite(element* Owner, int Width, int Height, int DrawOrder, Vector2 Offset) : component(Owner, DrawOrder) {
+sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOrder) : component(Owner, DrawOrder) {
 	owner = Owner;
 	renderer = owner->getGame()->getRenderer();
 	width = static_cast<int>(Width * owner->getGame()->getScale());

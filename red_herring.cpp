@@ -128,11 +128,14 @@ void red_herring::load() {
 	polly->getPollyCam()->cameraHaltX(true);
 	exit = new input(polly, SDL_SCANCODE_RETURN);
 
+	pizzaStage = free;
+
 	Background = new element(sGame);
 	background = new sprite(Background, 700, 480);
 	background->setTexture("assets/art/background.png");
 	background->setCameraNeutral();
 
+	//floating background pizzas
 	for (int i = 0; i < 2; i++) {
 		element* Pizza = new element(sGame);
 		Pizza->setPosition(Vector2(0, (i * 300)));
@@ -142,6 +145,7 @@ void red_herring::load() {
 		pizzas.emplace_back(Pizza);
 	}
 
+	//floor and wall boundaries
 	Floor = new element(sGame);
 	floor = new sprite(Floor, 190, 577);
 	floor->setTexture("assets/art/pizza_floor.png");
@@ -154,6 +158,7 @@ void red_herring::load() {
 	boundW = new collider(Floor);
 	boundW->setCollisionBody(10, 559, Vector2(-86, 0));
 
+	//front counter
 	Counter = new element(sGame);
 	Counter->setPosition(Vector2(0, -180));
 	counter = new sprite(Counter, 165, 85);
@@ -191,7 +196,11 @@ void red_herring::load() {
 	flourStation->setTexture("assets/art/flour_station.png");
 	flourStationBody = new collider(FlourStation);
 	flourStationBody->setCollisionBody(44, 30, Vector2(0, -11));
+	flatten = new interaction(FlourStation);
+	flatten->setInteractionArea(30, 10, Vector2(0, 16));
+	flattens = 0;
 
+	//two oven components
 	OvenMain = new element(sGame);
 	OvenBelt = new element(sGame);
 	OvenMain->setPosition(Vector2(10, 75));
@@ -219,7 +228,7 @@ void red_herring::load() {
 		Vector2(2, 3)
 	);
 
-
+	//Roger
 	Roger = new element(sGame);
 	Roger->setPosition(Vector2(60, -166));
 	roger = new sprite(Roger, 22, 35);
@@ -241,6 +250,7 @@ void red_herring::load() {
 	rogerInteraction = new interaction(Roger);
 	rogerInteraction->setInteractionArea(22, 35);
 
+	// dividing wall
 	Wall = new element(sGame);
 	Wall->setPosition(Vector2(0, 117));
 	wall = new sprite(Wall, 170, 81);
@@ -252,6 +262,7 @@ void red_herring::load() {
 	wallBody = new collider(Wall);
 	wallBody->setCollisionBody(15, 34, Vector2(-74, -26));
 
+	//ingredients bar and alllllll the labels
 	Ingredients = new element(sGame);
 	Ingredients->setPosition(Vector2(64, -45));
 	ingredients = new sprite(Ingredients, 41, 153);
@@ -262,42 +273,42 @@ void red_herring::load() {
 	ingredientsBody->setCollisionBody(41, 134, Vector2(-2, -11));
 	bc = new interaction(Ingredients);
 	bc->setInteractionArea(30, 11, Vector2(0, 22));
-	bcLabel = new sprite(Ingredients, 61, 14, 1000000, Vector2(10, 27));
+	bcLabel = new sprite(Ingredients, 61, 14, Vector2(10, 27), 1000000);
 	bcLabel->setTexture("assets/art/labels/label_bc.png");
 	bcLabel->setSource(0, 0, 81, 19);
 	bo = new interaction(Ingredients);
 	bo->setInteractionArea(30, 11, Vector2(0, 70));
-	boLabel = new sprite(Ingredients, 49, 14, 1000000, Vector2(10, 75));
+	boLabel = new sprite(Ingredients, 49, 14, Vector2(10, 75), 1000000);
 	boLabel->setTexture("assets/art/labels/label_bo.png");
 	boLabel->setSource(0, 0, 65, 19);
 	gp = new interaction(Ingredients);
 	gp->setInteractionArea(30, 11, Vector2(0, 38));
-	gpLabel = new sprite(Ingredients, 61, 14, 1000000, Vector2(10, 43));
+	gpLabel = new sprite(Ingredients, 61, 14, Vector2(10, 43), 1000000);
 	gpLabel->setTexture("assets/art/labels/label_gp.png");
 	gpLabel->setSource(0, 0, 81, 19);
 	p = new interaction(Ingredients);
 	p->setInteractionArea(30, 11, Vector2(0, -10));
-	pLabel = new sprite(Ingredients, 44, 14, 1000000, Vector2(10, -5));
+	pLabel = new sprite(Ingredients, 44, 14, Vector2(10, -5), 1000000);
 	pLabel->setTexture("assets/art/labels/label_p.png");
 	pLabel->setSource(0, 0, 59, 19);
 	pi = new interaction(Ingredients);
 	pi->setInteractionArea(30, 11, Vector2(0, 54));
-	piLabel = new sprite(Ingredients, 42, 14, 1000000, Vector2(10, 59));
+	piLabel = new sprite(Ingredients, 42, 14, Vector2(10, 59), 1000000);
 	piLabel->setTexture("assets/art/labels/label_pi.png");
 	piLabel->setSource(0, 0, 56, 19);
 	s = new interaction(Ingredients);
 	s->setInteractionArea(30, 11, Vector2(0, -42));
-	sLabel = new sprite(Ingredients, 30, 14, 1000000, Vector2(10, -37));
+	sLabel = new sprite(Ingredients, 30, 14, Vector2(10, -37), 1000000);
 	sLabel->setTexture("assets/art/labels/label_s.png");
 	sLabel->setSource(0, 0, 40, 19);
 	h = new interaction(Ingredients);
 	h->setInteractionArea(30, 11, Vector2(0, 6));
-	hLabel = new sprite(Ingredients, 21, 14, 1000000, Vector2(10, 11));
+	hLabel = new sprite(Ingredients, 21, 14, Vector2(10, 11), 1000000);
 	hLabel->setTexture("assets/art/labels/label_h.png");
 	hLabel->setSource(0, 0, 28, 19);
 	c = new interaction(Ingredients);
 	c->setInteractionArea(30, 11, Vector2(0, -26));
-	cLabel = new sprite(Ingredients, 34, 14, 1000000, Vector2(10, -21));
+	cLabel = new sprite(Ingredients, 34, 14, Vector2(10, -21), 1000000);
 	cLabel->setTexture("assets/art/labels/label_c.png");
 	cLabel->setSource(0, 0, 45, 19);
 
@@ -362,7 +373,7 @@ void red_herring::load() {
 	canBody = new collider(Can);
 	canBody->setCollisionBody(33, 14, Vector2(0, -13));
 	trash = new interaction(Can);
-	trash->setInteractionArea(40, 15, Vector2(0, 10));
+	trash->setInteractionArea(10, 10, Vector2(0, 14));
 
 	SealedStack = new element(sGame);
 	SealedStack->setPosition(Vector2(60, 177));
@@ -423,7 +434,7 @@ void red_herring::update(float deltaTime) {
 		}
 	}
 
-	//buffalo chicken label
+	/////////////////////////  buffalo chicken label  (hideous if/else chonk of code)  //////////////////////
 	if (bc->getObjectFlag()) {
 		if (!label) {
 			bcLabel->setAnimated(
@@ -688,7 +699,7 @@ void red_herring::update(float deltaTime) {
 		rogerSleep = true;
 	}
 	//roger gets startled awake	
-	if (rogerInteraction->getInteractFlag() && rogerSleep == true) {
+	if (rogerInteraction->getInstanceInteractFlag() && rogerSleep == true) {
 		Roger->setPosition(Vector2(60, -166));
 		roger->setTexture("assets/art/Roger_startled.png");
 		roger->setSource(0, 0, 22, 35);
@@ -789,15 +800,16 @@ void red_herring::update(float deltaTime) {
 		else if (polly->getPollySpeed() != 91) polly->setPollySpeed(91);
 	}
 
-	//make pizza
-	if (dough->getInteractFlag() && !polly->getCarry()) {
+	//grab dough and initiate pizza making sequence
+	if (dough->getInstanceInteractFlag() && pizzaStage == free) {
 		Mix_PlayChannel(1, flup, 0);
 		polly->setCarry(true);
 		polly->setAnimation();
-		pizza = new sprite(polly, 15, 11);
+		pizzaStage = doughStage;
+		pizza = new sprite(polly, 15, 11, Vector2(-11, -2));
 		pizza->setTexture("assets/art/Dough.png");
-		pizza->setOffset(Vector2(-11, -1));
 	}
+
 	//update the orientation of pizza according to polly direction
 	if (polly->getCarry()) {
 		switch (polly->getDirection()) {
@@ -823,12 +835,175 @@ void red_herring::update(float deltaTime) {
 			break;
 		}
 	}
+	
+	//flour station dough flattening
+	if (flatten->getInstanceInteractFlag() && pizzaStage == doughStage && polly->getDirection() == 2 && !pizza->getAnimated()) {
+		switch (flattens) {
+		case 0:
+			polly->setCarry(false);
+			polly->setAnimation();
+			delete pizza;
+			pizza = new sprite(FlourStation, 15, 11, Vector2(10, 11));
+			pizza->setDrawOrderByVerticalPosition(-20);
+			pizza->updateDrawOrder();
+			pizza->setTexture("assets/art/DoughAnim.png");
+			pizza->setSource(0, 0, 15, 11);
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 0),
+				Vector2(0, 0),
+				Vector2(3, 0),
+				1
+			);
+			flattens++;
+			break;
+		case 1:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 0),
+				Vector2(0, 0),
+				Vector2(3, 0),
+				1
+			);
+			flattens++;
+			break;
+		case 2:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 0),
+				Vector2(0, 0),
+				Vector2(3, 0),
+				1
+			);
+			flattens++;
+			break;
+		case 3:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 0),
+				Vector2(0, 0),
+				Vector2(3, 0),
+				1
+			);
+			flattens++;
+			break;
+		case 4:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 0),
+				Vector2(0, 0),
+				Vector2(3, 0),
+				1
+			);
+			flattens++;
+			break;
+		case 5:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 1),
+				Vector2(0, 1),
+				Vector2(3, 1),
+				1
+			);
+			flattens++;
+			break;
+		case 6:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 1),
+				Vector2(0, 1),
+				Vector2(3, 1),
+				1
+			);
+			flattens++;
+			break;
+		case 7:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 1),
+				Vector2(0, 1),
+				Vector2(3, 1),
+				1
+			);
+			flattens++;
+			break;
+		case 8:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 1),
+				Vector2(0, 1),
+				Vector2(3, 1),
+				1
+			);
+			flattens++;
+			break;
+		case 9:
+			pizza->setAnimated(
+				true,
+				Vector2(60, 22),
+				4, 2,
+				300,
+				Vector2(0, 1),
+				Vector2(0, 1),
+				Vector2(3, 1),
+				1
+			);
+			flattens++;
+			break;
+		case 10:
+			delete pizza;
+			pizza = new sprite(FlourStation, 17, 8, Vector2(10, 11));
+			pizza->setDrawOrderByVerticalPosition(-20);
+			pizza->updateDrawOrder();
+			pizza->setTexture("assets/art/RawZa.png");
+			flattens++;
+			break;
+		case 11:
+			polly->setImmobile(false);
+			polly->setCarry(true);
+			polly->setAnimation();
+			delete pizza;
+			pizza = new sprite(polly, 17, 8, Vector2(-11, -2));
+			pizza->setTexture("assets/art/RawZa.png");
+			pizzaStage = prepStage;
+			flattens = 0;
+			break;
+		}
+	}
+		
 	//toss out
-	if (trash->getInteractFlag() && polly->getCarry()) {
+	if (trash->getInstanceInteractFlag() && polly->getCarry()) {
 		Mix_PlayChannel(1, dump, 0);
 		polly->setCarry(false);
 		polly->setAnimation();
 		delete pizza;
+		pizzaStage = free;
 	}
-
-}
+} 

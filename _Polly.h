@@ -17,6 +17,14 @@ public:
     bool getCarry() { return carry; }
     void setCarry(bool Carry) { carry = Carry; }
 
+    bool getImmobile() { return immobile; }
+    void setImmobile(bool Immobile) { immobile = Immobile; }
+
+    bool getMove() { return move; }
+    void setMove(bool Move) { move = Move; }
+
+    bool getInteract();
+
     //assign walking animation
     void setAnimation();
 
@@ -51,6 +59,8 @@ private:
     int pollySpeed;
     bool move;
     bool carry;
-
+    bool immobile;
+    bool interact;
+    int switchInt;
 };
 

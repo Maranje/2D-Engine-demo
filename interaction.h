@@ -15,6 +15,8 @@ public:
     bool getObjectFlag() { return objectFlag; }
     void setInteractFlag(bool Flag) { interactFlag = Flag; }
     bool getInteractFlag() { return interactFlag; }
+    void setInstanceInteractFlag(bool Flag) { instanceInteractFlag = Flag; }
+    bool getInstanceInteractFlag() { return instanceInteractFlag; }
 
     SDL_Rect* getInteractionRect() { return interactionRect; }
 
@@ -30,6 +32,7 @@ private:
     bool scanWide;
     bool objectFlag;
     bool interactFlag;
+    bool instanceInteractFlag;
 
     int screenWidth;
     int screenHeight;

@@ -29,9 +29,8 @@ _Polly::_Polly(game* Game) : element(Game) {
 	pollyAction->setInteractionArea(5, 15, Vector2(0, -15));
 
 	pollySpeed = 91;
-
-	//sounds
-	//    add sounds here
+	switchInt = 0;
+	interact = false;
 
 	//set controls
 	action = new input(this, SDL_SCANCODE_SPACE);
@@ -40,6 +39,7 @@ _Polly::_Polly(game* Game) : element(Game) {
 	left = new input(this, SDL_SCANCODE_LEFT);
 	right = new input(this, SDL_SCANCODE_RIGHT);
 	move = false;
+	immobile = false;
 	carry = false;
 	direction = Down;
 	currentPressed = 0;
@@ -115,125 +115,133 @@ void _Polly::unload() {
 }
 
 void _Polly::processInput() {
-	//key presses
-	if (pollyAction->detectInteraction()) {
-		if (action->getPress()) {
-			pollyAction->setInteractFlag(true);
-		}
-		else if (action->getLift()) {
-			pollyAction->setInteractFlag(false);
-		}
+	//interaction detection
+	interact = pollyAction->detectInteraction();
+	if (action->getPress()) {
+		if (interact) pollyAction->setInteractFlag(true);
+	}
+	else if (action->getLift()) {
+		pollyAction->setInteractFlag(false);
 	}
 
-	if (up->getPress()) {
-		direction = Up;
-		directions.emplace_back(Up);//store respective direction enum in directions vector
-		move = true;; // set move to true to activate position movement
-		currentPressed++; //increase the number of currently pressed key by one
-		setAnimation(); //set respective walk animation
-	}
-	if (down->getPress()) {
-		direction = Down;
-		directions.emplace_back(Down);
-		move = true;
-		currentPressed++;
-		setAnimation();
-	}
-	if (left->getPress()) {
-		direction = Left;
-		directions.emplace_back(Left);
-		move = true;
-		currentPressed++;
-		setAnimation();
-	}
-	if (right->getPress()) {
-		direction = Right;
-		directions.emplace_back(Right);
-		move = true;
-		currentPressed++;
-		setAnimation();
-	}
-
-	//key lifts
-	if (up->getLift()) {
-		//find lifted key type and remove it from directions vector
-		auto item = std::find(directions.begin(), directions.end(), Up);
-		if (item != directions.end()) directions.erase(item);
-
-		currentPressed--; //reduce the number of current keys being pressed
-		if (currentPressed < 0) currentPressed = 0; //make sure the number of current keys being pressed is never negative
-		//set to respective idle animation if no keys are being currently pressed
-		if (currentPressed == 0 && !carry) {
+	if (!immobile) {
+		//arrow key presses
+		if (up->getPress()) {
 			direction = Up;
-			move = false;
+			directions.emplace_back(Up);//store respective direction enum in directions vector
+			move = true;; // set move to true to activate position movement
+			currentPressed++; //increase the number of currently pressed key by one
+			setAnimation(); //set respective walk animation
 		}
-		else if (currentPressed == 0 && carry) {
-			direction = Up;
-			move = false;
-		}
-		else {
-			move = true;
-			direction = directions[currentPressed - 1];
-		}
-		setAnimation();
-	}
-	if (down->getLift()) {
-		auto item = std::find(directions.begin(), directions.end(), Down);
-		if (item != directions.end()) directions.erase(item);
-		currentPressed--;
-		if (currentPressed < 0) currentPressed = 0;
-		if (currentPressed == 0 && !carry) {
+		if (down->getPress()) {
 			direction = Down;
-			move = false;
-		}
-		else if (currentPressed == 0 && carry) {
-			direction = Down;
-			move = false;
-		}
-		else {
+			directions.emplace_back(Down);
 			move = true;
-			direction = directions[currentPressed - 1];			
+			currentPressed++;
+			setAnimation();
 		}
-		setAnimation();
-	}
-	if (left->getLift()) {
-		auto item = std::find(directions.begin(), directions.end(), Left);
-		if (item != directions.end()) directions.erase(item);
-		currentPressed--;
-		if (currentPressed < 0) currentPressed = 0;
-		if (currentPressed == 0 && !carry) {
+		if (left->getPress()) {
 			direction = Left;
-			move = false;
-		}
-		else if (currentPressed == 0 && carry) {
-			direction = Left;
-			move = false;
-		}
-		else {
+			directions.emplace_back(Left);
 			move = true;
-			direction = directions[currentPressed - 1];
+			currentPressed++;
+			setAnimation();
 		}
-		setAnimation();
-	}
-	if (right->getLift()) {
-		auto item = std::find(directions.begin(), directions.end(), Right);
-		if (item != directions.end()) directions.erase(item);
-		currentPressed--;
-		if (currentPressed < 0) currentPressed = 0;
-		if (currentPressed == 0 && !carry) {
+		if (right->getPress()) {
 			direction = Right;
-			move = false;
-		}
-		else if (currentPressed == 0 && carry) {
-			direction = Right;
-			move = false;
-		}
-		else {//set to the walk animation of the next most recently pressed key
+			directions.emplace_back(Right);
 			move = true;
-			direction = directions[currentPressed - 1];
+			currentPressed++;
+			setAnimation();
 		}
-		setAnimation();
+	
+		//arrow key lifts
+		if (up->getLift()) {
+			//find lifted key type and remove it from directions vector
+			auto item = std::find(directions.begin(), directions.end(), Up);
+			if (item != directions.end()) directions.erase(item);
+
+			currentPressed--; //reduce the number of current keys being pressed
+			if (currentPressed < 0) currentPressed = 0; //make sure the number of current keys being pressed is never negative
+			//set to respective idle animation if no keys are being currently pressed
+			if (currentPressed == 0 && !carry) {
+				direction = Up;
+				move = false;
+			}
+			else if (currentPressed == 0 && carry) {
+				direction = Up;
+				move = false;
+			}
+			else {
+				move = true;
+				direction = directions[currentPressed - 1];
+			}
+			setAnimation();
+		}
+		if (down->getLift()) {
+			auto item = std::find(directions.begin(), directions.end(), Down);
+			if (item != directions.end()) directions.erase(item);
+			currentPressed--;
+			if (currentPressed < 0) currentPressed = 0;
+			if (currentPressed == 0 && !carry) {
+				direction = Down;
+				move = false;
+			}
+			else if (currentPressed == 0 && carry) {
+				direction = Down;
+				move = false;
+			}
+			else {
+				move = true;
+				direction = directions[currentPressed - 1];
+			}
+			setAnimation();
+		}
+		if (left->getLift()) {
+			auto item = std::find(directions.begin(), directions.end(), Left);
+			if (item != directions.end()) directions.erase(item);
+			currentPressed--;
+			if (currentPressed < 0) currentPressed = 0;
+			if (currentPressed == 0 && !carry) {
+				direction = Left;
+				move = false;
+			}
+			else if (currentPressed == 0 && carry) {
+				direction = Left;
+				move = false;
+			}
+			else {
+				move = true;
+				direction = directions[currentPressed - 1];
+			}
+			setAnimation();
+		}
+		if (right->getLift()) {
+			auto item = std::find(directions.begin(), directions.end(), Right);
+			if (item != directions.end()) directions.erase(item);
+			currentPressed--;
+			if (currentPressed < 0) currentPressed = 0;
+			if (currentPressed == 0 && !carry) {
+				direction = Right;
+				move = false;
+			}
+			else if (currentPressed == 0 && carry) {
+				direction = Right;
+				move = false;
+			}
+			else {//set to the walk animation of the next most recently pressed key
+				move = true;
+				direction = directions[currentPressed - 1];
+			}
+			setAnimation();
+		}
 	}
+	//else move = false;
+}
+
+bool _Polly::getInteract()
+{
+	return pollyAction->getInteractFlag();
 }
 
 void _Polly::setAnimation() {
@@ -294,7 +302,9 @@ void _Polly::setAnimation() {
 		}
 		//idle
 		else {
-			switch (directions[currentPressed]) {
+			if (currentPressed == 0) switchInt = 0; // this bit is neccessary for the animation switch due to interaction so
+			else switchInt = currentPressed - 1;    // that it doesn't go below zero but also doesn't pull from the wrong press
+			switch (directions[switchInt]) {
 			case Up:
 				polly->destroyTexture();
 				polly->setTexture("assets/art/Polly_idle_back.png");
@@ -405,7 +415,9 @@ void _Polly::setAnimation() {
 		}
 		//idle
 		else {
-			switch (directions[currentPressed]) {
+			if (currentPressed == 0) switchInt = 0;
+			else switchInt = currentPressed - 1;
+			switch (directions[switchInt]) {
 			case Up:
 				polly->destroyTexture();
 				polly->setTexture("assets/art/Polly_carry_back.png");

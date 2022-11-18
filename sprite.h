@@ -6,7 +6,7 @@ class sprite :
 {
 public:
     //sprite constructor, draw order set to an arbitrarily low number by default
-    sprite(element* Owner, int Width, int Height, int DrawOrder = -999999999, Vector2 Offset = Vector2(0, 0));
+    sprite(element* Owner, int Width, int Height, Vector2 Offset = Vector2(0, 0), int DrawOrder = -999999999);
     ~sprite() override;
 
     void update(float deltaTime) override;
