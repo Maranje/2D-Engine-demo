@@ -709,7 +709,7 @@ void red_herring::update(float deltaTime) {
 
 	//ingredients bar
 	if (ingredientsAct->getObjectFlag() && !label && polly->getDirection() == 3) {
-		switch (static_cast<int>((polly->getPosition().y - 532) / 82)) {
+		switch (static_cast<int>((polly->getScaledPosition().y - 101) / 16)) {
 		case 0: //black olives
 			delete ingredient;
 			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 75), 1000000);
