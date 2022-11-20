@@ -14,13 +14,6 @@ red_herring::red_herring(game* Game) : scene(Game) {
 	//bools
 	rogerSleep = false;
 	label = false;
-	labelBO = false;
-	labelGP = false;
-	labelP = false;
-	labelPI = false;
-	labelS = false;
-	labelH = false;
-	labelC = false;
 	pollySouth = true;
 
 	//////////////////////////////game objects///////////////////////////////// (might not need this part)
@@ -262,55 +255,18 @@ void red_herring::load() {
 	wallBody = new collider(Wall);
 	wallBody->setCollisionBody(15, 34, Vector2(-74, -26));
 
-	//ingredients bar and alllllll the labels
+	//ingredients bar
 	Ingredients = new element(sGame);
 	Ingredients->setPosition(Vector2(64, -45));
 	ingredients = new sprite(Ingredients, 41, 153);
 	ingredients->setTexture("assets/art/ing_station.png");
-	ingredients->setDrawOrderByVerticalPosition(60);
+	ingredients->setDrawOrderByVerticalPosition(80);
 	ingredients->updateDrawOrder();
 	ingredientsBody = new collider(Ingredients);
 	ingredientsBody->setCollisionBody(41, 134, Vector2(-2, -11));
-	bc = new interaction(Ingredients);
-	bc->setInteractionArea(30, 11, Vector2(0, 22));
-	bcLabel = new sprite(Ingredients, 61, 14, Vector2(10, 27), 1000000);
-	bcLabel->setTexture("assets/art/labels/label_bc.png");
-	bcLabel->setSource(0, 0, 81, 19);
-	bo = new interaction(Ingredients);
-	bo->setInteractionArea(30, 11, Vector2(0, 70));
-	boLabel = new sprite(Ingredients, 49, 14, Vector2(10, 75), 1000000);
-	boLabel->setTexture("assets/art/labels/label_bo.png");
-	boLabel->setSource(0, 0, 65, 19);
-	gp = new interaction(Ingredients);
-	gp->setInteractionArea(30, 11, Vector2(0, 38));
-	gpLabel = new sprite(Ingredients, 61, 14, Vector2(10, 43), 1000000);
-	gpLabel->setTexture("assets/art/labels/label_gp.png");
-	gpLabel->setSource(0, 0, 81, 19);
-	p = new interaction(Ingredients);
-	p->setInteractionArea(30, 11, Vector2(0, -10));
-	pLabel = new sprite(Ingredients, 44, 14, Vector2(10, -5), 1000000);
-	pLabel->setTexture("assets/art/labels/label_p.png");
-	pLabel->setSource(0, 0, 59, 19);
-	pi = new interaction(Ingredients);
-	pi->setInteractionArea(30, 11, Vector2(0, 54));
-	piLabel = new sprite(Ingredients, 42, 14, Vector2(10, 59), 1000000);
-	piLabel->setTexture("assets/art/labels/label_pi.png");
-	piLabel->setSource(0, 0, 56, 19);
-	s = new interaction(Ingredients);
-	s->setInteractionArea(30, 11, Vector2(0, -42));
-	sLabel = new sprite(Ingredients, 30, 14, Vector2(10, -37), 1000000);
-	sLabel->setTexture("assets/art/labels/label_s.png");
-	sLabel->setSource(0, 0, 40, 19);
-	h = new interaction(Ingredients);
-	h->setInteractionArea(30, 11, Vector2(0, 6));
-	hLabel = new sprite(Ingredients, 21, 14, Vector2(10, 11), 1000000);
-	hLabel->setTexture("assets/art/labels/label_h.png");
-	hLabel->setSource(0, 0, 28, 19);
-	c = new interaction(Ingredients);
-	c->setInteractionArea(30, 11, Vector2(0, -26));
-	cLabel = new sprite(Ingredients, 34, 14, Vector2(10, -21), 1000000);
-	cLabel->setTexture("assets/art/labels/label_c.png");
-	cLabel->setSource(0, 0, 45, 19);
+	ingredientsAct = new interaction(Ingredients);
+	ingredientsAct->setInteractionArea(10, 123, Vector2(5, 15));
+	ingredient = new sprite(Ingredients, 1, 1);
 
 	Mop = new element(sGame);
 	Mop->setPosition(Vector2(-71, 200));
@@ -433,258 +389,9 @@ void red_herring::update(float deltaTime) {
 			slice->increaseVerticalPosition(-19);
 		}
 	}
-
-	/////////////////////////  buffalo chicken label  (hideous if/else chonk of code)  //////////////////////
-	if (bc->getObjectFlag()) {
-		if (!label) {
-			bcLabel->setAnimated(
-				true,
-				Vector2(81, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			label = true;
-		}
-	}
-	else {
-		if (label) {
-			bcLabel->setAnimated(
-				true,
-				Vector2(81, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			label = false;
-		}
-	}
-	//black olives label
-	if (bo->getObjectFlag()) {
-		if (!labelBO) {
-			boLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			labelBO = true;
-		}
-	}
-	else {
-		if (labelBO) {
-			boLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			labelBO = false;
-		}
-	}
-	//green peppers label
-	if (gp->getObjectFlag()) {
-		if (!labelGP) {
-			gpLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			labelGP = true;
-		}
-	}
-	else {
-		if (labelGP) {
-			gpLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			labelGP = false;
-		}
-	}
-	//pepperoni label
-	if (p->getObjectFlag()) {
-		if (!labelP) {
-			pLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			labelP = true;
-		}
-	}
-	else {
-		if (labelP) {
-			pLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			labelP = false;
-		}
-	}
-	//pineapple label
-	if (pi->getObjectFlag()) {
-		if (!labelPI) {
-			piLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			labelPI = true;
-		}
-	}
-	else {
-		if (labelPI) {
-			piLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			labelPI = false;
-		}
-	}
-	//sauce label
-	if (s->getObjectFlag()) {
-		if (!labelS) {
-			sLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			labelS = true;
-		}
-	}
-	else {
-		if (labelS) {
-			sLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			labelS = false;
-		}
-	}
-	//ham label
-	if (h->getObjectFlag()) {
-		if (!labelH) {
-			hLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			labelH = true;
-		}
-	}
-	else {
-		if (labelH) {
-			hLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			labelH = false;
-		}
-	}
-	//cheese label
-	if (c->getObjectFlag()) {
-		if (!labelC) {
-			cLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 0),
-				Vector2(0, 5),
-				Vector2(0, 5),
-				1
-			);
-			labelC = true;
-		}
-	}
-	else {
-		if (labelC) {
-			cLabel->setAnimated(
-				true,
-				Vector2(65, 190),
-				1, 10,
-				1500,
-				Vector2(0, 5),
-				Vector2(0, 0),
-				Vector2(0, 9),
-				1
-			);
-			labelC = false;
-		}
-	}
 	
 	//roger falls asleep
-	if (roger->getRuns() == 2 && rogerSleep == false && !rogerInteraction->getInteractFlag()) {
+	if (roger->getRuns() == 2 && rogerSleep == false) {
 		roger->setTexture("assets/art/Roger_sleeping.png");
 		roger->setSource(0, 0, 22, 35);
 		roger->setAnimated(
@@ -850,8 +557,8 @@ void red_herring::update(float deltaTime) {
 			pizza->setSource(0, 0, 15, 11);
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
 				Vector2(0, 0),
 				Vector2(0, 0),
@@ -863,8 +570,8 @@ void red_herring::update(float deltaTime) {
 		case 1:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
 				Vector2(0, 0),
 				Vector2(0, 0),
@@ -876,8 +583,8 @@ void red_herring::update(float deltaTime) {
 		case 2:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
 				Vector2(0, 0),
 				Vector2(0, 0),
@@ -889,8 +596,8 @@ void red_herring::update(float deltaTime) {
 		case 3:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
 				Vector2(0, 0),
 				Vector2(0, 0),
@@ -902,12 +609,12 @@ void red_herring::update(float deltaTime) {
 		case 4:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
-				Vector2(0, 0),
-				Vector2(0, 0),
-				Vector2(3, 0),
+				Vector2(0, 1),
+				Vector2(0, 1),
+				Vector2(3, 1),
 				1
 			);
 			flattens++;
@@ -915,8 +622,8 @@ void red_herring::update(float deltaTime) {
 		case 5:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
 				Vector2(0, 1),
 				Vector2(0, 1),
@@ -928,8 +635,8 @@ void red_herring::update(float deltaTime) {
 		case 6:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
 				Vector2(0, 1),
 				Vector2(0, 1),
@@ -941,8 +648,8 @@ void red_herring::update(float deltaTime) {
 		case 7:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
 				Vector2(0, 1),
 				Vector2(0, 1),
@@ -954,12 +661,12 @@ void red_herring::update(float deltaTime) {
 		case 8:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
-				Vector2(0, 1),
-				Vector2(0, 1),
-				Vector2(3, 1),
+				Vector2(0, 2),
+				Vector2(0, 2),
+				Vector2(3, 2),
 				1
 			);
 			flattens++;
@@ -967,19 +674,19 @@ void red_herring::update(float deltaTime) {
 		case 9:
 			pizza->setAnimated(
 				true,
-				Vector2(60, 22),
-				4, 2,
+				Vector2(60, 33),
+				4, 3,
 				300,
-				Vector2(0, 1),
-				Vector2(0, 1),
-				Vector2(3, 1),
+				Vector2(0, 2),
+				Vector2(0, 2),
+				Vector2(3, 2),
 				1
 			);
 			flattens++;
 			break;
 		case 10:
 			delete pizza;
-			pizza = new sprite(FlourStation, 17, 8, Vector2(10, 11));
+			pizza = new sprite(FlourStation, 17, 8, Vector2(10, 9));
 			pizza->setDrawOrderByVerticalPosition(-20);
 			pizza->updateDrawOrder();
 			pizza->setTexture("assets/art/RawZa.png");
@@ -991,13 +698,93 @@ void red_herring::update(float deltaTime) {
 			polly->setAnimation();
 			delete pizza;
 			pizza = new sprite(polly, 17, 8, Vector2(-11, -2));
+			pizza->setDrawOrderByVerticalPosition(-20);
+			pizza->updateDrawOrder();
 			pizza->setTexture("assets/art/RawZa.png");
 			pizzaStage = prepStage;
 			flattens = 0;
 			break;
 		}
 	}
-		
+
+	//ingredients bar
+	if (ingredientsAct->getObjectFlag() && !label && polly->getDirection() == 3) {
+		switch (static_cast<int>((polly->getPosition().y - 532) / 82)) {
+		case 0: //black olives
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 75), 1000000);
+			ingredient->setTexture("assets/art/labels/label_bo.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		case 1: //pineapple
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 59), 1000000);
+			ingredient->setTexture("assets/art/labels/label_pi.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		case 2: //green peppers
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 43), 1000000);
+			ingredient->setTexture("assets/art/labels/label_gp.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		case 3: //buffalo chicken
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 27), 1000000);
+			ingredient->setTexture("assets/art/labels/label_bc.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		case 4: //ham
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 11), 1000000);
+			ingredient->setTexture("assets/art/labels/label_h.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		case 5: //pepperoni
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, -5), 1000000);
+			ingredient->setTexture("assets/art/labels/label_p.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		case 6: //cheese
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, -21), 1000000);
+			ingredient->setTexture("assets/art/labels/label_c.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		case 7: //sauce
+			delete ingredient;
+			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, -37), 1000000);
+			ingredient->setTexture("assets/art/labels/label_s.png");
+			ingredient->setSource(0, 0, 81, 19);
+			break;
+		}
+		ingredient->setAnimated(
+			true,
+			Vector2(65, 190),
+			1, 10,
+			1500,
+			Vector2(0, 0),
+			Vector2(0, 5),
+			Vector2(0, 5),
+			1
+		);
+		label = true;
+	}
+	else if (label && !ingredientsAct->getObjectFlag()) {
+		ingredient->setAnimated(
+			true,
+			Vector2(65, 190),
+			1, 10,
+			1500,
+			Vector2(0, 5),
+			Vector2(0, 0),
+			Vector2(0, 9),
+			1
+		);
+		label = false;
+	}
+
 	//toss out
 	if (trash->getInstanceInteractFlag() && polly->getCarry()) {
 		Mix_PlayChannel(1, dump, 0);

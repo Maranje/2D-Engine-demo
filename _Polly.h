@@ -63,4 +63,3 @@ private:
     bool interact;
     int switchInt;
 };
-

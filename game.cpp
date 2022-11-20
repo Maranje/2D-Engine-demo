@@ -30,7 +30,7 @@ game::game() {
 	ticks = 0;
 
 	//initial scene
-	sceneTag = Pretitle;
+	sceneTag = RedHerring;
 
 	//scenes
 	pretitleScene = nullptr;
@@ -56,7 +56,7 @@ bool game::init() {
 		45,
 		x,
 		y,
-		SDL_WINDOW_FULLSCREEN_DESKTOP
+		0//SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
 	if (!window) {

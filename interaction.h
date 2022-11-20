@@ -33,9 +33,9 @@ private:
     bool objectFlag;
     bool interactFlag;
     bool instanceInteractFlag;
+    bool instanceMarker;
 
     int screenWidth;
     int screenHeight;
     std::vector<interaction*> localInteractions;
 };
-

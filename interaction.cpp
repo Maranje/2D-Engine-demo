@@ -17,6 +17,7 @@ interaction::interaction(element* Owner) : component(Owner) {
 	objectFlag = false;
 	interactFlag = false;
 	instanceInteractFlag = false;
+	instanceMarker = false;
 
 	owner->getGame()->addInteraction(this);
 }
@@ -65,15 +66,24 @@ void interaction::checkInteractionWide() {
 }
 
 bool interaction::checkInteractionLocal() {
+	//allows for one instancing of the instanceInteractFlag
+	if (interactFlag) {
+		if (!instanceMarker) {
+			instanceMarker = true;
+			instanceInteractFlag = true;
+		}
+		else instanceInteractFlag = false;
+	}
+	else if (instanceMarker) instanceMarker = false;
+
+	//check for intersections with recs in local group
 	for (auto rect : localInteractions) {
 		if (SDL_HasIntersection(interactionRect, rect->getInteractionRect())) {
 			rect->setObjectFlag(true);
+			//mark interactions
 			if (interactFlag) {
-				if (!rect->getInteractFlag()) {
-					rect->setInteractFlag(true);
-					rect->setInstanceInteractFlag(true);
-				}
-				else rect->setInstanceInteractFlag(false);
+				rect->setInteractFlag(true);
+				rect->setInstanceInteractFlag(instanceInteractFlag);
 			}
 			else rect->setInteractFlag(false);
 			return true;

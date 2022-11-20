@@ -236,7 +236,6 @@ void _Polly::processInput() {
 			setAnimation();
 		}
 	}
-	//else move = false;
 }
 
 bool _Polly::getInteract()
