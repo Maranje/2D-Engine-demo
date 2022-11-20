@@ -266,7 +266,9 @@ void red_herring::load() {
 	ingredientsBody->setCollisionBody(41, 134, Vector2(-2, -11));
 	ingredientsAct = new interaction(Ingredients);
 	ingredientsAct->setInteractionArea(10, 123, Vector2(5, 15));
-	ingredient = new sprite(Ingredients, 1, 1);
+	ingredient = new sprite(Ingredients, 61, 14, Vector2(0, 0), 1000000);
+	ingredient->setSource(0, 0, 81, 19);
+
 
 	Mop = new element(sGame);
 	Mop->setPosition(Vector2(-71, 200));
@@ -406,7 +408,7 @@ void red_herring::update(float deltaTime) {
 		rogerSleep = true;
 	}
 	//roger gets startled awake	
-	if (rogerInteraction->getInstanceInteractFlag() && rogerSleep == true) {
+	else if (rogerInteraction->getInstanceInteractFlag() && rogerSleep == true) {
 		Roger->setPosition(Vector2(60, -166));
 		roger->setTexture("assets/art/Roger_startled.png");
 		roger->setSource(0, 0, 22, 35);
@@ -423,7 +425,7 @@ void red_herring::update(float deltaTime) {
 		rogerSleep = false;
 	}
 	//normal bored roger
-	if (roger->getAnimated() == false) {
+	else if (roger->getAnimated() == false) {
 		roger->setTexture("assets/art/Roger_bored.png");
 		roger->setSource(0, 0, 22, 35);
 		roger->setAnimated(
@@ -708,68 +710,94 @@ void red_herring::update(float deltaTime) {
 	}
 
 	//ingredients bar
-	if (ingredientsAct->getObjectFlag() && !label && polly->getDirection() == 3) {
+	if (ingredientsAct->getObjectFlag() && polly->getDirection() == 3) {
 		switch (static_cast<int>((polly->getScaledPosition().y - 101) / 16)) {
 		case 0: //black olives
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 75), 1000000);
-			ingredient->setTexture("assets/art/labels/label_bo.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, 75));
+				ingredient->setTexture("assets/art/labels/label_bo.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/BlackOlives.png", 8);
+			}
 			break;
 		case 1: //pineapple
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 59), 1000000);
-			ingredient->setTexture("assets/art/labels/label_pi.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, 59));
+				ingredient->setTexture("assets/art/labels/label_pi.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/Pineapple.png", 7);
+			}
 			break;
 		case 2: //green peppers
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 43), 1000000);
-			ingredient->setTexture("assets/art/labels/label_gp.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, 43));
+				ingredient->setTexture("assets/art/labels/label_gp.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/GreenPeppers.png", 6);
+			}
 			break;
 		case 3: //buffalo chicken
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 27), 1000000);
-			ingredient->setTexture("assets/art/labels/label_bc.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, 27));
+				ingredient->setTexture("assets/art/labels/label_bc.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/BuffaloChicken.png", 3);
+			}
 			break;
 		case 4: //ham
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, 11), 1000000);
-			ingredient->setTexture("assets/art/labels/label_h.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, 11));
+				ingredient->setTexture("assets/art/labels/label_h.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/Ham.png", 5);
+			}
 			break;
 		case 5: //pepperoni
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, -5), 1000000);
-			ingredient->setTexture("assets/art/labels/label_p.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, -5));
+				ingredient->setTexture("assets/art/labels/label_p.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/Pepperoni.png", 4);
+			}
 			break;
 		case 6: //cheese
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, -21), 1000000);
-			ingredient->setTexture("assets/art/labels/label_c.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, -21));
+				ingredient->setTexture("assets/art/labels/label_c.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/Cheese.png", 2);
+			}
 			break;
 		case 7: //sauce
-			delete ingredient;
-			ingredient = new sprite(Ingredients, 61, 14, Vector2(10, -37), 1000000);
-			ingredient->setTexture("assets/art/labels/label_s.png");
-			ingredient->setSource(0, 0, 81, 19);
+			if (!label) {
+				ingredient->setOffset(Vector2(10, -37));
+				ingredient->setTexture("assets/art/labels/label_s.png");
+			}
+			else if (ingredientsAct->getInstanceInteractFlag() && pizzaStage == prepStage) {
+				pizza->updateTexture("assets/art/Sauce.png", 1);
+			}
 			break;
 		}
-		ingredient->setAnimated(
-			true,
-			Vector2(65, 190),
-			1, 10,
-			1500,
-			Vector2(0, 0),
-			Vector2(0, 5),
-			Vector2(0, 5),
-			1
-		);
-		label = true;
+		if (!label) {
+			ingredient->setAnimated(
+				true,
+				Vector2(65, 190),
+				1, 10,
+				1500,
+				Vector2(0, 0),
+				Vector2(0, 5),
+				Vector2(0, 5),
+				1
+			);
+			label = true;
+		}
 	}
 	else if (label && !ingredientsAct->getObjectFlag()) {
 		ingredient->setAnimated(

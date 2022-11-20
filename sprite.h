@@ -19,7 +19,8 @@ public:
     int getDrawOrder() const { return drawOrder; }
     int getWidth() const { return width; }
     int getHeight() const { return height; }
-    void setTexture(const char* Texture);// { texture = textures::LoadTexture(Texture, renderer); }
+    void setTexture(const char* Texture);
+    void updateTexture(const char* Texture, int layer);
     int getRuns() { return runs; }
     void setOffset(Vector2 Offset) { offset = Offset; }
 
@@ -47,7 +48,15 @@ public:
 private:
     element* owner;
     SDL_Renderer* renderer;
-    SDL_Texture* texture;
+    SDL_Texture* texture0;
+    SDL_Texture* texture1;
+    SDL_Texture* texture2;
+    SDL_Texture* texture3;
+    SDL_Texture* texture4;
+    SDL_Texture* texture5;
+    SDL_Texture* texture6;
+    SDL_Texture* texture7;
+    SDL_Texture* texture8;
     SDL_Rect* drawRect;
     SDL_Rect* source;
     Vector2 sheetSize;

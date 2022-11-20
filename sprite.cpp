@@ -8,7 +8,15 @@ sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOr
 	drawOrder = DrawOrder;
 	offset = Offset;
 
-	texture = nullptr;
+	texture0 = nullptr;
+	texture1 = nullptr;
+	texture2 = nullptr;
+	texture3 = nullptr;
+	texture4 = nullptr;
+	texture5 = nullptr;
+	texture6 = nullptr;
+	texture7 = nullptr;
+	texture8 = nullptr;
 	source = nullptr;
 	drawRect = new SDL_Rect;
 
@@ -64,7 +72,7 @@ void sprite::update(float deltaTime) {
 }
 
 void sprite::draw() {
-	if (texture) {
+	if (texture0) {
 		drawRect->w = width;
 		drawRect->h = height;
 		if (cameraNeutral) {
@@ -75,7 +83,16 @@ void sprite::draw() {
 			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));
 			drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - owner->getGame()->getCamera()->y - (offset.y * owner->getGame()->getScale()));
 		}
-		SDL_RenderCopy(renderer, texture, source, drawRect);
+		SDL_RenderCopy(renderer, texture0, source, drawRect);
+		//fucking atrocious. yuck.
+		if (texture1) SDL_RenderCopy(renderer, texture1, source, drawRect);
+		if (texture2) SDL_RenderCopy(renderer, texture2, source, drawRect);
+		if (texture3) SDL_RenderCopy(renderer, texture3, source, drawRect);
+		if (texture4) SDL_RenderCopy(renderer, texture4, source, drawRect);
+		if (texture5) SDL_RenderCopy(renderer, texture5, source, drawRect);
+		if (texture6) SDL_RenderCopy(renderer, texture6, source, drawRect);
+		if (texture7) SDL_RenderCopy(renderer, texture7, source, drawRect);
+		if (texture8) SDL_RenderCopy(renderer, texture8, source, drawRect);
 	}
 }
 
@@ -90,7 +107,44 @@ void sprite::setDrawOrderByHorizontalPosition(int Offset){
 void sprite::setTexture(const char* Texture) {
 	SDL_Surface* temp = IMG_Load(Texture);
 	if (!temp) SDL_Log("ERROR LOADING IMAGE: %s", SDL_GetError());
-	texture = SDL_CreateTextureFromSurface(renderer, temp);
+	texture0 = SDL_CreateTextureFromSurface(renderer, temp);
+	SDL_FreeSurface(temp);
+}
+
+/// <summary>
+/// adds up to 7 layerst to an existing sprite texture
+/// </summary>
+/// <param name="Texture: filepath of the image to be added"></param>
+/// <param name="layer: int ranging from 1-8 for indicating layer level. 1 = bottom-most, 8 = top"></param>
+void sprite::updateTexture(const char* Texture, int layer) {
+	SDL_Surface* temp = IMG_Load(Texture);
+	if (!temp) SDL_Log("ERROR LOADING IMAGE: %s", SDL_GetError());
+	switch (layer) {
+	case 1: 
+		texture1 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	case 2:
+		texture2 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	case 3:
+		texture3 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	case 4:
+		texture4 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	case 5:
+		texture5 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	case 6:
+		texture6 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	case 7:
+		texture7 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	case 8:
+		texture8 = SDL_CreateTextureFromSurface(renderer, temp);
+		break;
+	}
 	SDL_FreeSurface(temp);
 }
 
@@ -130,5 +184,14 @@ void sprite::setAnimated(bool Animated,
 }
 
 void sprite::destroyTexture() {
-	SDL_DestroyTexture(texture);
+	SDL_DestroyTexture(texture0);
+	//just awful
+	if (texture1) SDL_DestroyTexture(texture1);
+	if (texture2) SDL_DestroyTexture(texture2);
+	if (texture3) SDL_DestroyTexture(texture3);
+	if (texture4) SDL_DestroyTexture(texture4);
+	if (texture5) SDL_DestroyTexture(texture5);
+	if (texture6) SDL_DestroyTexture(texture6);
+	if (texture7) SDL_DestroyTexture(texture7);
+	if (texture8) SDL_DestroyTexture(texture8);
 }
