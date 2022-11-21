@@ -23,6 +23,7 @@ public:
     void updateTexture(const char* Texture, int layer);
     int getRuns() { return runs; }
     void setOffset(Vector2 Offset) { offset = Offset; }
+    void lend(element* Receiver) { owner = Receiver; }
 
     //sets the element to be unaffected by camera
     void setCameraNeutral(bool CameraNeutral = true) { cameraNeutral = CameraNeutral; }
@@ -42,6 +43,8 @@ public:
         int numberOfCycles = -1
     );
     bool getAnimated() { return animated; }
+
+    bool getTextSet(int Tex);
     
     void destroyTexture();
 
@@ -65,6 +68,14 @@ private:
     Vector2 offset;
     bool animated;
     bool cameraNeutral;
+    bool tex1;
+    bool tex2;
+    bool tex3;
+    bool tex4;
+    bool tex5;
+    bool tex6;
+    bool tex7;
+    bool tex8;
     int frameCount_x;
     int frameCount_y;
     int drawOrder;

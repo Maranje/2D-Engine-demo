@@ -15,6 +15,8 @@ red_herring::red_herring(game* Game) : scene(Game) {
 	rogerSleep = false;
 	label = false;
 	pollySouth = true;
+	pizzaOnOven = -35;
+	increment = 0;
 
 	//////////////////////////////game objects///////////////////////////////// (might not need this part)
 	/*
@@ -111,7 +113,7 @@ red_herring::red_herring(game* Game) : scene(Game) {
 void red_herring::load() {
 	//play music
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 4, 4096);
-	Mix_VolumeMusic(30);
+	Mix_VolumeMusic(50);
 	theme = Mix_LoadMUS("assets/audio/music/pizza_theme.wav");
 	Mix_PlayMusic(theme, -1);
 	flup = Mix_LoadWAV("assets/audio/effects/flup.wav");
@@ -220,6 +222,10 @@ void red_herring::load() {
 		Vector2(0, 0),
 		Vector2(2, 3)
 	);
+	ovenSet = new interaction(OvenBelt);
+	ovenSet->setInteractionArea(6, 7, Vector2(37, 13));
+	ovenGet = new interaction(OvenBelt);
+	ovenGet->setInteractionArea(6, 7, Vector2(-37, 13));
 
 	//Roger
 	Roger = new element(sGame);
@@ -518,32 +524,6 @@ void red_herring::update(float deltaTime) {
 		pizza = new sprite(polly, 15, 11, Vector2(-11, -2));
 		pizza->setTexture("assets/art/Dough.png");
 	}
-
-	//update the orientation of pizza according to polly direction
-	if (polly->getCarry()) {
-		switch (polly->getDirection()) {
-		case 0: //up
-			pizza->setOffset(Vector2(0, -5));
-			pizza->setDrawOrderByVerticalPosition(1);
-			pizza->updateDrawOrder();
-			break;
-		case 1: //down
-			pizza->setOffset(Vector2(0, -6));
-			pizza->setDrawOrderByVerticalPosition(-1);
-			pizza->updateDrawOrder();
-			break;
-		case 2: //left
-			pizza->setOffset(Vector2(-11, -2));
-			pizza->setDrawOrderByVerticalPosition(1);
-			pizza->updateDrawOrder();
-			break;
-		case 3: //right
-			pizza->setOffset(Vector2(11, -2));
-			pizza->setDrawOrderByVerticalPosition(1);
-			pizza->updateDrawOrder();
-			break;
-		}
-	}
 	
 	//flour station dough flattening
 	if (flatten->getInstanceInteractFlag() && pizzaStage == doughStage && polly->getDirection() == 2 && !pizza->getAnimated()) {
@@ -811,6 +791,61 @@ void red_herring::update(float deltaTime) {
 			1
 		);
 		label = false;
+	}
+
+	//oven
+	if (ovenSet->getInstanceInteractFlag() && pizzaStage == prepStage) {
+		pizza->lend(OvenBelt);
+		pizza->setOffset(Vector2(pizzaOnOven, 9));
+		pizza->setDrawOrderByVerticalPosition(10);
+		pizza->updateDrawOrder();
+		polly->setCarry(false);
+		polly->setAnimation();
+		pizzaStage = cookStage;
+	}
+
+	if (pizzaStage == cookStage && pizzaOnOven < 35) {
+		increment += static_cast<int>(100 * sGame->getDeltaTime());
+		if (increment % 11 == 10) pizzaOnOven++;
+		pizza->setOffset(Vector2(pizzaOnOven, 9));
+		if (pizzaOnOven == 0) {
+			pizza->setTexture("assets/art/CookedZa.png");
+			if(pizza->getTextSet(2)) pizza->updateTexture("assets/art/CookedCheese.png", 2);
+		}
+	}
+
+	if (pizzaOnOven > 32 && ovenGet->getInstanceInteractFlag()) {
+		pizza->lend(polly);
+		polly->setCarry(true);
+		polly->setAnimation();
+		pizzaStage = boxStage;
+		pizzaOnOven = -35;
+	}
+
+	//update the orientation of pizza according to polly direction
+	if (polly->getCarry() && pizzaStage != cookStage) {
+		switch (polly->getDirection()) {
+		case 0: //up
+			pizza->setOffset(Vector2(0, -5));
+			pizza->setDrawOrderByVerticalPosition(1);
+			pizza->updateDrawOrder();
+			break;
+		case 1: //down
+			pizza->setOffset(Vector2(0, -6));
+			pizza->setDrawOrderByVerticalPosition(-1);
+			pizza->updateDrawOrder();
+			break;
+		case 2: //left
+			pizza->setOffset(Vector2(-11, -2));
+			pizza->setDrawOrderByVerticalPosition(1);
+			pizza->updateDrawOrder();
+			break;
+		case 3: //right
+			pizza->setOffset(Vector2(11, -2));
+			pizza->setDrawOrderByVerticalPosition(1);
+			pizza->updateDrawOrder();
+			break;
+		}
 	}
 
 	//toss out

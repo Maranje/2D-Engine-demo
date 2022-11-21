@@ -22,6 +22,8 @@ private:
 
     class _Polly* polly;
     class sprite* pizza;
+    int pizzaOnOven;
+    int increment;
     stage pizzaStage;
 
     class input* exit;
@@ -63,6 +65,8 @@ private:
     class sprite* ovenBelt;
     class collider* ovenMainBody;
     class collider* ovenBeltBody;
+    class interaction* ovenSet;
+    class interaction* ovenGet;
 
     class element* Wall;
     class sprite* wall;

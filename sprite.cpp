@@ -17,6 +17,14 @@ sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOr
 	texture6 = nullptr;
 	texture7 = nullptr;
 	texture8 = nullptr;
+	tex1 = false;
+	tex2 = false;
+	tex3 = false;
+	tex4 = false;
+	tex5 = false;
+	tex6 = false;
+	tex7 = false;
+	tex8 = false;
 	source = nullptr;
 	drawRect = new SDL_Rect;
 
@@ -122,27 +130,35 @@ void sprite::updateTexture(const char* Texture, int layer) {
 	switch (layer) {
 	case 1: 
 		texture1 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex1 = true;
 		break;
 	case 2:
 		texture2 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex2 = true;
 		break;
 	case 3:
 		texture3 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex3 = true;
 		break;
 	case 4:
 		texture4 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex4 = true;
 		break;
 	case 5:
 		texture5 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex5 = true;
 		break;
 	case 6:
 		texture6 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex6 = true;
 		break;
 	case 7:
 		texture7 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex7 = true;
 		break;
 	case 8:
 		texture8 = SDL_CreateTextureFromSurface(renderer, temp);
+		tex8 = true;
 		break;
 	}
 	SDL_FreeSurface(temp);
@@ -181,6 +197,37 @@ void sprite::setAnimated(bool Animated,
 	source->x = beginAt.x * (sheetSize.x / frameCount_x);
 	source->y = beginAt.y * (sheetSize.y / frameCount_y);
 	runs = 0;
+}
+
+bool sprite::getTextSet(int Tex)
+{
+	switch (Tex) {
+	case 1:
+		if (tex1) return true;
+		break;
+	case 2:
+		if (tex2) return true;
+		break;
+	case 3:
+		if (tex3) return true;
+		break;
+	case 4:
+		if (tex4) return true;
+		break;
+	case 5:
+		if (tex5) return true;
+		break;
+	case 6:
+		if (tex6) return true;
+		break;
+	case 7:
+		if (tex7) return true;
+		break;
+	case 8:
+		if (tex8) return true;
+		break;
+	}
+	return false;
 }
 
 void sprite::destroyTexture() {

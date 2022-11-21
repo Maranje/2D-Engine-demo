@@ -64,6 +64,7 @@ void title::load() {
 
 	//theme music
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
+	Mix_VolumeMusic(90);
 	theme = Mix_LoadMUS("assets/audio/music/title_theme.wav");
 	Mix_PlayMusic(theme, -1);
 
