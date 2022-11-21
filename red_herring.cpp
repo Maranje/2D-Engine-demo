@@ -811,11 +811,28 @@ void red_herring::update(float deltaTime) {
 		if (pizzaOnOven == 0) {
 			pizza->setTexture("assets/art/CookedZa.png");
 			if(pizza->getTextSet(2)) pizza->updateTexture("assets/art/CookedCheese.png", 2);
+			if(!steam) steam = new sprite(polly, 17, 17);
+			steam->lend(OvenBelt);
+			steam->setDrawOrderByVerticalPosition(10);
+			steam->updateDrawOrder();
+			steam->setTexture("assets/art/Steam.png");
+			steam->setSource(0, 0, 17, 17);
+			steam->setAnimated(
+				true,
+				Vector2(68, 68),
+				4, 4,
+				150,
+				Vector2(0, 0),
+				Vector2(0, 0),
+				Vector2(3, 3)
+			);
 		}
+		if (steam) steam->setOffset(Vector2(pizzaOnOven, 14));
 	}
 
 	if (pizzaOnOven > 32 && ovenGet->getInstanceInteractFlag()) {
 		pizza->lend(polly);
+		steam->lend(polly);
 		polly->setCarry(true);
 		polly->setAnimation();
 		pizzaStage = boxStage;
@@ -829,21 +846,41 @@ void red_herring::update(float deltaTime) {
 			pizza->setOffset(Vector2(0, -5));
 			pizza->setDrawOrderByVerticalPosition(1);
 			pizza->updateDrawOrder();
+			if (steam) {
+				steam->setOffset(Vector2(0, 0));
+				steam->setDrawOrderByVerticalPosition(1);
+				steam->updateDrawOrder();
+			}
 			break;
 		case 1: //down
 			pizza->setOffset(Vector2(0, -6));
 			pizza->setDrawOrderByVerticalPosition(-1);
 			pizza->updateDrawOrder();
+			if (steam) {
+				steam->setOffset(Vector2(0, -1));
+				steam->setDrawOrderByVerticalPosition(-1);
+				steam->updateDrawOrder();
+			}
 			break;
 		case 2: //left
 			pizza->setOffset(Vector2(-11, -2));
 			pizza->setDrawOrderByVerticalPosition(1);
 			pizza->updateDrawOrder();
+			if (steam) {
+				steam->setOffset(Vector2(-11, 3));
+				steam->setDrawOrderByVerticalPosition(1);
+				steam->updateDrawOrder();
+			}
 			break;
 		case 3: //right
 			pizza->setOffset(Vector2(11, -2));
 			pizza->setDrawOrderByVerticalPosition(1);
 			pizza->updateDrawOrder();
+			if (steam) {
+				steam->setOffset(Vector2(11, 3));
+				steam->setDrawOrderByVerticalPosition(1);
+				steam->updateDrawOrder();
+			}
 			break;
 		}
 	}
@@ -854,6 +891,8 @@ void red_herring::update(float deltaTime) {
 		polly->setCarry(false);
 		polly->setAnimation();
 		delete pizza;
+		delete steam;
+		steam = nullptr;
 		pizzaStage = free;
 	}
 } 

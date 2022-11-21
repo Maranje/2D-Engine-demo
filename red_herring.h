@@ -22,6 +22,7 @@ private:
 
     class _Polly* polly;
     class sprite* pizza;
+    class sprite* steam;
     int pizzaOnOven;
     int increment;
     stage pizzaStage;
