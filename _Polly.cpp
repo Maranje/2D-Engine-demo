@@ -43,6 +43,7 @@ _Polly::_Polly(game* Game) : element(Game) {
 	carry = false;
 	direction = Down;
 	currentPressed = 0;
+	specialAnim = 0;
 }
 
 void _Polly::updateElement(float deltaTime) {
@@ -108,6 +109,14 @@ void _Polly::updateElement(float deltaTime) {
 	polly->updateDrawOrder();
 	shadow->setDrawOrderByVerticalPosition(55);
 	shadow->updateDrawOrder();
+
+	//restore default animations from a special animation
+	if (specialAnim != 0 && !polly->getAnimated()) {
+		specialAnim = 0;
+		immobile = false;
+		polly->setOffset(Vector2(0, 0));
+		setAnimation();
+	}
 }
 
 void _Polly::unload() {
@@ -244,230 +253,253 @@ bool _Polly::getInteract()
 }
 
 void _Polly::setAnimation() {
-	//polly animations when not carrying anything
-	if (!carry) {
-		//moving
-		if (move) {
-			switch (directions[currentPressed - 1]) {
-			case Up:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_walk_back.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
-			case Down:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_walk_forward.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
-			case Left:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_walk_left.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
-			case Right:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_walk_right.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
+	//default animations
+	if (specialAnim == 0) {
+		//polly animations when not carrying anything
+		if (!carry) {
+			//moving
+			if (move) {
+				switch (directions[currentPressed - 1]) {
+				case Up:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_walk_back.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				case Down:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_walk_forward.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				case Left:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_walk_left.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				case Right:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_walk_right.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				}
+			}
+			//idle
+			else {
+				if (currentPressed == 0) switchInt = 0; // this bit is neccessary for the animation switch due to interaction so
+				else switchInt = currentPressed - 1;    // that it doesn't go below zero but also doesn't pull from the wrong press
+				switch (directions[switchInt]) {
+				case Up:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_idle_back.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 55),
+						7, 1,
+						300,
+						Vector2(0, 0),
+						Vector2(0, 0),
+						Vector2(6, 0)
+					);
+					break;
+				case Down:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_idle_forward.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 440),
+						7, 8,
+						300,
+						Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
+					);
+					break;
+				case Left:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_idle_left.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 440),
+						7, 8,
+						300,
+						Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
+					);
+					break;
+				case Right:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_idle_right.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 440),
+						7, 8,
+						300,
+						Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
+					);
+					break;
+				}
 			}
 		}
-		//idle
+		//polly animations when carrying an object
 		else {
-			if (currentPressed == 0) switchInt = 0; // this bit is neccessary for the animation switch due to interaction so
-			else switchInt = currentPressed - 1;    // that it doesn't go below zero but also doesn't pull from the wrong press
-			switch (directions[switchInt]) {
-			case Up:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_idle_back.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 55),
-					7, 1,
-					300,
-					Vector2(0, 0),
-					Vector2(0, 0),
-					Vector2(6, 0)
-				);
-				break;
-			case Down:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_idle_forward.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 440),
-					7, 8,
-					300,
-					Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
-				);
-				break;
-			case Left:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_idle_left.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 440),
-					7, 8,
-					300,
-					Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
-				);
-				break;
-			case Right:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_idle_right.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 440),
-					7, 8,
-					300,
-					Vector2(0, 0), Vector2(0, 0), Vector2(6, 7)
-				);
-				break;
+			//moving
+			if (move) {
+				switch (directions[currentPressed - 1]) {
+				case Up:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carrywalk_back.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				case Down:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carrywalk_forward.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				case Left:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carrywalk_left.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				case Right:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carrywalk_right.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(156, 55),
+						6, 1,
+						350,
+						Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
+					);
+					break;
+				}
+			}
+			//idle
+			else {
+				if (currentPressed == 0) switchInt = 0;
+				else switchInt = currentPressed - 1;
+				switch (directions[switchInt]) {
+				case Up:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carry_back.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 55),
+						7, 1,
+						300,
+						Vector2(0, 0),
+						Vector2(0, 0),
+						Vector2(6, 0)
+					);
+					break;
+				case Down:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carry_forward.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 55),
+						7, 1,
+						300,
+						Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
+					);
+					break;
+				case Left:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carry_left.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 55),
+						7, 1,
+						300,
+						Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
+					);
+					break;
+				case Right:
+					polly->destroyTexture();
+					polly->setTexture("assets/art/Polly_carry_right.png");
+					polly->setSource(0, 0, 26, 55);
+					polly->setAnimated(
+						true,
+						Vector2(182, 55),
+						7, 1,
+						300,
+						Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
+					);
+					break;
+				}
 			}
 		}
 	}
-	//polly animations when carrying an object
+	//special animations
 	else {
-		//moving
-		if (move) {
-			switch (directions[currentPressed - 1]) {
-			case Up:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carrywalk_back.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
-			case Down:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carrywalk_forward.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
-			case Left:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carrywalk_left.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
-			case Right:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carrywalk_right.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(156, 55),
-					6, 1,
-					350,
-					Vector2(0, 0), Vector2(0, 0), Vector2(5, 0)
-				);
-				break;
-			}
-		}
-		//idle
-		else {
-			if (currentPressed == 0) switchInt = 0;
-			else switchInt = currentPressed - 1;
-			switch (directions[switchInt]) {
-			case Up:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carry_back.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 55),
-					7, 1,
-					300,
-					Vector2(0, 0),
-					Vector2(0, 0),
-					Vector2(6, 0)
-				);
-				break;
-			case Down:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carry_forward.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 55),
-					7, 1,
-					300,
-					Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
-				);
-				break;
-			case Left:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carry_left.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 55),
-					7, 1,
-					300,
-					Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
-				);
-				break;
-			case Right:
-				polly->destroyTexture();
-				polly->setTexture("assets/art/Polly_carry_right.png");
-				polly->setSource(0, 0, 26, 55);
-				polly->setAnimated(
-					true,
-					Vector2(182, 55),
-					7, 1,
-					300,
-					Vector2(0, 0), Vector2(0, 0), Vector2(6, 0)
-				);
-				break;
-			}
+		switch (specialAnim) {
+		case 1:
+			polly->destroyTexture();
+			polly->setTexture("assets/art/Polly_flour.png");
+			polly->setSource(0, 0, 26, 55);
+			polly->setOffset(Vector2(-7, 1));
+			polly->setAnimated(
+				true,
+				Vector2(78, 55),
+				3, 1,
+				200,
+				Vector2(0, 0), Vector2(0, 0), Vector2(1, 0),
+				1
+			);
+			immobile = true;
+			break;
 		}
 	}
 }

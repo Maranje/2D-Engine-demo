@@ -159,6 +159,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pause.cpp" />
+    <ClCompile Include="pizzaPause.cpp" />
     <ClCompile Include="pretitle.cpp" />
     <ClCompile Include="red_herring.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -175,6 +177,8 @@
     <ClInclude Include="element.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="pause.h" />
+    <ClInclude Include="pizzaPause.h" />
     <ClInclude Include="pretitle.h" />
     <ClInclude Include="red_herring.h" />
     <ClInclude Include="resource.h" />

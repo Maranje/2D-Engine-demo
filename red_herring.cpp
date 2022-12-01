@@ -6,111 +6,26 @@
 #include "collider.h"
 #include "interaction.h"
 #include "camera.h"
+#include "pizzaPause.h"
 
 red_herring::red_herring(game* Game) : scene(Game) {
-	//music
-	//theme = nullptr;
-
 	//bools
 	rogerSleep = false;
 	label = false;
 	pollySouth = true;
+	carryShift = true;
+	pizzaReady = false;
+	paused = false;
 	pizzaOnOven = -35;
 	increment = 0;
-
-	//////////////////////////////game objects///////////////////////////////// (might not need this part)
-	/*
-	polly = nullptr;
-	
-	exit = nullptr;
-	Background = nullptr;
-	background = nullptr;
-
-	Floor = nullptr;
-	floor = nullptr;
-	boundN = nullptr;
-	boundS = nullptr;
-	boundE = nullptr;
-	boundW = nullptr;
-
-	Counter = nullptr;
-	counter = nullptr;
-	counterBody = nullptr;
-
-	DoughStack = nullptr;
-	doughStack = nullptr;
-	doughStackBody = nullptr;
-
-	FlourStation = nullptr;
-	flourStation = nullptr;
-	flourStationBody = nullptr;
-
-	TrayStation = nullptr;
-	trayStation = nullptr;
-	trayStationBody = nullptr;
-
-	OvenMain = nullptr;
-	OvenBelt = nullptr;
-	ovenMain = nullptr;
-	ovenBelt = nullptr;
-	ovenMainBody = nullptr;
-	ovenBeltBody = nullptr;
-
-	Roger = nullptr;
-	roger = nullptr;
-	rogerBody = nullptr;
-	rogerInteraction = nullptr;
-
-	Wall = nullptr;
-	wall = nullptr;
-	wallBody = nullptr;
-
-	Mat = nullptr;
-	mat = nullptr;
-
-	Ingredients = nullptr;
-	ingredients = nullptr;
-	ingredientsBody = nullptr;
-	bc = nullptr;
-	bo = nullptr;
-	gp = nullptr;
-	p = nullptr;
-	pi = nullptr;
-	s = nullptr;
-	h = nullptr;
-	c = nullptr;
-
-	Mop = nullptr;
-	mop = nullptr;
-	mopBody = nullptr;
-
-	Box = nullptr;
-	box = nullptr;
-	boxBody = nullptr;
-
-	Wall2 = nullptr;
-	wall2 = nullptr;
-	wall2Body = nullptr;
-
-	CRT = nullptr;
-	crt = nullptr;
-
-	Door = nullptr;
-	door = nullptr;
-
-	Can = nullptr;
-	can = nullptr;
-	canBody = nullptr;
-
-	SealedStack = nullptr;
-	sealedStack = nullptr;
-	sealedStackBody = nullptr;
-	*/
+	boxSprite = 0;
+	readyBoxes = 0;
 
 	load();
 }
 
 void red_herring::load() {
+
 	//play music
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 4, 4096);
 	Mix_VolumeMusic(50);
@@ -118,10 +33,23 @@ void red_herring::load() {
 	Mix_PlayMusic(theme, -1);
 	flup = Mix_LoadWAV("assets/audio/effects/flup.wav");
 	dump = Mix_LoadWAV("assets/audio/effects/dump.wav");
+	pop = Mix_LoadWAV("assets/audio/effects/pop.wav");
+	pop2 = Mix_LoadWAV("assets/audio/effects/pop2.wav");
+	boxFold1 = Mix_LoadWAV("assets/audio/effects/boxFold1.wav");
+	boxFold2 = Mix_LoadWAV("assets/audio/effects/boxFold2.wav");
+	boxFold3 = Mix_LoadWAV("assets/audio/effects/boxFold3.wav");
+	Mix_VolumeChunk(boxFold1, 30);
+	Mix_VolumeChunk(boxFold2, 30);
+	Mix_VolumeChunk(boxFold3, 30);
 
 	polly = new _Polly(sGame);
 	polly->getPollyCam()->cameraHaltX(true);
 	exit = new input(polly, SDL_SCANCODE_RETURN);
+	e = new input(polly, SDL_SCANCODE_E);
+	p = new input(polly, SDL_SCANCODE_P); //eventuall switch this to the esc key
+
+	//pause menu
+	pause = new pizzaPause(sGame, polly, p);
 
 	pizzaStage = free;
 
@@ -162,6 +90,8 @@ void red_herring::load() {
 	counter->setTexture("assets/art/front_counter.png");
 	counterBody = new collider(Counter);
 	counterBody->setCollisionBody(165, 22, Vector2(0, -32));
+	counterBoxing = new interaction(Counter);
+	counterBoxing->setInteractionArea(15, 5, Vector2(35, 0));
 
 	DoughStack = new element(sGame);
 	DoughStack->setPosition(Vector2(-60, -90));
@@ -192,7 +122,7 @@ void red_herring::load() {
 	flourStationBody = new collider(FlourStation);
 	flourStationBody->setCollisionBody(44, 30, Vector2(0, -11));
 	flatten = new interaction(FlourStation);
-	flatten->setInteractionArea(30, 10, Vector2(0, 16));
+	flatten->setInteractionArea(30, 7, Vector2(0, 13));
 	flattens = 0;
 
 	//two oven components
@@ -352,6 +282,7 @@ void red_herring::load() {
 
 void red_herring::unload() {
 	delete polly;
+	delete pause;
 	delete Background;	
 	delete Floor;
 	delete Counter;
@@ -371,6 +302,7 @@ void red_herring::unload() {
 	delete Can;
 	delete SealedStack;
 	for (auto slice : pizzas) delete slice;
+	for (auto box : allBoxes) delete box;
 	Mix_CloseAudio();
 	sceneState = inactive;
 	sGame->setScene(sGame->Pretitle);
@@ -379,6 +311,16 @@ void red_herring::unload() {
 
 void red_herring::update(float deltaTime) {
 	if (exit->getPress()) runUnload = true; //unload the scene
+	//pause game
+	if (paused) {
+		if (p->getLift()) paused = false;
+	}
+	else {
+		if (p->getPress()) {
+			pause->togglePause();
+			paused = true;
+		}
+	}
 
 	//set cam limits
 	if (polly->getPosition().y < -(10 * sGame->getScale()) || polly->getPosition().y > (263 * sGame->getScale())) {
@@ -519,6 +461,7 @@ void red_herring::update(float deltaTime) {
 	if (dough->getInstanceInteractFlag() && pizzaStage == free) {
 		Mix_PlayChannel(1, flup, 0);
 		polly->setCarry(true);
+		carryShift = true;
 		polly->setAnimation();
 		pizzaStage = doughStage;
 		pizza = new sprite(polly, 15, 11, Vector2(-11, -2));
@@ -530,10 +473,12 @@ void red_herring::update(float deltaTime) {
 		switch (flattens) {
 		case 0:
 			polly->setCarry(false);
+			carryShift = false;
+			polly->setSpecialAnim(1);
 			polly->setAnimation();
 			delete pizza;
 			pizza = new sprite(FlourStation, 15, 11, Vector2(10, 11));
-			pizza->setDrawOrderByVerticalPosition(-20);
+			pizza->setDrawOrderByVerticalPosition(10);
 			pizza->updateDrawOrder();
 			pizza->setTexture("assets/art/DoughAnim.png");
 			pizza->setSource(0, 0, 15, 11);
@@ -550,6 +495,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 1:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -563,6 +510,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 2:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -576,6 +525,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 3:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -589,6 +540,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 4:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -602,6 +555,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 5:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -615,6 +570,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 6:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -628,6 +585,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 7:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -641,6 +600,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 8:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -654,6 +615,8 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 9:
+			polly->setSpecialAnim(1);
+			polly->setAnimation();
 			pizza->setAnimated(
 				true,
 				Vector2(60, 33),
@@ -677,6 +640,7 @@ void red_herring::update(float deltaTime) {
 		case 11:
 			polly->setImmobile(false);
 			polly->setCarry(true);
+			carryShift = true;
 			polly->setAnimation();
 			delete pizza;
 			pizza = new sprite(polly, 17, 8, Vector2(-11, -2));
@@ -800,10 +764,11 @@ void red_herring::update(float deltaTime) {
 		pizza->setDrawOrderByVerticalPosition(10);
 		pizza->updateDrawOrder();
 		polly->setCarry(false);
+		carryShift = false;
 		polly->setAnimation();
 		pizzaStage = cookStage;
 	}
-
+	//pizza cooking
 	if (pizzaStage == cookStage && pizzaOnOven < 35) {
 		increment += static_cast<int>(100 * sGame->getDeltaTime());
 		if (increment % 11 == 10) pizzaOnOven++;
@@ -829,18 +794,105 @@ void red_herring::update(float deltaTime) {
 		}
 		if (steam) steam->setOffset(Vector2(pizzaOnOven, 14));
 	}
-
+	//grab cooked za
 	if (pizzaOnOven > 32 && ovenGet->getInstanceInteractFlag()) {
 		pizza->lend(polly);
 		steam->lend(polly);
 		polly->setCarry(true);
+		carryShift = true;
 		polly->setAnimation();
 		pizzaStage = boxStage;
 		pizzaOnOven = -35;
 	}
+		
+	//temp remove ready pizza box
+	if (pizzaReady && e->getPress()) {
+		readyBoxes--;
+		if (readyBoxes <= 0) {
+			pizzaReady = false;
+		}
+		if (readyBoxes > 0)  boxSteam->setOffset(Vector2(0 + (2 * ((readyBoxes - 1) % 2)), 20 + (5 * (readyBoxes - 1))));
+		delete allBoxes[readyBoxes];
+		allBoxes.pop_back();
+	}
+	e->getLift();	
+
+	//boxing
+	if (counterBoxing->getInstanceInteractFlag() && pizzaStage == boxStage) {
+		if (carryShift) {
+			Mix_PlayChannel(1, pop2, 0);
+			pizza->lend(Counter);
+			pizza->setOffset(Vector2(-36, -9));
+			pizza->setDrawOrderByVerticalPosition(-30);
+			pizza->updateDrawOrder();
+			steam->lend(Counter);
+			steam->setOffset(Vector2(-36, -4));
+			steam->setDrawOrderByVerticalPosition(-30);
+			steam->updateDrawOrder();
+			pizzaBox = new sprite(polly, 29, 40);
+			pizzaBox->setTexture("assets/art/PizzaBox.png");
+			pizzaBox->setSource(boxSprite, 0, 29, 40);
+			pizzaBox->lend(Counter);
+			pizzaBox->setDrawOrderByVerticalPosition();
+			pizzaBox->updateDrawOrder();
+			pizzaBox->setOffset(Vector2(-36, -19));
+			polly->setCarry(false);
+			polly->setAnimation();
+			carryShift = false;
+		}
+		else {
+			boxSprite += 29;
+			pizzaBox->setSource(boxSprite, 0, 29, 40);
+			if(boxSprite == 29 || boxSprite == 145) Mix_PlayChannel(1, boxFold1, 0);
+			else if (boxSprite == 58 || boxSprite == 174) Mix_PlayChannel(1, boxFold2, 0);
+			else if (boxSprite == 87 || boxSprite == 116) Mix_PlayChannel(1, boxFold3, 0);
+		}
+		if (boxSprite == 203) {
+			Mix_PlayChannel(1, pop, 0);
+			pizza->lend(polly);
+			delete pizza; 
+			steam->lend(polly);
+			delete steam;
+			steam = nullptr;
+			pizzaBox->lend(polly);
+			delete pizzaBox;
+
+			Boxes = new element(sGame);
+			Boxes->setPosition(Vector2(0 + (2 * (readyBoxes % 2)), -196 + (5 * readyBoxes)));
+			boxes = new sprite(Boxes, 29, 40);
+			boxes->setDrawOrderByVerticalPosition(-6 * readyBoxes);
+			boxes->updateDrawOrder();
+			boxes->setTexture("assets/art/PizzaBox.png");
+			boxes->setSource(203, 0, 29, 40);
+			allBoxes.emplace_back(Boxes);
+
+			if (readyBoxes == 0) {
+				boxSteam = new sprite(Boxes, 17, 17, Vector2(0, 20));
+				boxSteam->setDrawOrderByVerticalPosition(-10);
+				boxSteam->updateDrawOrder();
+				boxSteam->setTexture("assets/art/Steam.png");
+				boxSteam->setSource(0, 0, 17, 17);
+				boxSteam->setAnimated(
+					true,
+					Vector2(68, 68),
+					4, 4,
+					150,
+					Vector2(0, 0),
+					Vector2(0, 0),
+					Vector2(3, 3)
+				);
+			}
+			else boxSteam->setOffset(Vector2(0 + (2 * (readyBoxes % 2)), 20 + (5 * readyBoxes)));
+
+			boxSprite = 0;
+			pizzaReady = true;
+			readyBoxes++;
+			pizzaStage = free;
+		}
+	}
 
 	//update the orientation of pizza according to polly direction
-	if (polly->getCarry() && pizzaStage != cookStage) {
+	if (polly->getCarry() && carryShift) {
 		switch (polly->getDirection()) {
 		case 0: //up
 			pizza->setOffset(Vector2(0, -5));

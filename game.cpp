@@ -10,13 +10,16 @@
 #include "input.h"
 #include "test_area.h"
 #include "red_herring.h"
+#include "pause.h"
 
 game::game() {
 	window = nullptr;
 	renderer = nullptr;
 	Camera = nullptr;
+	pause_menu = nullptr;
 
 	run = true;
+	pauseGame = false;
 	updatingElements = false;
 
 	event = nullptr;
@@ -56,7 +59,7 @@ bool game::init() {
 		45,
 		x,
 		y,
-		SDL_WINDOW_FULLSCREEN_DESKTOP
+		0//SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
 
 	if (!window) {
@@ -100,7 +103,8 @@ bool game::init() {
 void game::runLoop() {
 	while (run) {
 		processInput();
-		update();
+		if (pauseGame) updatePaused();
+		else update();
 		generateOutput();
 	}
 }
@@ -199,6 +203,18 @@ void game::processInput() {
 	//keyboard state pull for closing on escape press
 	keyState = SDL_GetKeyboardState(NULL);
 	if (keyState[SDL_SCANCODE_ESCAPE]) run = false;
+}
+
+void game::createPause(pause* Pause) {
+	pause_menu = Pause;
+}
+
+void game::destroyPause() {
+	pause_menu = nullptr;
+}
+
+void game::updatePaused() {
+	pause_menu->runPause();
 }
 
 void game::update() {

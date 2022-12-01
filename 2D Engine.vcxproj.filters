@@ -63,6 +63,12 @@
     <ClCompile Include="red_herring.cpp">
       <Filter>Source Files\Pizza Polly</Filter>
     </ClCompile>
+    <ClCompile Include="pause.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pizzaPause.cpp">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -111,6 +117,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="red_herring.h">
+      <Filter>Source Files\Pizza Polly</Filter>
+    </ClInclude>
+    <ClInclude Include="pause.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pizzaPause.h">
       <Filter>Source Files\Pizza Polly</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,24 +15,38 @@ public:
         doughStage,
         prepStage,
         cookStage,
-        boxStage
+        boxStage,
+        ready
     };
 private:
-    SDL_Renderer* renderer;
+    class pizzaPause* pause;
 
     class _Polly* polly;
     class sprite* pizza;
+    class sprite* pizzaBox;
     class sprite* steam;
+    bool carryShift;
+    bool pizzaReady;
+    bool paused;
+    int boxSprite;
     int pizzaOnOven;
     int increment;
+    int readyBoxes;
     stage pizzaStage;
 
     class input* exit;
+    class input* e;
+    class input* p;
 
     class element* Background;
     class sprite* background;
 
     std::vector<class element*> pizzas;
+    std::vector<class element*> allBoxes;
+
+    class element* Boxes;
+    class sprite* boxes;
+    class sprite* boxSteam;
 
     class element* Floor;
     class sprite* floor;
@@ -44,6 +58,7 @@ private:
     class element* Counter;
     class sprite* counter;
     class collider* counterBody;
+    class interaction* counterBoxing;
 
     class element* DoughStack;
     class sprite* doughStack;
@@ -120,5 +135,9 @@ private:
     Mix_Music* theme;
     Mix_Chunk* flup;
     Mix_Chunk* dump;
-
+    Mix_Chunk* pop;
+    Mix_Chunk* pop2;
+    Mix_Chunk* boxFold1;
+    Mix_Chunk* boxFold2;
+    Mix_Chunk* boxFold3;
 };

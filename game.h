@@ -82,11 +82,21 @@ public:
 		Camera->x = 0;
 		Camera->y = 0;
 	}
+	//alternates setting game from unpaused to paused and vice-versa
+	void togglePaused() {
+		if (pauseGame) pauseGame = false;
+		else pauseGame = true;
+	}
 
 	// return user screen resolution x value
 	int getScreenX() { return x; }
 	// return user screen resolution y value
 	int getScreenY() { return y; }
+
+	//create pause menu
+	void createPause(class pause* Pause);
+	//destroy pause menu
+	void destroyPause();
 
 private:
 	//user screen resolution x
@@ -96,12 +106,17 @@ private:
 
 	//process user input
 	void processInput();
+	//runs the paused screen
+	void updatePaused();
 	//update all elements in game
 	void update();
 	//generate audio/video output
 	void generateOutput();
 	//generate delta time
 	void generateDeltaTime();
+
+	//pause menu object
+	class pause* pause_menu;
 
 	//SDL window pointer to produce game window
 	SDL_Window* window;
@@ -112,6 +127,9 @@ private:
 
 	//bool remains true while game is running
 	bool run;
+
+	//is set true if game is paused, determines update process of game loop
+	bool pauseGame;
 
 	//current scene tag
 	scene_type sceneTag;

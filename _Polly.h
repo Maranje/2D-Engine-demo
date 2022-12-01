@@ -23,6 +23,8 @@ public:
     bool getMove() { return move; }
     void setMove(bool Move) { move = Move; }
 
+    void setSpecialAnim(int SpecialAnim) { specialAnim = SpecialAnim; }
+
     bool getInteract();
 
     //assign walking animation
@@ -61,5 +63,6 @@ private:
     bool carry;
     bool immobile;
     bool interact;
+    int specialAnim;
     int switchInt;
 };
