@@ -30,6 +30,7 @@ sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOr
 
 	animated = false;
 	cameraNeutral = false;
+	centered = false;
 
 	sheetSize = Vector2(0, 0);
 	cycleFrom = Vector2(0, 0);
@@ -86,6 +87,10 @@ void sprite::draw() {
 		if (cameraNeutral) {
 			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) + (offset.x * owner->getGame()->getScale()));
 			drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - (offset.y * owner->getGame()->getScale()));
+		}
+		else if (centered) {
+			drawRect->x = static_cast<int>(-23 * owner->getGame()->getScale());
+			drawRect->y = 0;
 		}
 		else {
 			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));

@@ -30,6 +30,7 @@ public:
 
     void updateDrawOrder();
     void setSource(int X, int Y, int W, int H);
+    void setCentered(bool Centered) { centered = Centered; }
     void haltAnimation() { animated = false; }
     void setAnimated(
         bool Animated,
@@ -66,6 +67,7 @@ private:
     Vector2 cycleFrom;
     Vector2 cycleUntil;
     Vector2 offset;
+    bool centered;
     bool animated;
     bool cameraNeutral;
     bool tex1;

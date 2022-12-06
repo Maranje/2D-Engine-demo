@@ -9,15 +9,14 @@ public:
     ~pizzaPause();
 private:
     void runPause() override;
-
+    int selection;
+    bool animate;
     bool run;
     class element* owner;
     class input* enter;
     class input* up;
     class input* down;
     class input* esc;
-
-    class element* MenuScreen;
     class sprite* menuScreen;
 };
 
