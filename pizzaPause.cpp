@@ -26,6 +26,7 @@ void pizzaPause::runPause() {
 	//toggle paused
 	if (!run) {
 		if (esc->getLift()) {
+			enter->resetKey();
 			run = true;
 			contin = false;
 			menuScreen = new sprite(owner, 500, 300, Vector2(-33, 0), 9999999);
@@ -37,6 +38,7 @@ void pizzaPause::runPause() {
 	else {
 		menuScreen->update(pGame->getDeltaTime()); //update menu sprite since the update function in game is halted
 		if (esc->getLift() || contin) {
+			esc->resetKey();
 			togglePause();
 			delete menuScreen;
 			run = false;
@@ -71,7 +73,7 @@ void pizzaPause::runPause() {
 						1
 					);
 				}
-				else if (enter->getPress()) {
+				else if (enter->getPress() && !esc->getActivePress()) {
 					contin = true;
 					enter->resetKey();
 				}
@@ -103,7 +105,7 @@ void pizzaPause::runPause() {
 						1
 					);
 				}
-				else if (enter->getPress()) {
+				else if (enter->getPress() && !esc->getActivePress()) {
 					currentScene->runUnloadScene();
 					contin = true;
 					enter->resetKey();
@@ -192,7 +194,7 @@ void pizzaPause::runPause() {
 						1
 					);
 				}
-				else if (enter->getPress()) {
+				else if (enter->getPress() && !esc->getActivePress()) {
 					pGame->quitGame();
 				}
 				break;
