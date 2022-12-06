@@ -15,7 +15,7 @@ public:
 
 	virtual void load();
 	virtual void unload();
-
+	void runUnloadScene() { runUnload = true; }
 	virtual void update(float deltaTime);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////

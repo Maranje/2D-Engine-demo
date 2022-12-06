@@ -44,12 +44,11 @@ void red_herring::load() {
 
 	polly = new _Polly(sGame);
 	polly->getPollyCam()->cameraHaltX(true);
-	exit = new input(polly, SDL_SCANCODE_RETURN);
 	e = new input(polly, SDL_SCANCODE_E);
-	p = new input(polly, SDL_SCANCODE_P); //eventuall switch this to the esc key
+	p = new input(polly, SDL_SCANCODE_ESCAPE); //eventuall switch this to the esc key
 
 	//pause menu
-	pause = new pizzaPause(sGame, polly, p);
+	pause = new pizzaPause(sGame, this, polly, p);
 
 	pizzaStage = free;
 
@@ -310,17 +309,12 @@ void red_herring::unload() {
 }
 
 void red_herring::update(float deltaTime) {
-	if (exit->getPress()) runUnload = true; //unload the scene
-	//pause game
-	if (paused) {
-		if (p->getLift()) paused = false;
+	//pause game	
+	if (p->getPress()) {
+		pause->togglePause();
+		//paused = true;
 	}
-	else {
-		if (p->getPress()) {
-			pause->togglePause();
-			paused = true;
-		}
-	}
+	
 
 	//set cam limits
 	if (polly->getPosition().y < -(10 * sGame->getScale()) || polly->getPosition().y > (263 * sGame->getScale())) {

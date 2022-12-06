@@ -23,7 +23,6 @@ game::game() {
 	updatingElements = false;
 
 	event = nullptr;
-	keyState = nullptr;
 
 	//generate game scale according to display resolution
 	if (x / 480 > y / 270) scale = x / 480.0f;
@@ -199,10 +198,6 @@ void game::processInput() {
 		if (event->type == SDL_QUIT) run = false;
 	}
 	delete event;
-
-	//keyboard state pull for closing on escape press
-	keyState = SDL_GetKeyboardState(NULL);
-	if (keyState[SDL_SCANCODE_ESCAPE]) run = false;
 }
 
 void game::createPause(pause* Pause) {

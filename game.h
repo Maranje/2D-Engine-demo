@@ -56,6 +56,9 @@ public:
 	void removeInteraction(class interaction* Interaction);
 
 	/////////////////////////////////////// getters/setters ///////////////////////////////////////
+	
+	//quits game
+	void quitGame() { run = false; }
 	//returns deltaTime
 	float getDeltaTime() { return deltaTime; }
 	//returns renderer
@@ -136,8 +139,6 @@ private:
 
 	//SDL event for user input
 	SDL_Event* event;
-
-	const Uint8* keyState;
 
 	float scale;
 

@@ -34,7 +34,6 @@ private:
     int readyBoxes;
     stage pizzaStage;
 
-    class input* exit;
     class input* e;
     class input* p;
 
