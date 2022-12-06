@@ -89,8 +89,8 @@ void sprite::draw() {
 			drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - (offset.y * owner->getGame()->getScale()));
 		}
 		else if (centered) {
-			drawRect->x = static_cast<int>(-23 * owner->getGame()->getScale());
-			drawRect->y = 0;
+			drawRect->x = 0 + static_cast<int>((offset.x * owner->getGame()->getScale()));
+			drawRect->y = 0 - static_cast<int>((offset.y * owner->getGame()->getScale()));
 		}
 		else {
 			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));

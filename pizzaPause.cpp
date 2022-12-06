@@ -24,9 +24,9 @@ void pizzaPause::runPause() {
 	if (!run) {
 		if (esc->getLift()) {
 			run = true;
-			menuScreen = new sprite(owner, 480, 270, Vector2(0, 0), 9999999);
+			menuScreen = new sprite(owner, 500, 300, Vector2(-33, 0), 9999999);
 			menuScreen->setTexture("assets/art/Pause_menu.png");
-			menuScreen->setSource(0, 0, 480, 270);
+			menuScreen->setSource(0, 0, 500, 300);
 			menuScreen->setCentered(true);
 		}
 	}
@@ -45,7 +45,7 @@ void pizzaPause::runPause() {
 					selection = 4;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 5),
@@ -58,7 +58,7 @@ void pizzaPause::runPause() {
 					selection = 1;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 0),
@@ -73,7 +73,7 @@ void pizzaPause::runPause() {
 					selection = 0;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 9),
@@ -86,7 +86,7 @@ void pizzaPause::runPause() {
 					selection = 2;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 1),
@@ -101,7 +101,7 @@ void pizzaPause::runPause() {
 					selection = 1;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 8),
@@ -114,7 +114,7 @@ void pizzaPause::runPause() {
 					selection = 3;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 2),
@@ -129,7 +129,7 @@ void pizzaPause::runPause() {
 					selection = 2;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 7),
@@ -142,7 +142,7 @@ void pizzaPause::runPause() {
 					selection = 4;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 3),
@@ -157,7 +157,7 @@ void pizzaPause::runPause() {
 					selection = 3;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 6),
@@ -170,7 +170,7 @@ void pizzaPause::runPause() {
 					selection = 0;
 					menuScreen->setAnimated(
 						true,
-						Vector2(3840, 2700),
+						Vector2(4000, 3000),
 						8, 10,
 						18000,
 						Vector2(0, 4),
