@@ -8,6 +8,7 @@ public:
 	virtual ~component();
 	virtual void update(float deltaTime);
 
+	//returns order in which a component is added to its respective element components vector
 	int getUpdateOrder() { return updateOrder; }
 private:
 	int updateOrder; //order in which components will be updated within the element

@@ -138,6 +138,10 @@ void pizzaPause::runPause() {
 						1
 					);
 				}
+				else if (enter->getPress() && !esc->getActivePress()) {
+					//options
+					enter->resetKey();
+				}
 				break;
 			case 3:
 				if (up->getPress()) {
@@ -165,6 +169,10 @@ void pizzaPause::runPause() {
 						Vector2(0, 4),
 						1
 					);
+				}
+				else if (enter->getPress() && !esc->getActivePress()) {
+					//credits
+					enter->resetKey();
 				}
 				break;
 			case 4:

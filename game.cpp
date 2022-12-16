@@ -60,7 +60,6 @@ bool game::init() {
 		y,
 		SDL_WINDOW_FULLSCREEN_DESKTOP
 	);
-
 	if (!window) {
 		SDL_Log("ERROR INITIALIZING WINDOW: %s", SDL_GetError());
 		return false;

@@ -309,20 +309,19 @@ void red_herring::unload() {
 }
 
 void red_herring::update(float deltaTime) {
-	//pause game	
+	//////////////////////////////////pause game///////////////////////////////////	
 	if (p->getPress()) {
 		pause->togglePause();
 		//paused = true;
-	}
-	
+	}	
 
-	//set cam limits
+	/////////////////////////////////set cam limits/////////////////////////////////
 	if (polly->getPosition().y < -(10 * sGame->getScale()) || polly->getPosition().y > (263 * sGame->getScale())) {
 		polly->getPollyCam()->cameraHaltY(true);
 	}
 	else polly->getPollyCam()->cameraHaltY(false);
 
-	//movement for background pizza slices
+	//////////////////////movement for background pizza slices//////////////////////
 	for (auto slice : pizzas) {
 		Vector2 position = slice->getPosition();
 		if (position.y > 450 * sGame->getScale()) {
@@ -334,6 +333,7 @@ void red_herring::update(float deltaTime) {
 		}
 	}
 	
+	/////////////////////////////////////roger//////////////////////////////////////
 	//roger falls asleep
 	if (roger->getRuns() == 2 && rogerSleep == false) {
 		roger->setTexture("assets/art/Roger_sleeping.png");
@@ -381,7 +381,7 @@ void red_herring::update(float deltaTime) {
 		);
 	}
 
-	//door
+	////////////////////////////////////door////////////////////////////////////////
 	if (pollySouth) {
 		//polly opens door up
 		if (polly->getScaledPosition().y <= 36 && polly->getScaledPosition().y > 15) {
@@ -450,6 +450,8 @@ void red_herring::update(float deltaTime) {
 		}
 		else if (polly->getPollySpeed() != 91) polly->setPollySpeed(91);
 	}
+
+	////////////////////////////////////pizza///////////////////////////////////////
 
 	//grab dough and initiate pizza making sequence
 	if (dough->getInstanceInteractFlag() && pizzaStage == free) {

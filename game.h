@@ -102,9 +102,9 @@ public:
 	void destroyPause();
 
 private:
-	//user screen resolution x
+	//user screen resolution x for windows OS
 	int x = GetSystemMetrics(SM_CXFULLSCREEN);
-	//user screen resolution y
+	//user screen resolution y for windows OS
 	int y = GetSystemMetrics(SM_CYFULLSCREEN);
 
 	//process user input

@@ -23,11 +23,12 @@ collider::~collider() {
 }
 
 void collider::setCollisionBody(int width, int height, Vector2 OffCenterPosition) {
-	offCenterPosition = OffCenterPosition;
-	collisionRect->w = static_cast<int>(width * owner->getGame()->getScale());
-	collisionRect->h = static_cast<int>(height * owner->getGame()->getScale());
-	collisionRect->x = center.x - (collisionRect->w / 2) + static_cast<int>(offCenterPosition.x * owner->getGame()->getScale());
-	collisionRect->y = center.y - (collisionRect->h / 2) - static_cast<int>(offCenterPosition.y * owner->getGame()->getScale());
+	offCenterPosition = OffCenterPosition; //moves collider rect along the element's own coordinates
+	collisionRect->w = static_cast<int>(width * owner->getGame()->getScale()); //set width
+	collisionRect->h = static_cast<int>(height * owner->getGame()->getScale()); //set height
+	collisionRect->x = center.x - (collisionRect->w / 2) + static_cast<int>(offCenterPosition.x * owner->getGame()->getScale()); //set the center along the x-axis
+	collisionRect->y = center.y - (collisionRect->h / 2) - static_cast<int>(offCenterPosition.y * owner->getGame()->getScale()); //set the center along the y-axis
+	// the y-axis is inverted from the standard in which y values descend as they increase, to the traditional ascending y as values increase
 }
 
 void collider::update(float deltaTime) {
@@ -62,9 +63,11 @@ void collider::checkCollisionWide() {
 }
 
 bool collider::checkCollisionLocal() {
+	//iterate through all collision objects in localColliders
 	for (auto rect : localColliders) {
+		//detect collisions between collider rects
 		if (SDL_HasIntersection(collisionRect, rect->getCollisionBodyRect())) {
-			return true;
+			return true; //return true if collision detected
 		}
 	}
 	return false;
