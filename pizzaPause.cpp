@@ -8,7 +8,7 @@
 pizzaPause::pizzaPause(class game* Game, class scene* CurrentScene, class element* Owner, class input* ESC) : pause(Game){
 	owner = Owner;
 	currentScene = CurrentScene;
-	enter = new input(owner, SDL_SCANCODE_RETURN);
+	enter = new input(owner, SDL_SCANCODE_SPACE);
 	up = new input(owner, SDL_SCANCODE_UP);
 	down = new input(owner, SDL_SCANCODE_DOWN);
 	esc = ESC;
