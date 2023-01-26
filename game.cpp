@@ -13,21 +13,21 @@
 #include "pause.h"
 
 game::game() {
+	//initialize some stuff
 	window = nullptr;
 	renderer = nullptr;
 	Camera = nullptr;
 	pause_menu = nullptr;
-
+	event = nullptr;
 	run = true;
 	pauseGame = false;
-	updatingElements = false;
-
-	event = nullptr;
+	updatingElements = false;	
 
 	//generate game scale according to display resolution
 	if (x / 480 > y / 270) scale = x / 480.0f;
 	else scale = y / 270.0f;
 
+	//time variables
 	deltaTime = 0.0f;
 	ticks = 0;
 
@@ -42,6 +42,7 @@ game::game() {
 }
 
 game::~game() {
+	//game destructor stuff
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -101,8 +102,8 @@ bool game::init() {
 void game::runLoop() {
 	while (run) {
 		processInput();
-		if (pauseGame) updatePaused();
-		else update();
+		if (pauseGame) updatePaused(); //run this function if pauseGame is true
+		else update(); //run this one otherwise
 		generateOutput();
 	}
 }
@@ -121,7 +122,7 @@ void game::load() {
 		redHerringScene = new red_herring(this);
 		break;
 	
-	case Test_Area:
+	case Test_Area: //delete this when game complete
 		testAreaScene = new test_area(this);
 		break;
 	}

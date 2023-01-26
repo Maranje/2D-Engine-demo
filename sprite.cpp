@@ -25,6 +25,8 @@ sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOr
 	tex6 = false;
 	tex7 = false;
 	tex8 = false;
+	glowing = false;
+	glow = nullptr;
 	source = nullptr;
 	drawRect = new SDL_Rect;
 
@@ -41,6 +43,8 @@ sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOr
 	frame = 0.0f;
 	fps = 0;
 	runs = 0;
+	glowAlpha = 10;
+	glowFactor = 10;
 
 	owner->getGame()->addSprite(this);
 }
@@ -78,35 +82,48 @@ void sprite::update(float deltaTime) {
 			source->y += sheetSize.y / frameCount_y;
 		}
 	}
+
+	//object glow alpha pulse
+	glowAlpha += glowFactor;
+	if (glowAlpha >= 200) glowFactor = -10;
+	if (glowAlpha <= 10) glowFactor = 10;
 }
 
 void sprite::draw() {
-	if (texture0) {
-		drawRect->w = width;
-		drawRect->h = height;
-		if (cameraNeutral) {
-			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) + (offset.x * owner->getGame()->getScale()));
-			drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - (offset.y * owner->getGame()->getScale()));
-		}
-		else if (centered) {
-			drawRect->x = 0 + static_cast<int>((offset.x * owner->getGame()->getScale()));
-			drawRect->y = 0 - static_cast<int>((offset.y * owner->getGame()->getScale()));
-		}
-		else {
-			drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));
-			drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - owner->getGame()->getCamera()->y - (offset.y * owner->getGame()->getScale()));
-		}
-		SDL_RenderCopy(renderer, texture0, source, drawRect);
-		//fucking atrocious. yuck.
-		if (texture1) SDL_RenderCopy(renderer, texture1, source, drawRect);
-		if (texture2) SDL_RenderCopy(renderer, texture2, source, drawRect);
-		if (texture3) SDL_RenderCopy(renderer, texture3, source, drawRect);
-		if (texture4) SDL_RenderCopy(renderer, texture4, source, drawRect);
-		if (texture5) SDL_RenderCopy(renderer, texture5, source, drawRect);
-		if (texture6) SDL_RenderCopy(renderer, texture6, source, drawRect);
-		if (texture7) SDL_RenderCopy(renderer, texture7, source, drawRect);
-		if (texture8) SDL_RenderCopy(renderer, texture8, source, drawRect);
+	if (texture0 == nullptr) return;
+	drawRect->w = width;
+	drawRect->h = height;
+
+	if (glowing) {
+		glow->x = static_cast<int>(owner->getPosition().x - (glow->w / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));
+		glow->y = static_cast<int>(owner->getPosition().y - (glow->h / 2) - owner->getGame()->getCamera()->y - (offset.y * owner->getGame()->getScale()));
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(renderer, 251, 236, 93, glowAlpha);
+		SDL_RenderFillRect(renderer, glow);
 	}
+
+	if (cameraNeutral) {
+		drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) + (offset.x * owner->getGame()->getScale()));
+		drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - (offset.y * owner->getGame()->getScale()));
+	}
+	else if (centered) {
+		drawRect->x = 0 + static_cast<int>((offset.x * owner->getGame()->getScale()));
+		drawRect->y = 0 - static_cast<int>((offset.y * owner->getGame()->getScale()));
+	}
+	else {
+		drawRect->x = static_cast<int>(owner->getPosition().x - (width / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));
+		drawRect->y = static_cast<int>(owner->getPosition().y - (height / 2) - owner->getGame()->getCamera()->y - (offset.y * owner->getGame()->getScale()));
+	}
+	SDL_RenderCopy(renderer, texture0, source, drawRect);
+	//fucking atrocious. yuck.
+	if (texture1) SDL_RenderCopy(renderer, texture1, source, drawRect);
+	if (texture2) SDL_RenderCopy(renderer, texture2, source, drawRect);
+	if (texture3) SDL_RenderCopy(renderer, texture3, source, drawRect);
+	if (texture4) SDL_RenderCopy(renderer, texture4, source, drawRect);
+	if (texture5) SDL_RenderCopy(renderer, texture5, source, drawRect);
+	if (texture6) SDL_RenderCopy(renderer, texture6, source, drawRect);
+	if (texture7) SDL_RenderCopy(renderer, texture7, source, drawRect);
+	if (texture8) SDL_RenderCopy(renderer, texture8, source, drawRect);
 }
 
 void sprite::setDrawOrderByVerticalPosition(int Offset){
@@ -246,4 +263,15 @@ void sprite::destroyTexture() {
 	if (texture6) SDL_DestroyTexture(texture6);
 	if (texture7) SDL_DestroyTexture(texture7);
 	if (texture8) SDL_DestroyTexture(texture8);
+}
+
+void sprite::setGlow(bool Glowing, int Border) {
+	glowing = Glowing;
+	if (glow == nullptr) initGlowing(Border);
+}
+
+void sprite::initGlowing(int Border) {
+	glow = new SDL_Rect;
+	glow->h = height + Border;
+	glow->w = width + Border;
 }

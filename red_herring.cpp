@@ -16,6 +16,8 @@ red_herring::red_herring(game* Game) : scene(Game) {
 	carryShift = true;
 	pizzaReady = false;
 	paused = false;
+
+	//some vals
 	pizzaOnOven = -35;
 	increment = 0;
 	boxSprite = 0;
@@ -452,6 +454,13 @@ void red_herring::update(float deltaTime) {
 	}
 
 	////////////////////////////////////pizza///////////////////////////////////////
+	if(dough->getObjectFlag() && pizzaStage == free) doughStack->setGlow(true, 10);
+	else doughStack->setGlow(false, 10);
+	if (flatten->getObjectFlag() && pizzaStage == doughStage && polly->getDirection() == 2 && !pizza->getAnimated()) {
+		flourStation->setGlow(true, 0);
+	}
+	else flourStation->setGlow(false, 0);
+
 
 	//grab dough and initiate pizza making sequence
 	if (dough->getInstanceInteractFlag() && pizzaStage == free) {
@@ -634,7 +643,7 @@ void red_herring::update(float deltaTime) {
 			flattens++;
 			break;
 		case 11:
-			polly->setImmobile(false);
+			polly->setImmobile(false); ///////////////////////////////////////////////////need?
 			polly->setCarry(true);
 			carryShift = true;
 			polly->setAnimation();

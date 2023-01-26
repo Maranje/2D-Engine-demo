@@ -49,7 +49,10 @@ public:
     
     void destroyTexture();
 
+    void setGlow(bool Glowing, int Border);
+
 private:
+    void initGlowing(int Border);
     element* owner;
     SDL_Renderer* renderer;
     SDL_Texture* texture0;
@@ -63,6 +66,7 @@ private:
     SDL_Texture* texture8;
     SDL_Rect* drawRect;
     SDL_Rect* source;
+    SDL_Rect* glow;
     Vector2 sheetSize;
     Vector2 cycleFrom;
     Vector2 cycleUntil;
@@ -70,6 +74,7 @@ private:
     bool centered;
     bool animated;
     bool cameraNeutral;
+    bool glowing;
     bool tex1;
     bool tex2;
     bool tex3;
@@ -85,6 +90,8 @@ private:
     int height;
     int cycles;
     int fps;
+    int glowAlpha;
+    int glowFactor;
     unsigned int runs;
     float frame;
 };
