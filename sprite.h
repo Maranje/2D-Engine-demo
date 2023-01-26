@@ -20,12 +20,17 @@ public:
     int getWidth() const { return width; }
     int getHeight() const { return height; }
     void setTexture(const char* Texture);
+
+    /// <summary>adds up to 7 layerst to an existing sprite texture</summary>
+    /// <param name="Texture: filepath of the image to be added"></param>
+    /// <param name="layer: int ranging from 1-8 for indicating layer level. 1 = bottom-most, 8 = top"></param>
     void updateTexture(const char* Texture, int layer);
     int getRuns() { return runs; }
     void setOffset(Vector2 Offset) { offset = Offset; }
     void lend(element* Receiver) { owner = Receiver; }
 
-    //sets the element to be unaffected by camera
+    ///<summary>sets the element to be unaffected by camera</summary>
+    ///<param name="CameraNeutral: bool to toggle camera neutrality"></param>
     void setCameraNeutral(bool CameraNeutral = true) { cameraNeutral = CameraNeutral; }
 
     void updateDrawOrder();
@@ -49,6 +54,9 @@ public:
     
     void destroyTexture();
 
+    /// <summary>applies a glowing effect to a sprite</summary>
+    /// <param name="Glowing: bool to set glow effect on or off"></param>
+    /// <param name="Border: int to expand the size of the glow, default value is 0"></param>
     void setGlow(bool Glowing, int Border = 0);
 
 private:

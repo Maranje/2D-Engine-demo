@@ -40,6 +40,7 @@ void red_herring::load() {
 	boxFold1 = Mix_LoadWAV("assets/audio/effects/boxFold1.wav");
 	boxFold2 = Mix_LoadWAV("assets/audio/effects/boxFold2.wav");
 	boxFold3 = Mix_LoadWAV("assets/audio/effects/boxFold3.wav");
+	orderKaching = Mix_LoadWAV("assets/audio/effects/order_up.wav");
 	Mix_VolumeChunk(boxFold1, 30);
 	Mix_VolumeChunk(boxFold2, 30);
 	Mix_VolumeChunk(boxFold3, 30);
@@ -68,6 +69,16 @@ void red_herring::load() {
 		pizza->setCameraNeutral();
 		pizzas.emplace_back(Pizza);
 	}
+
+	//order up placard
+	OrderUp = new element(sGame);
+	OrderUp->setPosition(Vector2(150, -104));
+	orderUp = new sprite(OrderUp, 88, 100);
+	orderUp->setCameraNeutral();
+	orderUp->setDrawOrder(999999);
+	orderUp->updateDrawOrder();
+	orderUp->setTexture("assets/art/order_up_label.png");
+	orderUp->setSource(0, 0, 88, 100);
 
 	//floor and wall boundaries
 	Floor = new element(sGame);
@@ -103,7 +114,7 @@ void red_herring::load() {
 	doughStackBody = new collider(DoughStack);
 	doughStackBody->setCollisionBody(49, 30, Vector2(0, -11));
 	dough = new interaction(DoughStack);
-	dough->setInteractionArea(40, 40);
+	dough->setInteractionArea(40, 20, Vector2(0, 10));
 
 	TrayStation = new element(sGame);
 	TrayStation->setPosition(Vector2(-64, 0));
@@ -820,14 +831,25 @@ void red_herring::update(float deltaTime) {
 	}
 		
 	//temp remove ready pizza box
-	if (pizzaReady && e->getPress()) {
-		readyBoxes--;
+	if (e->getPress()) {
+		orderUp->setAnimated(
+			true,
+			Vector2(440, 500),
+			5, 5,
+			1500,
+			Vector2(0, 0),
+			Vector2(0, 0),
+			Vector2(4, 4),
+			1
+		);
+		Mix_PlayChannel(1, orderKaching, 0);
+		/*readyBoxes--;
 		if (readyBoxes <= 0) {
 			pizzaReady = false;
 		}
 		if (readyBoxes > 0)  boxSteam->setOffset(Vector2(0 + (2 * ((readyBoxes - 1) % 2)), 20 + (5 * (readyBoxes - 1))));
 		delete allBoxes[readyBoxes];
-		allBoxes.pop_back();
+		allBoxes.pop_back();*/
 	}
 	e->getLift();	
 
@@ -961,4 +983,9 @@ void red_herring::update(float deltaTime) {
 		steam = nullptr;
 		pizzaStage = free;
 	}
+
+	if (e->getPress()) {
+		
+	}
+	e->getLift();
 } 

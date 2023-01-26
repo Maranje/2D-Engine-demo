@@ -131,6 +131,9 @@ private:
     class sprite* sealedStack;
     class collider* sealedStackBody;
 
+    class element* OrderUp;
+    class sprite* orderUp;
+
     Mix_Music* theme;
     Mix_Chunk* flup;
     Mix_Chunk* dump;
@@ -139,4 +142,5 @@ private:
     Mix_Chunk* boxFold1;
     Mix_Chunk* boxFold2;
     Mix_Chunk* boxFold3;
+    Mix_Chunk* orderKaching;
 };
