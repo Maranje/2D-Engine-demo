@@ -453,14 +453,23 @@ void red_herring::update(float deltaTime) {
 		else if (polly->getPollySpeed() != 91) polly->setPollySpeed(91);
 	}
 
-	////////////////////////////////////pizza///////////////////////////////////////
-	if(dough->getObjectFlag() && pizzaStage == free) doughStack->setGlow(true, 10);
-	else doughStack->setGlow(false, 10);
-	if (flatten->getObjectFlag() && pizzaStage == doughStage && polly->getDirection() == 2 && !pizza->getAnimated()) {
-		flourStation->setGlow(true, 0);
+	////////////////////////////////////glows///////////////////////////////////////
+	if(dough->getObjectFlag() && pizzaStage == free) doughStack->setGlow(true, 15);
+	else doughStack->setGlow(false, 15);
+	if (flatten->getObjectFlag() && pizzaStage == doughStage && polly->getDirection() == 2) {
+		flourStation->setGlow(true);
 	}
-	else flourStation->setGlow(false, 0);
+	else flourStation->setGlow(false);
+	if (ingredientsAct->getObjectFlag() && polly->getDirection() == 3 && pizzaStage == prepStage) {
+		ingredients->setGlow(true, 10);
+	}
+	else ingredients->setGlow(false, 10);
+	if (ovenSet->getObjectFlag() && pizzaStage == prepStage) {
+		ovenBelt->setGlow(true);
+	}
+	else ovenBelt->setGlow(false);
 
+	////////////////////////////////////pizza///////////////////////////////////////
 
 	//grab dough and initiate pizza making sequence
 	if (dough->getInstanceInteractFlag() && pizzaStage == free) {

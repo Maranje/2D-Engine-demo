@@ -49,7 +49,7 @@ public:
     
     void destroyTexture();
 
-    void setGlow(bool Glowing, int Border);
+    void setGlow(bool Glowing, int Border = 0);
 
 private:
     void initGlowing(int Border);

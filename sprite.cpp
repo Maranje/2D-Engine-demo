@@ -43,8 +43,8 @@ sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOr
 	frame = 0.0f;
 	fps = 0;
 	runs = 0;
-	glowAlpha = 10;
-	glowFactor = 10;
+	glowAlpha = 50;
+	glowFactor = 4;
 
 	owner->getGame()->addSprite(this);
 }
@@ -85,8 +85,8 @@ void sprite::update(float deltaTime) {
 
 	//object glow alpha pulse
 	glowAlpha += glowFactor;
-	if (glowAlpha >= 200) glowFactor = -10;
-	if (glowAlpha <= 10) glowFactor = 10;
+	if (glowAlpha >= 150) glowFactor = -4;
+	if (glowAlpha <= 50) glowFactor = 4;
 }
 
 void sprite::draw() {
