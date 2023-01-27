@@ -70,6 +70,15 @@ void red_herring::load() {
 		pizzas.emplace_back(Pizza);
 	}
 
+	//timer bar
+	TimerBar = new element(sGame);
+	TimerBar->setPosition(Vector2(-155, 115));
+	timerBar = new sprite(TimerBar, 110, 25);
+	timerBar->setDrawOrder(9999);
+	timerBar->updateDrawOrder();
+	timerBar->setTexture("assets/art/time_bar.png");
+	timerBar->setCameraNeutral();
+
 	//order up placard
 	OrderUp = new element(sGame);
 	OrderUp->setPosition(Vector2(150, -104));
@@ -829,7 +838,7 @@ void red_herring::update(float deltaTime) {
 		pizzaStage = boxStage;
 		pizzaOnOven = -35;
 	}
-		
+	////////////////////////////////////////////////this is temporary stuff///////////////////////////////////////////////
 	//temp remove ready pizza box
 	if (e->getPress()) {
 		orderUp->setAnimated(

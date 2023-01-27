@@ -134,6 +134,9 @@ private:
     class element* OrderUp;
     class sprite* orderUp;
 
+    class element* TimerBar;
+    class sprite* timerBar;
+
     Mix_Music* theme;
     Mix_Chunk* flup;
     Mix_Chunk* dump;
