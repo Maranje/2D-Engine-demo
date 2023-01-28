@@ -71,12 +71,15 @@ void red_herring::load() {
 	}
 
 	//timer bar
+	timerBarWidth = 555.0f;
+	timerBarXPos = 0.0f;
 	TimerBar = new element(sGame);
 	TimerBar->setPosition(Vector2(-155, 115));
 	timerBar = new sprite(TimerBar, 110, 25);
 	timerBar->setDrawOrder(9999);
 	timerBar->updateDrawOrder();
 	timerBar->setTexture("assets/art/time_bar.png");
+	timerBar->initAuxRect(static_cast<int>(timerBarXPos), -32, 48, static_cast<int>(timerBarWidth), 30, 200, 0, 255);
 	timerBar->setCameraNeutral();
 
 	//order up placard
@@ -859,6 +862,16 @@ void red_herring::update(float deltaTime) {
 		if (readyBoxes > 0)  boxSteam->setOffset(Vector2(0 + (2 * ((readyBoxes - 1) % 2)), 20 + (5 * (readyBoxes - 1))));
 		delete allBoxes[readyBoxes];
 		allBoxes.pop_back();*/
+	}
+	else if (e->getActivePress()) {
+		timerBarWidth -= 0.15f;
+		timerBarXPos -= 0.075f;
+		if (timerBarWidth < 1.0f) {
+			timerBarXPos = 0.0f;
+			timerBarWidth = 555.0f;
+		}
+		timerBar->updateAuxRectWidth(static_cast<int>(timerBarWidth));
+		timerBar->updateAuxRectXPos(static_cast<int>(timerBarXPos));
 	}
 	e->getLift();	
 

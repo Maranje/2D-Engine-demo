@@ -29,6 +29,11 @@ sprite::sprite(element* Owner, int Width, int Height, Vector2 Offset, int DrawOr
 	glow = nullptr;
 	source = nullptr;
 	drawRect = new SDL_Rect;
+	auxRect = nullptr;
+	auxPosShift[0] = auxPosShift[1] = 0;
+	for (int i = 0; i < 4; i++) {
+		auxRGBA[i] = 0;
+	}
 
 	animated = false;
 	cameraNeutral = false;
@@ -85,7 +90,7 @@ void sprite::update(float deltaTime) {
 
 	//object glow alpha pulse
 	glowAlpha += glowFactor;
-	if (glowAlpha >= 150) glowFactor = -4;
+	if (glowAlpha >= 200) glowFactor = -4;
 	if (glowAlpha <= 50) glowFactor = 4;
 }
 
@@ -124,6 +129,20 @@ void sprite::draw() {
 	if (texture6) SDL_RenderCopy(renderer, texture6, source, drawRect);
 	if (texture7) SDL_RenderCopy(renderer, texture7, source, drawRect);
 	if (texture8) SDL_RenderCopy(renderer, texture8, source, drawRect);
+
+	if (auxRect) {
+		if (cameraNeutral) {
+			auxRect->x = auxPosShift[0] + static_cast<int>(owner->getPosition().x - (auxRect->w / 2) + (offset.x * owner->getGame()->getScale()));
+			auxRect->y = auxPosShift[1] + static_cast<int>(owner->getPosition().y - (auxRect->h / 2) - (offset.y * owner->getGame()->getScale()));
+		}
+		else {
+			auxRect->x = auxPosShift[0] + static_cast<int>(owner->getPosition().x - (auxRect->w / 2) - owner->getGame()->getCamera()->x + (offset.x * owner->getGame()->getScale()));
+			auxRect->y = auxPosShift[1] + static_cast<int>(owner->getPosition().y - (auxRect->h / 2) - owner->getGame()->getCamera()->y - (offset.y * owner->getGame()->getScale()));
+		}
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(renderer, auxRGBA[0], auxRGBA[1], auxRGBA[2], auxRGBA[3]);
+		SDL_RenderFillRect(renderer, auxRect);
+	}
 }
 
 void sprite::setDrawOrderByVerticalPosition(int Offset){
@@ -274,4 +293,43 @@ void sprite::initGlowing(int Border) {
 	glow = new SDL_Rect;
 	glow->h = height + Border;
 	glow->w = width + Border;
+}
+
+void sprite::initAuxRect(int x, int y, int h, int w, int r, int g, int b, int a) {
+	auxRect = new SDL_Rect;
+	auxPosShift[0] = x;
+	auxPosShift[1] = y;
+	auxRect->h = h;
+	auxRect->w = w;
+	auxRGBA[0] = r;
+	auxRGBA[1] = g;
+	auxRGBA[2] = b;
+	auxRGBA[3] = a;
+}
+
+void sprite::destroyAuxRect() {
+	if (auxRect) {
+		delete auxRect;
+		auxRect = nullptr;
+	}
+}
+
+void sprite::updateAuxRectWidth(int w)
+{
+	if (auxRect) auxRect->w = w;
+}
+
+void sprite::updateAuxRectHeight(int h)
+{
+	if (auxRect) auxRect->h = h;
+}
+
+void sprite::updateAuxRectXPos(int x)
+{
+	if (auxRect) auxPosShift[0] = x;
+}
+
+void sprite::updateAuxRectYPos(int y)
+{
+	if (auxRect) auxPosShift[1] = y;
 }

@@ -59,6 +59,25 @@ public:
     /// <param name="Border: int to expand the size of the glow, default value is 0"></param>
     void setGlow(bool Glowing, int Border = 0);
 
+    /// <summary>
+    /// <para>initiallizes the aux rectangle sprite for a sprite object </para>
+    /// <para>size and position parameters are minimized values for fine tuning</para>
+    /// </summary>
+    /// <param name="x: shift rect horizontal position"></param>
+    /// <param name="y: shift rect vertical position"></param>
+    /// <param name="h: rect height"></param>
+    /// <param name="w: rect width"></param>
+    /// <param name="r: red color value for rect fill"></param>
+    /// <param name="g: green color value for rect fill"></param>
+    /// <param name="b: blue color value for rect fill"></param>
+    /// <param name="a: alpha value for rect colors"></param>
+    void initAuxRect(int x, int y, int h, int w, int r, int g, int b, int a);
+    void destroyAuxRect();
+    void updateAuxRectWidth(int w);
+    void updateAuxRectHeight(int h);
+    void updateAuxRectXPos(int x);
+    void updateAuxRectYPos(int y);
+
 private:
     void initGlowing(int Border);
     element* owner;
@@ -75,6 +94,7 @@ private:
     SDL_Rect* drawRect;
     SDL_Rect* source;
     SDL_Rect* glow;
+    SDL_Rect* auxRect;
     Vector2 sheetSize;
     Vector2 cycleFrom;
     Vector2 cycleUntil;
@@ -100,6 +120,8 @@ private:
     int fps;
     int glowAlpha;
     int glowFactor;
+    int auxRGBA[4];
+    int auxPosShift[2];
     unsigned int runs;
     float frame;
 };

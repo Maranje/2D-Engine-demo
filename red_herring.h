@@ -136,6 +136,8 @@ private:
 
     class element* TimerBar;
     class sprite* timerBar;
+    float timerBarWidth;
+    float timerBarXPos;
 
     Mix_Music* theme;
     Mix_Chunk* flup;
